@@ -2,7 +2,6 @@
 
 . /usr/libexec/modules/modules.conf
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
-cron_ntp=/etc/sysconfig/system-script/cron-ntp
 export PATH
 
 service_mount_tmpfs
@@ -19,7 +18,6 @@ cat /dev/null > ${SMB_SHARE_CONF}
 cat /dev/null > ${PRINTCAP_CONF}
 service_mount_hdd
 
-
 /bin/udevd --daemon
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - udevd deamon Start Succeed" ||\
@@ -27,32 +25,17 @@ service_mount_hdd
 
 network_start >/dev/null 2>&1
 service_ntp_start >/dev/null 2>&1 &
-/usr/local/samba/sbin/nmbd >/dev/null 2>&1
-[ $? -eq 0 ] &&\
- /bin/logger "$0 - nmbd deamon Start Succeed" ||\
- /bin/logger "$0 - nmbd deamon Start Failed"
-
-service_ssh_start &
-
-KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 
 # Load USB kernel modules
+KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 /sbin/insmod ${KERNEL_PATH}/usb-storage.ko >/dev/null 2>&1 &
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - Insert USB Kernel Module Succeed" ||\
  /bin/logger "$0 - Insert USB Kernel Module Failed"
 /sbin/insmod ${KERNEL_PATH}/usblp.ko >/dev/null 2>&1 &
 
+cron_ntp=/etc/sysconfig/system-script/cron-ntp
 ${cron_ntp} >/dev/null 2>&1 &
- 
-route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
 
-service_package_manager "Service&default"
+/etc/init.d/rc.services
 
-service_crond_start &
-
-service_http_start &
-
-service_start
-
-service_optware_start &

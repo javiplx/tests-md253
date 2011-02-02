@@ -1,0 +1,23 @@
+#!/bin/sh
+
+. /usr/libexec/modules/modules.conf
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH
+
+/usr/local/samba/sbin/nmbd >/dev/null 2>&1
+[ $? -eq 0 ] &&\
+ /bin/logger "$0 - nmbd deamon Start Succeed" ||\
+ /bin/logger "$0 - nmbd deamon Start Failed"
+
+route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
+
+service_crond_start &
+service_http_start &
+
+service_ssh_start &
+
+service_package_manager "Service&default"
+
+service_start
+
+service_optware_start &
