@@ -1,0 +1,24 @@
+#!/bin/sh 
+
+dd if=/dev/zero of=initrd.img bs=1M count=3 
+mke2fs -F -b 1024 -i 1024 initrd.img 
+tune2fs -c 0 -i 0 initrd.img 
+
+mkdir image 
+mount -o loop -t auto initrd.img image 
+tar cC bootfs . | tar xC image 
+
+tar xC image -f devices.tar
+
+cd image
+mkdir home mnt proc root sys tmp
+mkdir usr/local usr/share/system var/spool/system
+mkdir etc/sysconfig/config/smb/folders etc/sysconfig/config/smb/private etc/sysconfig/config/smb/shares
+cd ..
+
+
+umount image 
+rmdir image 
+ 
+cat initrd.img | gzip -9 > bootfs.bin
+
