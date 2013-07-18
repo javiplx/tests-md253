@@ -16,6 +16,7 @@ mkdir usr/local usr/share/system var/spool/system
 mkdir etc/sysconfig/config/smb/folders etc/sysconfig/config/smb/private etc/sysconfig/config/smb/shares
 cd ..
 
+echo 'ttyS0::respawn:/sbin/getty -L ttyS0 115200 vt100' >> image/etc/inittab
 
 umount image 
 rmdir image 
