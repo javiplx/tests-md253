@@ -129,8 +129,13 @@ dlna_start_daemon >/dev/null 2>&1 &
 $TwonkyMedia start
 
 /bin/mkdir -p /home/PUBLIC/Media
+/bin/mkdir -p /home/PUBLIC/Packages
+/bin/mkdir -p /home/PUBLIC/.pkg/lib
+/bin/mkdir -p /home/PUBLIC/.pkg/bin
 /bin/chown nobody.nogroup /home/PUBLIC/Media
+/bin/chown nobody.nogroup /home/PUBLIC/Packages
 /bin/chmod 777 /home/PUBLIC/Media
+/bin/chmod 777 /home/PUBLIC/Packages
 
 /bin/udevd --daemon
 /bin/logger "$0 - Drive Format Succeed"
