@@ -35,6 +35,7 @@ umount image
 rmdir image 
  
 cat initrd.img | gzip -9 > bootfs.bin
+rm -f initrd.img
 
 add_file firmware.bin bootfs
 
