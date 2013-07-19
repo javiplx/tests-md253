@@ -4,6 +4,7 @@ DISCOVERY=/bin/discovery
 SMB_HOST_CONF=/etc/sysconfig/config/smb/host.inc
 VERSION=/etc/sysconfig/config/version
 IFCFG=/etc/sysconfig/config/ifcfg-eth0
+TWONKY_PKGPATH=/usr/local/install/Twonkymedia
 
 IPADDR=`/bin/awk -F= /IPADDR/'{print $2}' $IFCFG`
 model=`/bin/cat /etc/model`
@@ -28,3 +29,14 @@ for i in $VOL; do
 
  sleep $SLEEP
 done
+PID=`/bin/pidof twonkymedia`
+[ "$PID" == "" ] && {
+  [ -d ${TWONKY_PKGPATH} ] && {
+   /usr/local/install/Twonkymedia/scripts/twonkymedia/twonkymedia.sh restart  
+  } 
+#  || {
+#   /usr/local/TwonkyVision/twonkymedia.sh restart
+#  }
+}
+
+

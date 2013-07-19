@@ -55,5 +55,9 @@ ${cron_ntp} >/dev/null 2>&1 &
 dlna_mDNSR_modify_conf &
  
 route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
-/usr/local/TwonkyVision/twonkymedia.sh start
+
+#start twonkymedia
+#TWONKY_PKGPATH=/usr/local/install/Twonkymedia
+#[ -d ${TWONKY_PKGPATH} ] || /usr/local/TwonkyVision/twonkymedia.sh start
+
 service_package_manager "Service&default"

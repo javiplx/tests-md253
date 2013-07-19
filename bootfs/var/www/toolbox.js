@@ -267,7 +267,11 @@ function ShowInstallPkgList(msg){
 
    if(j==0){
     name = data[1].split("%");
-    data[j]='<input type=checkbox id=package_'+i+' value=\"'+name[0]+'\" />';
+    data[j]='<input type=checkbox id=package_'+i+' value=\"'+name[0]+'\"';
+	if(name[1]=="Twonkymedia")
+		data[j] += " Disabled=\"true\" />";
+	else
+		data[j] += " />";
    }
 
    if(j==1){
