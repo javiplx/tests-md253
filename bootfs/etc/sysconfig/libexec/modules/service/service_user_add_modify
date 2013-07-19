@@ -12,6 +12,9 @@ $replaceFile "/etc/passwd" "${user}:x:${USER_UID}:500:Linux User,,,:/home:/bin/s
 [ "$bhard" == "0" ] && bhard=999999999
 ${XFS_QUOTA} -x -c "limit -u bsoft=${bhard}g bhard=${bhard}g ${USER_UID}" /home
 
+[ -d "/home/Disk_2" ] &&\
+ ${XFS_QUOTA} -x -c "limit -u bsoft=${bhard}g bhard=${bhard}g ${USER_UID}" /home/Disk_2
+
 (echo "${passwd}";echo "${passwd}")|${SMB_PASSWD_PROG} -s -a "${user}" >/dev/null 2>&1
 
 MODE="shares"

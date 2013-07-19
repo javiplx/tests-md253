@@ -25,6 +25,12 @@ case ${string} in
   ;;
 esac
 
+[ "${USBMountPoint}" == "/home/${string}" -o "${string}" == "BitTorrent" ] && {
+ echo "force user = root"
+ echo "sync always = yes"
+ echo "strict sync = yes"
+ }
+
 echo "force directory mode = 0777"
 echo "force create mode = 0777"
 }
