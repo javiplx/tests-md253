@@ -1,5 +1,18 @@
 #!/bin/sh 
 
+
+add_file() {
+  md5sum $2.bin > $2.bin.md5sum
+  tar -uf $1 --remove-files $2.bin $2.bin.md5sum
+  }
+
+
+# Remove previous firmware
+rm -f firmware.bin
+
+
+# Create boot filesytem image
+
 dd if=/dev/zero of=initrd.img bs=1M count=3 
 mke2fs -F -b 1024 -i 1024 initrd.img 
 tune2fs -c 0 -i 0 initrd.img 
@@ -11,9 +24,9 @@ tar cC bootfs . | tar xC image
 tar xC image -f devices.tar
 
 cd image
-mkdir home mnt proc root sys tmp
-mkdir usr/local usr/share/system var/spool/system
-mkdir etc/sysconfig/config/smb/folders etc/sysconfig/config/smb/private etc/sysconfig/config/smb/shares
+mkdir -p home mnt proc root sys tmp
+mkdir -p usr/local usr/share/system var/spool/system
+mkdir -p etc/sysconfig/config/smb/folders etc/sysconfig/config/smb/private etc/sysconfig/config/smb/shares
 cd ..
 
 echo 'ttyS0::respawn:/sbin/getty -L ttyS0 115200 vt100' >> image/etc/inittab
@@ -23,8 +36,24 @@ rmdir image
  
 cat initrd.img | gzip -9 > bootfs.bin
 
+add_file firmware.bin bootfs
+
+
+
+# Create root filesystem squash image
 
 mkdir -p rootfs/share/system
 
+# Flash is capable of at least 5136384 bytes from 2.3.27, 2.3.32, 2.3.33
 mksquashfs rootfs filesystem.bin -noI -no-fragments
+
+add_file firmware.bin filesystem
+
+
+
+# Add kernel image
+md5sum uImage.bin > uImage.md5sum
+tar -uf firmware.bin uImage.bin uImage.md5sum
+rm uImage.md5sum
+
 
