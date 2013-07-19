@@ -1,0 +1,46 @@
+service_package_manager(){
+PKGPATH=/usr/local/install
+PACKAGE=${PKGPATH}/package
+PKG_SCRIPT=/scripts/start-stop-status
+
+QUERY_STRING=$1
+action=$2
+
+pkg=`echo ${QUERY_STRING}|/bin/awk -F"&" '{print $1}'`
+
+case ${pkg} in
+ PackageAction)
+  num=`echo ${QUERY_STRING}|/bin/cut '-d&' -f3|/bin/sed 's/\^/\ /g'`
+  for i in $num; do
+  chk_status=`/bin/cat ${PACKAGE}|/bin/grep ^${i}|awk -F"~" '{print $5}'`
+  if [ ${chk_status} == "ON" -a  ${action} == "stop" ] || \
+     [ ${chk_status} == "OFF" -a  ${action} == "start" ] || \
+     [ ${action} == "del" ]; then
+     PKG_FILE=`/bin/cat ${PACKAGE}|/bin/grep ^${i}|awk -F"~" '{print $2}'`
+     sh ${PKGPATH}/${PKG_FILE}${PKG_SCRIPT} ${action}
+  fi
+  done
+  ;;
+ Service)
+  [ -f ${PACKAGE} ] || return
+  
+  status=`echo ${QUERY_STRING}|/bin/awk -F"&" '{print $2}'`
+  num=`/bin/cat ${PACKAGE}|/bin/awk -F"~" '{print $1}'` 
+  
+  for i in $num; do
+   PKG_FILE=`/bin/cat ${PACKAGE}|/bin/grep ^${i}|/bin/awk -F"~" '{print $2}'`
+   PKG_STATUS=`/bin/cat ${PACKAGE}|/bin/grep ^${i}|/bin/awk -F"~" '{print $5}'`
+   [ ${status} == "default"  -a  ${PKG_STATUS} == "ON" ] && {
+    PKG=`/bin/cat ${PACKAGE}|/bin/grep  ^${i}|/bin/tr "ON" " " |/bin/sed 's/\ //g'`
+    /bin/replaceFile  ${PACKAGE} ${PKG}ON  ${PKG}OFF
+   }
+  
+   if [ ${status} == "stop" -a X${PKG_STATUS} == "XON" ]; then
+    sh ${PKGPATH}/${PKG_FILE}${PKG_SCRIPT} stop restart
+   elif [ ${status} == "start" -a X${PKG_STATUS} == "XON" ]; then
+    sh ${PKGPATH}/${PKG_FILE}${PKG_SCRIPT} start 
+   fi
+  done
+ ;; 
+esac 
+}

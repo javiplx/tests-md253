@@ -39,6 +39,7 @@ for i in $SERVICE; do
 done
 dlna_stop_daemon >/dev/null 2>&1 &
 $TwonkyMedia stop
+service_package_manager "Service&stop"
 
 /bin/sleep $SLEEP
 /bin/killall djmount >/dev/null 2>&1
