@@ -19,6 +19,8 @@ case ${func} in
   PASSWD_LINE=`/bin/cat /etc/passwd|/bin/grep "^${user}:"`
   USER_UID=`/bin/awk -F: /^${user}:/'{print $3}' /etc/passwd`
   $replaceFile "/etc/passwd" "${PASSWD_LINE}" "${user}:x:${USER_UID}:500:${bhard},${bhard}:/home:/bin/sh"
+
+  [ "$bhard" == "0" ] && bhard=999999999
   ${XFS_QUOTA} -x -c "limit -u bsoft=${bhard}g bhard=${bhard}g ${USER_UID}" /home
 
   [ "${passwd}" == "none" ] ||\
@@ -30,6 +32,8 @@ case ${func} in
   PASSWD_LINE=`/bin/cat /etc/passwd|/bin/grep "^${user}:"`
   USER_UID=`/bin/awk -F: /^${user}:/'{print $3}' /etc/passwd`
   $replaceFile "/etc/passwd" "${PASSWD_LINE}" "${user}:x:${USER_UID}:500:${bhard},${bhard}:/home:/bin/sh"
+
+  [ "$bhard" == "0" ] && bhard=999999999
   ${XFS_QUOTA} -x -c "limit -u bsoft=${bhard}g bhard=${bhard}g ${USER_UID}" /home
 
   [ "${passwd}" == "none" ] ||\
