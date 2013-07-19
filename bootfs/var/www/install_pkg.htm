@@ -1,0 +1,65 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+ <head>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="cache-control" content="no-cache" />
+  <meta http-equiv="Expires" content="-1" />
+  <link rel="stylesheet" href="set.css">
+  <script type="text/javascript" src="getlanguage.js"></script>
+  <script type="text/javascript" src="ajax.js"></script>
+  <script type="text/javascript" src="toolbox.js"></script>
+  <style>a {text-decoration: none;} a:link,a:visited,a:active {color:#000000;font-weight:bold;} a:hover {color:#3c5d86;font-weight:bold;}</style>
+  <title>Firmware Upgrade</title>
+ </head>
+ <body style="background-image:none;background-color:transparent;">
+  <div class="topbar">
+   <ul id="topbartabs">
+    <script type="text/javascript">toolboxLink(3);</script>
+   </ul>
+  </div>
+  <br><br>
+  <blockquote>
+   <table width="900px" border="0" cellspacing="2">
+    <tr>
+     <td class="emphasize" colspan="2"><script type="text/javascript">document.write(showText(241))</script></td>
+    </tr>
+   </table>
+   <br><br>
+   <div style="width:500px;height:280px;">
+    <span id="now_path"></span><br><br>
+    <span id="DirList"></span><br><br>
+   </div>
+    <div id="Disk_Table">
+    <table class="Disk_Table_ALL" id="PackageListData">
+     <tr>
+      <td class="emphasize" colspan="3"><script type="text/javascript">document.write(showText(242))</script></td>
+     </tr>
+     <tr>
+      <td COLSPAN=2 class="emphasize">
+       <script type="text/javascript">
+        document.write('<input type="button" id="DelPackage" value="'+showText(66)+'" onclick="PackageAction(\'del\')" />');
+        document.write('<input type="button" id="StartPackage" value="'+showText(98)+'" onclick="PackageAction(\'start\')" />');
+        document.write('<input type="button" id="StopPackage" value="'+showText(99)+'" onclick="PackageAction(\'stop\')" />');
+       </script>
+      </td>
+      <td>&nbsp;</td><td>&nbsp;</td>
+     </tr>
+     <tr class="Disk_Table_Title">
+      <td><input type="checkbox" id="package_all" onClick="SelectAll()"></td>
+      <td class="background" style="text-align:center"><script type="text/javascript">document.write(showText(243))</script></td>
+      <td class="background" style="text-align:center"><script type="text/javascript">document.write(showText(244))</script></td>
+      <td class="background" style="text-align:center"><script type="text/javascript">document.write(showText(245))</script></td>
+      <td class="background" style="text-align:center"><script type="text/javascript">document.write(showText(246))</script></td>
+     </tr>
+    </table>
+   </div>
+   <div id="Value"></div>
+   <div id=ShowUpLoadBTFile style="height:50px;"></div>
+  </blockquote>
+ </body>
+</html>
+<script type="text/javascript">
+go('/home/PUBLIC/Packages');
+install_pkg_status();
+</script>
