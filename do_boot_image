@@ -46,7 +46,7 @@ add_file firmware.bin bootfs
 mkdir -p rootfs/share/system
 
 # Flash is capable of at least 5136384 bytes from 2.3.27, 2.3.32, 2.3.33
-mksquashfs rootfs filesystem.bin -noI -no-fragments
+mksquashfs rootfs filesystem.bin -noI -no-fragments -b 1048576
 
 add_file firmware.bin filesystem
 
