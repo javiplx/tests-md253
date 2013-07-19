@@ -29,7 +29,11 @@ case ${func} in
   for i in ${FOLDER}; do
    i=`echo ${i}|/bin/tr "^" " "`
    [ "${i}" == "${SHARE_PATH}" ] && continue
-   [ "${i}" == "/home/.lpd" ] && continue
+
+   name=${i##*/}
+   echo ${name}|/bin/grep "^\." >/dev/null 2>&1
+   [ $? -eq 0 ] && continue
+
    /bin/rm -rf ${i}/.ftpaccess
   done
   ;;

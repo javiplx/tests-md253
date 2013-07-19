@@ -135,7 +135,11 @@ case ${func} in
   for i in ${FOLDER}; do
    i=`echo ${i}|/bin/tr "^" " "`
    [ "${i}" == "${SHARE_PATH}" ] && continue
-   [ "${i}" == "/home/.lpd" ] && continue
+ 
+   name=${i##*/}
+   echo ${name}|/bin/grep "^\." >/dev/null 2>&1
+   [ $? -eq 0 ] && continue
+ 
    AllowUser=`/bin/awk /AllowUser/'{print $2}' ${i}/.ftpaccess|/bin/sed 's/\ //g'`
    DenyUser=`/bin/awk /DenyUser/'{print $2}' ${i}/.ftpaccess|/bin/sed 's/\ //g'`
    [ "$DenyUser" == "" ] && DenyUser=none
@@ -167,8 +171,11 @@ case ${func} in
   FOLDER=`/bin/find "${SHARE_PATH}" -maxdepth 1 -type d|/bin/tr " " "^"`
   for folder in $FOLDER; do
    [ "${folder}" == "${SHARE_PATH}" ] && continue
-   [ "${folder}" == "/home/.lpd" ] && continue
+   
    folder=${folder##*/}
+   echo ${folder}|/bin/grep "^\." >/dev/null 2>&1
+   [ $? -eq 0 ] && continue
+   
    folder=`echo ${folder}|/bin/tr "^" " "`
    echo "$folder"
   done

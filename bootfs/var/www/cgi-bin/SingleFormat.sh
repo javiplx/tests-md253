@@ -31,7 +31,7 @@ dev=`echo $1|/bin/cut '-d_' -f1`
 echo "${str} blue clear" > /proc/mp_leds
 echo "${str} red set" > /proc/mp_leds
 
-SERVICE="smb ftp btpd lpd"
+SERVICE="smb ftp btpd"
 for service in $SERVICE; do
  service_${service}_stop >/dev/null 2>&1
 done

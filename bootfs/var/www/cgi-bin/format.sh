@@ -33,7 +33,7 @@ echo "hdd2 red clear" > /proc/mp_leds
 echo "hdd1 red set" > /proc/mp_leds
 echo "hdd2 red set" > /proc/mp_leds
 
-SERVICE="smb ftp btpd lpd"
+SERVICE="smb ftp btpd"
 for i in $SERVICE; do
  service_${i}_stop >/dev/null 2>&1
 done
