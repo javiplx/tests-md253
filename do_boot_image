@@ -23,3 +23,8 @@ rmdir image
  
 cat initrd.img | gzip -9 > bootfs.bin
 
+
+mkdir -p rootfs/share/system
+
+mksquashfs rootfs filesystem.bin -noI -no-fragments
+
