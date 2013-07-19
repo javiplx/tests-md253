@@ -45,8 +45,6 @@ for i in $SERVICE; do
  [ "$status" == "Enable" ] && service_${i}_start &
 done
 
-service_ssh_start &
-
 # Load USB kernel modules
 /sbin/insmod ${KERNEL_PATH}/usb-storage.ko >/dev/null 2>&1 &
 [ $? -eq 0 ] &&\
