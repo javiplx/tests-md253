@@ -10,7 +10,7 @@ echo "create mask = 0777"
 echo "directory mask = 0777"
 echo "wide links = no"
 echo "map archive = yes"
-echo "preallocate = yes"
+#echo "preallocate = yes"
 echo "include=/etc/sysconfig/config/smb/shares/${string}.inc"
 
 case ${FolderStatus} in
