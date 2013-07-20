@@ -125,13 +125,13 @@ case "$1" in
   stop)
     if [ ! -e $PIDFILE ]; then
       echo "PID file $PIDFILE not found, stopping server anyway..."
-      killall TERM twonkymedia twonkymusic
+      killall -TERM twonkymedia twonkymusic twonkymediaserver
       rc_status -u
       exit 3
     else
       echo -n "Stopping Twonky MediaServer ... "
       PID=`cat $PIDFILE`
-      kill TERM $PID
+      kill -TERM $PID
       rm -f $PIDFILE
       rc_status -v
     fi
@@ -139,13 +139,13 @@ case "$1" in
   reload)
     if [ ! -e $PIDFILE ]; then
       echo "PID file $PIDFILE not found, stopping server anyway..."
-      killall TERM twonkymedia twonkymusic
+      killall -TERM twonkymedia twonkymusic
       rc_status -u
       exit 3
     else
       echo -n "Reloading Twonky server ... "
       PID=`cat $PIDFILE`
-      kill HUP $PID
+      kill -HUP $PID
       rc_status -v
     fi
   ;;

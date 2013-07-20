@@ -8,38 +8,85 @@ action=$2
 
 pkg=`echo ${QUERY_STRING}|/bin/awk -F"&" '{print $1}'`
 
+# Debug
+echo "`date +"%F %T"`  action=${action}, pkg=${pkg}" >> /home/PUBLIC/.pkg/msg.txt
+
+
 case ${pkg} in
  PackageAction)
   num=`echo ${QUERY_STRING}|/bin/cut '-d&' -f3|/bin/sed 's/\^/\ /g'`
   for i in $num; do
   chk_status=`/bin/cat ${PACKAGE}|/bin/grep ^${i}|awk -F"~" '{print $5}'`
+
+  # Debug
+  echo "`date +"%F %T"`  PKG_FILE=${PKG_FILE}, chk_status=${chk_status}, action=${action}" >> /home/PUBLIC/.pkg/msg.txt
+  
   if [ ${chk_status} == "ON" -a  ${action} == "stop" ] || \
      [ ${chk_status} == "OFF" -a  ${action} == "start" ] || \
      [ ${action} == "del" ]; then
      PKG_FILE=`/bin/cat ${PACKAGE}|/bin/grep ^${i}|awk -F"~" '{print $2}'`
+     echo "`date +"%F %T"`  sh ${PKGPATH}/${PKG_FILE}${PKG_SCRIPT} ${action}" >> /home/PUBLIC/.pkg/msg.txt
      sh ${PKGPATH}/${PKG_FILE}${PKG_SCRIPT} ${action}
   fi
   done
   ;;
  Service)
+  [ -d /home/PUBLIC ] && {
+   [ -d /home/PUBLIC/Packages ] || {
+    /bin/mkdir /home/PUBLIC/Packages
+    /bin/chown nobody.nogroup /home/PUBLIC/Packages
+    /bin/chmod 777 /home/PUBLIC/Packages
+   }
+  }
+
   [ -f ${PACKAGE} ] || return
-  
+
   status=`echo ${QUERY_STRING}|/bin/awk -F"&" '{print $2}'`
-  num=`/bin/cat ${PACKAGE}|/bin/awk -F"~" '{print $1}'` 
-  
+  num=`/bin/cat ${PACKAGE}|/bin/awk -F"~" '{print $1}'`
+
   for i in $num; do
    PKG_FILE=`/bin/cat ${PACKAGE}|/bin/grep ^${i}|/bin/awk -F"~" '{print $2}'`
    PKG_STATUS=`/bin/cat ${PACKAGE}|/bin/grep ^${i}|/bin/awk -F"~" '{print $5}'`
-   [ ${status} == "default"  -a  ${PKG_STATUS} == "ON" ] && {
-    PKG=`/bin/cat ${PACKAGE}|/bin/grep  ^${i}|/bin/tr "ON" " " |/bin/sed 's/\ //g'`
-    /bin/replaceFile  ${PACKAGE} ${PKG}ON  ${PKG}OFF
-   }
-  
+   PKG=`/bin/cat ${PACKAGE}|/bin/grep  ^${i}`
+   PKG=${PKG%~*}
+
+   # Debug
+   echo "`date +"%F %T"`  PKG_FILE=${PKG_FILE}, status=${status}, PKG_STATUS=${PKG_STATUS}" >> /home/PUBLIC/.pkg/msg.txt
+
+   case ${PKG_FILE} in
+    Twonkymedia)
+     [ ${status} == "default"  -a  ${PKG_STATUS} == "OFF" ] && {
+      /bin/replaceFile  ${PACKAGE} ${PKG}~OFF  ${PKG}~ON
+      }
+     status=start; PKG_STATUS=ON
+     ;;
+    #TimeMachine)
+    # [ ${status} == "default"  -a  ${PKG_STATUS} == "OFF" ] && {
+    #  /bin/replaceFile  ${PACKAGE} ${PKG}~OFF  ${PKG}~ON
+    #  }
+    # status=start; PKG_STATUS=ON
+    # ;;
+    *)
+     [ ${status} == "default"  -a  ${PKG_STATUS} == "ON" ] && status=start || status=stop
+     ;;
+   esac
+   
+   # Debug
+   echo "`date +"%F %T"`  PKG_FILE=${PKG_FILE}, status=${status}, PKG_STATUS=${PKG_STATUS}" >> /home/PUBLIC/.pkg/msg.txt
+
    if [ ${status} == "stop" -a X${PKG_STATUS} == "XON" ]; then
     sh ${PKGPATH}/${PKG_FILE}${PKG_SCRIPT} stop restart
+    echo "`date +"%F %T"`  sh ${PKGPATH}/${PKG_FILE}${PKG_SCRIPT} stop restart" >> /home/PUBLIC/.pkg/msg.txt
    elif [ ${status} == "start" -a X${PKG_STATUS} == "XON" ]; then
-    sh ${PKGPATH}/${PKG_FILE}${PKG_SCRIPT} start 
+    sh ${PKGPATH}/${PKG_FILE}${PKG_SCRIPT} start
+    echo "`date +"%F %T"`  sh ${PKGPATH}/${PKG_FILE}${PKG_SCRIPT} start" >> /home/PUBLIC/.pkg/msg.txt
+   else
+    echo "`date +"%F %T"`  Nothing to happen!!" >> /home/PUBLIC/.pkg/msg.txt
    fi
+
+   # ≠Ï¡Ÿ
+   status=`echo ${QUERY_STRING}|/bin/awk -F"&" '{print $2}'`
+
   done
  ;; 
 esac 

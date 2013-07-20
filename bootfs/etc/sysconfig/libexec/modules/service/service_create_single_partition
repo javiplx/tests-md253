@@ -1,37 +1,18 @@
 service_create_single_partition(){
 dev=$1
-SLEEP=3
-dataSize=
 
 # clear out old partition info and all "hidden" sectors with zeros
-dd if=/dev/zero of=/dev/${dev} bs=8225280 count=3
+dd if=/dev/zero of=/dev/${dev} bs=1M count=32
+/sbin/parted /dev/${dev} mklabel gpt
+/sbin/parted /dev/${dev} mkpart primary 64s 100%
+wait
 
-/sbin/fdisk "/dev/${dev}" <<EOF
+# clear out old partition info and all "hidden" sectors with zeros
+dd if=/dev/zero of=/dev/${dev} bs=1M count=32
+/sbin/parted /dev/${dev} mklabel gpt
+/sbin/parted /dev/${dev} mkpart primary 64s 100%
+wait
 
-n
-p
-1
-1
-$dataSize
-p
-w
-EOF
-sleep $SLEEP
-
-dd if=/dev/zero of=/dev/${dev} bs=8225280 count=3
-
-/sbin/fdisk "/dev/${dev}" <<EOF
-
-n
-p
-1
-1
-$dataSize
-t
-83
-p
-w
-EOF
-sleep $SLEEP
 /bin/logger "$0 - Create \"/dev/${dev}\" new partition"
 }
+

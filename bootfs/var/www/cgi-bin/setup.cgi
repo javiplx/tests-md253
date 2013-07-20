@@ -25,12 +25,6 @@ replaceFile=/var/www/cgi-bin/replaceFile
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 
 case ${func} in
- service_ssh_start)
-  RSA_FILE=/etc/sysconfig/config/ssh/ssh_rsa_host_key
-  PID_FILE=/var/run/dropbear.pid
-  PID=`/bin/pidof ssh`
-  [ "$PID" == "" ] && /usr/sbin/dropbear -r ${RSA_FILE} -P ${PID_FILE}
-  ;;
  ChgSystemStatus)
   service_system_modify_conf ${QUERY_STRING}
   ;;

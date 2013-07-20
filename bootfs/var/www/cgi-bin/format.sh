@@ -42,7 +42,6 @@ $TwonkyMedia stop
 service_package_manager "Service&stop"
 
 /bin/sleep $SLEEP
-/bin/killall djmount >/dev/null 2>&1
 /bin/killall udevd >/dev/null 2>&1
 /bin/sleep $SLEEP
 
@@ -66,8 +65,6 @@ done
 
 service_create_partition ${mode} >/dev/null 2>&1
 
-/bin/sleep $SLEEP
-/bin/killall djmount >/dev/null 2>&1
 /bin/sleep $SLEEP
 
 cat /dev/null > /etc/mdadm.conf

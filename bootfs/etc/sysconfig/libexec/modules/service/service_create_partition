@@ -1,22 +1,14 @@
 service_create_partition(){
 SLEEP=3
 
-for i in a b; do
+for i in sda sdb; do
  # clear out old partition info and all "hidden" sectors with zeros
- dd if=/dev/zero of=/dev/sd${i} bs=8225280 count=3
+ dd if=/dev/zero of=/dev/${i} bs=1M count=32
 
-/sbin/fdisk "/dev/sd${i}" <<EOF
-
-n
-p
-1
-1
-$dataSize
-p
-w
-EOF
+ /sbin/parted /dev/${i} mklabel gpt
+ /sbin/parted /dev/${i} mkpart primary 64s 100%
+ wait
 done
-sleep $SLEEP
 
 case ${mode} in
  raid0|raid1)
@@ -27,35 +19,50 @@ case ${mode} in
   done
 
   [ $sda -eq $sdb ] && {
-   dataSize=`fdisk -l /dev/sda|awk /sectors/'{print $5}'`
+   dataSize="100%"
    } || {
-   [ $sda -gt $sdb ] &&\
-    dataSize=`fdisk -l /dev/sdb|awk /sectors/'{print $5}'` ||\
-    dataSize=`fdisk -l /dev/sda|awk /sectors/'{print $5}'`
+   [ $sda -gt $sdb ] && {
+    dataSize=`fdisk -l /dev/sdb|awk /sdb:/'{print $5}'`
+    dataSize=`expr $dataSize / 1024 \* 2`
+    SecDisk="sda"
+    } || {
+    dataSize=`fdisk -l /dev/sda|awk /sda:/'{print $5}'`
+    dataSize=`expr $dataSize / 1024 \* 2`
+    SecDisk="sdb"
+    }
    }
   ;;
 esac
 
-#dataSize=
 
-for i in a b; do
+for i in sda sdb; do
  # clear out old partition info and all "hidden" sectors with zeros
- dd if=/dev/zero of=/dev/sd${i} bs=8225280 count=3
+ dd if=/dev/zero of=/dev/${i} bs=1M count=32
+ /sbin/parted /dev/${i} mklabel gpt
 
-/sbin/fdisk "/dev/sd${i}" <<EOF
-
-n
-p
-1
-1
-$dataSize
-t
-fd
-p
-w
-EOF
+ [ "$dataSize" == "100%" ] && {
+  /sbin/parted /dev/${i} mkpart primary 64s 100%
+  } || {
+  [ "$SecDisk" == "$i" ] &&\
+   /sbin/parted /dev/${i} mkpart primary 64s ${dataSize}s ||\
+   /sbin/parted /dev/${i} mkpart primary 64s 100%
+   }
+ wait
 done
 
-sleep $SLEEP
+case ${mode} in
+ raid0|raid1)
+  [ $sda -ne $sdb ] && {
+   SizeStart=`expr $dataSize + 1`
+   /sbin/parted /dev/${SecDisk} mkpart primary ${SizeStart}s 100%
+   }
+  ;;
+esac
+wait
+
+for i in sda sdb; do
+ /sbin/parted /dev/$i print
+done
+
 /bin/logger "$0 - Create \"/dev/sda & /dev/sdb\" new partition"
 }
