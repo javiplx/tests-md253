@@ -113,8 +113,11 @@ case ${func} in
   FOLDER=`/bin/find "${SHARE_PATH}" -maxdepth 1 -type d|/bin/tr " " "^"`
   for folder in $FOLDER; do
    [ "${folder}" == "${SHARE_PATH}" ] && continue
-   [ "${folder}" == "/home/.lpd" ] && continue
+   
    folder=${folder##*/}
+   echo ${folder}|/bin/grep "^\." >/dev/null 2>&1
+   [ $? -eq 0 ] && continue
+
    folder=`echo ${folder}|tr "^" " "`
    echo "$folder"
   done

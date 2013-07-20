@@ -32,6 +32,7 @@ service_setcolor
  /bin/logger "$0 - udevd deamon Start Failed"
 
 network_start >/dev/null 2>&1
+service_package_manager  >/dev/null 2>&1
 service_ntp_start >/dev/null 2>&1 &
 /usr/local/samba/sbin/nmbd >/dev/null 2>&1
 [ $? -eq 0 ] &&\
@@ -58,3 +59,4 @@ dlna_mDNSR_modify_conf &
  
 route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
 /usr/local/TwonkyVision/twonkymedia.sh start
+service_package_manager "Service&default"

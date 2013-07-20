@@ -10,7 +10,7 @@ TwonkyMedia=/usr/local/TwonkyVision/twonkymedia.sh
 SLEEP=1
 SHARE_PATH=/home
 
-SERVICE="smb ftp btpd lpd"
+SERVICE="smb ftp btpd"
 for i in $SERVICE; do
  service_${i}_stop >/dev/null 2>&1
 done

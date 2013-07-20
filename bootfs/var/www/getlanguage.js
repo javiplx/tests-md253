@@ -138,7 +138,6 @@ function servicesLink(index){
 	for(i=1;i<=4;i++){
 		picArry[i]=(i==index)?" class=\"actief\"":""
 	}
-
  var thisHREF = document.location.href;
  thisHREF = thisHREF.split( "/" );
  var IP = thisHREF[2];
@@ -152,17 +151,39 @@ function servicesLink(index){
 
 function toolboxLink(index){
 	var picArry=new Array();
-	for(i=1;i<=2;i++){
+	for(i=1;i<=3;i++){
 		picArry[i]=(i==index)?" class=\"actief\"":""
 	}
+           
 	document.write("<li"+picArry[1]+"><a href=\"default.htm\">"+(showText(20))+"</script></a></li>");
 	document.write("<li"+picArry[2]+"><a href=\"firmware.htm\" target=\"iframe\">"+(showText(21))+"</a></li>");
+	document.write("<li"+picArry[3]+"><a href=\"install_pkg.htm\" target=\"iframe\">"+(showText(240))+"</a></li>");
 }
 
 function showBackgroundImage(msg){
  if(msg.indexOf("wait_") != -1){
 	$.blockUI({
 	message:'<img src=pictures/indicator_medium.gif class=loading>&nbsp;&nbsp;&nbsp;&nbsp;<font style=\"font-weight: bold;font-size: 15pt;vertical-align: super;\">Loading.....</font>',
+		css:{border:'5px solid white',background:'#d7e0ef',padding:'10px',color:'#3c5d86'}
+	});
+ } else if(msg.indexOf("start") != -1){
+	$.blockUI({
+	message:'<img src=pictures/indicator_medium.gif class=loading>&nbsp;&nbsp;&nbsp;&nbsp;<font style=\"font-weight: bold;font-size: 15pt;vertical-align: super;\">Start Package.....</font>',
+		css:{border:'5px solid white',background:'#d7e0ef',padding:'10px',color:'#3c5d86'}
+	});
+ } else if(msg.indexOf("stop") != -1){
+	$.blockUI({
+	message:'<img src=pictures/indicator_medium.gif class=loading>&nbsp;&nbsp;&nbsp;&nbsp;<font style=\"font-weight: bold;font-size: 15pt;vertical-align: super;\">Stop Package.....</font>',
+		css:{border:'5px solid white',background:'#d7e0ef',padding:'10px',color:'#3c5d86'}
+	});
+ } else if(msg.indexOf("del") != -1){
+	$.blockUI({
+	message:'<img src=pictures/indicator_medium.gif class=loading>&nbsp;&nbsp;&nbsp;&nbsp;<font style=\"font-weight: bold;font-size: 15pt;vertical-align: super;\">Delete Package.....</font>',
+		css:{border:'5px solid white',background:'#d7e0ef',padding:'10px',color:'#3c5d86'}
+	});
+ } else if(msg.indexOf("install") != -1){
+	$.blockUI({
+	message:'<img src=pictures/indicator_medium.gif class=loading>&nbsp;&nbsp;&nbsp;&nbsp;<font style=\"font-weight: bold;font-size: 15pt;vertical-align: super;\">Install Package.....</font>',
 		css:{border:'5px solid white',background:'#d7e0ef',padding:'10px',color:'#3c5d86'}
 	});
  } else {

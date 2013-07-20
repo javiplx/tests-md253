@@ -33,12 +33,13 @@ echo "hdd2 red clear" > /proc/mp_leds
 echo "hdd1 red set" > /proc/mp_leds
 echo "hdd2 red set" > /proc/mp_leds
 
-SERVICE="smb ftp btpd lpd"
+SERVICE="smb ftp btpd"
 for i in $SERVICE; do
  service_${i}_stop >/dev/null 2>&1
 done
 dlna_stop_daemon >/dev/null 2>&1 &
 $TwonkyMedia stop
+service_package_manager "Service&stop"
 
 /bin/sleep $SLEEP
 /bin/killall djmount >/dev/null 2>&1
@@ -129,8 +130,13 @@ dlna_start_daemon >/dev/null 2>&1 &
 $TwonkyMedia start
 
 /bin/mkdir -p /home/PUBLIC/Media
+/bin/mkdir -p /home/PUBLIC/Packages
+/bin/mkdir -p /home/PUBLIC/.pkg/lib
+/bin/mkdir -p /home/PUBLIC/.pkg/bin
 /bin/chown nobody.nogroup /home/PUBLIC/Media
+/bin/chown nobody.nogroup /home/PUBLIC/Packages
 /bin/chmod 777 /home/PUBLIC/Media
+/bin/chmod 777 /home/PUBLIC/Packages
 
 /bin/udevd --daemon
 /bin/logger "$0 - Drive Format Succeed"
