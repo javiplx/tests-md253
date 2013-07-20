@@ -94,8 +94,7 @@ function Check_Data(value){
 function Logout(){
   document.cookie = "uid=;expires=0";
   document.cookie = "sum=;expires=0";
-  location.replace ('index.html');
-
+  location.reload();
 }
 
 // ********************** Setup System Function End ************************ //
