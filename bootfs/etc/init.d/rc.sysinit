@@ -15,8 +15,10 @@ service_syslogd_start
 # mount HDD
 SMB_HDD_CONF=/etc/sysconfig/config/smb/hdd.inc
 SMB_SHARE_CONF=/etc/sysconfig/config/smb/shares.inc
+PRINTCAP_CONF=/etc/lprng/printcap
 cat /dev/null > ${SMB_HDD_CONF}
 cat /dev/null > ${SMB_SHARE_CONF}
+cat /dev/null > ${PRINTCAP_CONF}
 service_mount_hdd
 
 SERVICE_CONF=/etc/sysconfig/config/service
