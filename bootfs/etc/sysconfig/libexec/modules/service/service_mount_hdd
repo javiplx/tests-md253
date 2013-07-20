@@ -26,8 +26,20 @@ done
   }
 
  cat /dev/null > /etc/mdadm.conf
- /usr/bin/mdadm -A /dev/md1 /dev/sd[a-b]1 >/dev/null 2>&1
+ [ $DiskNum -gt 1 ] &&\
+ /usr/bin/mdadm -A /dev/md1 /dev/sd[a-b]1 >/dev/null 2>&1 ||\
+ /usr/bin/mdadm -A /dev/md1 /dev/sda1 --run >/dev/null 2>&1 
+
  /usr/bin/mdadm -D -s >> /etc/mdadm.conf
+
+ /bin/mount -t xfs /dev/md1 ${SHARE_PATH} >/dev/null 2>&1
+ /bin/umount ${SHARE_PATH}
+ for disk in sda sdb; do
+  for num in 1 2; do
+   /bin/mount -t xfs /dev/${disk}${num} ${SHARE_PATH} >/dev/null 2>&1
+   /bin/umount ${SHARE_PATH} >/dev/null 2>&1
+  done
+ done
 
  #/bin/mount -t xfs -o prjquota /dev/md1 ${SHARE_PATH}
  /bin/mount -t xfs -o uquota /dev/md1 ${SHARE_PATH}
