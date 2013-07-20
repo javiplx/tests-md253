@@ -40,7 +40,6 @@ $TwonkyMedia stop
 service_package_manager "Service&stop"
 
 /bin/sleep $SLEEP
-/bin/killall djmount >/dev/null 2>&1
 /bin/killall udevd >/dev/null 2>&1
 /bin/sleep $SLEEP
 
@@ -86,8 +85,6 @@ RAID_MODE=`/usr/bin/mdadm -D /dev/md1`
 
 service_create_single_partition ${dev} >/dev/null 2>&1
 
-/bin/sleep $SLEEP
-/bin/killall djmount >/dev/null 2>&1
 /bin/sleep $SLEEP
 
 /usr/local/xfsprogs/mkfs.xfs -f /dev/${dev}1 >/dev/null 2>&1
