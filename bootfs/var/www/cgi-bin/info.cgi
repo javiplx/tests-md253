@@ -9,6 +9,11 @@ IFCFG=/etc/sysconfig/network-scripts/ifcfg-eth0
 VERSION=/etc/sysconfig/config/version
 
 replaceFile=/var/www/cgi-bin/replaceFile
+
+#防止使用者直接使用
+#cgicheck=`/var/www/cgi-bin/login_command.cgi | grep OK`
+#[ "$cgicheck" != "OK" ] && QUERY_STRING="";
+
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 
 case ${func} in
@@ -36,7 +41,7 @@ case ${func} in
   cat /var/log/${FILE}
   ;;
  *)
-  echo "Hello Mapower ${QUERY_STRING} ${REQUEST_METHOD}"
+	echo "<script type=text/javascript>location.replace ('/index.html');</script>"
   ;;
 esac
 

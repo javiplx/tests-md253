@@ -59,7 +59,7 @@ function getContent(div_id,url,type,async){
 	//alert(http);
 	var t = new Date().getTime();
 	//var url = 'cgi-bin/' + fid + "&" + t;
-	var url = url + "&" + t;
+	var url = url + "&" + getCookie('uid') + "&" + getCookie('sum') + "&" + t;
 	//alert(url);
 
 	if(async=='undefined' || async==null)
@@ -455,6 +455,11 @@ function sz(el, p) {
 
 })(jQuery);
 
+// 取消login 改為 web server authentication
+function recheckAccount(need_return) {
+	if(need_return==true)
+		return "OK,uid,sum";
+}
 function recheckAccount(need_return) {
 	var uid = getCookie('uid');
 	var sum = getCookie('sum');
