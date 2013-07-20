@@ -9,6 +9,8 @@ firmware=`echo ${QUERY_STRING} | cut '-d&' -f2`
 VERSION=/etc/sysconfig/config/version
 targetpath=${firmware%/*}
 tempFolder=$targetpath"/.tempByMapower"
+PKG_Folder=/usr/local/install
+PACKAGE=${PKG_Folder}/package
 
 versionset(){
 for i in $1; do
@@ -29,7 +31,11 @@ case ${func} in
   for i in ${FOLDER}; do
    i=`echo ${i}|/bin/tr "^" " "`
    [ "${i}" == "${SHARE_PATH}" ] && continue
-   [ "${i}" == "/home/.lpd" ] && continue
+
+   name=${i##*/}
+   echo ${name}|/bin/grep "^\." >/dev/null 2>&1
+   [ $? -eq 0 ] && continue
+
    /bin/rm -rf ${i}/.ftpaccess
   done
   ;;
@@ -166,6 +172,47 @@ case ${func} in
   cd ..
   /bin/rm -rf $tempFolder
   ;;
+ "install_pkg")
+  # install package
+  if [ -d ${PKG_Folder} ]; then
+   cd ${PKG_Folder}
+   PKG=`echo ${QUERY_STRING}|/bin/cut '-d&' -f2`
+   PKG_IPK=`/bin/basename $PKG | /bin/awk -F"_" '{print $3}'`
+   PKG_SCRIPT=${PKG_IPK}/scripts
+   PKG_NAME=`/bin/cat ${PKG_SCRIPT}/INFO | /bin/grep "OFF"| /bin/awk -F"~" '{print $2}'`
+   
+   if [ ! -d ${PKG_IPK} ]; then
+    tar zxf $PKG ${PKG_SCRIPT}/INFO
+    [ $? -eq 0 ] || return 
+    [ ${PKG_IPK} != ${PKG_NAME} ] && {
+     echo "error"
+     /bin/rm -rf $PKG_IPK
+     return
+    }
+    pkg_need_size=`/bin/cat ${PKG_SCRIPT}/INFO | /bin/grep "SIZE"| /bin/awk -F= /SIZE/'{print $2}'`
+    hdd_remnant_size=`/bin/df| /bin/grep "/home$"| /bin/awk  '{print $4}'| /bin/sed s/\ //g`
+    remnant=$(($hdd_remnant_size-$pkg_need_size)) 
+    if [ ${remnant} -ge 0 ]; then
+     /bin/rm -rf $PKG_IPK
+     [ $? -eq 0 ] && tar zxf $PKG
+     [ $? -eq 0 ] || return 
+     if [ -d ${PKG_IPK} ]; then
+      /bin/cat ${PKG_SCRIPT}/INFO | /bin/grep "OFF" >> ${PACKAGE}
+      echo "ok"
+     else
+      echo "error"
+     fi
+    else
+     /bin/rm -rf $PKG_IPK
+     echo "no_remnant_size"
+    fi
+   else
+    echo "exist"
+   fi
+  else
+   echo "no_device"
+  fi 
+   ;;
  *)
   echo "Hello Mapower ${QUERY_STRING} ${REQUEST_METHOD}"
   ;;

@@ -30,8 +30,10 @@ new_login_list="${new_write_list}"
 for i in ${FOLDER}; do
  i=`echo ${i}|/bin/tr "^" " "`
  [ "${i}" == "${SHARE_PATH}" ] && continue
- [ "${i}" == "/home/.lpd" ] && continue
+ 
  string=${i##*/}
+ echo ${string}|/bin/grep "^\." >/dev/null 2>&1
+ [ $? -eq 0 ] && continue
 
  service_smb_modify_conf_data >> ${SMB_SHARES_CONF}
 

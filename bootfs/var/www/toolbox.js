@@ -192,3 +192,157 @@ String.prototype.Trim = function() {
 
 // ********************** parseXML Function End ************************** //
 
+// ********************** Install package Start ************************** //
+function go(path){
+ var str="";
+ var ppp_length=path.length;
+ var now_path = path.substr(5,4096);
+ if(ppp_length<=8)
+ str='/';
+ window.document.getElementById('now_path').innerHTML = '<b>'+showText(191)+'&nbsp;'+str+now_path+'</b>';
+ getContent('DirList','/cgi-bin/firmwareDir.cgi?'+path);
+ parent.calcHeight('parent');
+ hiddenBackgroundImage('wait_message');
+}
+
+function install_pkg(path){
+  showBackgroundImage('install_message')
+  getContent('','/cgi-bin/toolbox.cgi?install_pkg&'+path,"function:pkg_finish");
+}
+
+function pkg_finish(msg){
+ if(msg.indexOf('ok')!=-1)
+  alert(decode(showText(247)));
+ else if(msg.indexOf('exist')!=-1)
+  alert(decode(showText(248)));
+ else if(msg.indexOf('no_device')!=-1)
+  alert(decode(showText(250)));
+ else if(msg.indexOf('no_remnant_size')!=-1)
+  alert(decode(showText(251)));
+ else
+  alert(decode(showText(249)));
+   
+showBackgroundImage('wait_message')
+location.replace ('install_pkg.htm');
+}
+
+function install_pkg_status(){
+ showBackgroundImage('wait_message');
+ getContent('','/cgi-bin/services.cgi?Package_folder',"function:packageFolderControl");
+ }
+
+function packageFolderControl(msg){
+ var data = new Array("DelPackage","StartPackage","StopPackage","package_all");
+ if(msg.indexOf('NoDisk')!=-1){
+  for (i=0; i<data.length && data[i] != "" ; i++){
+  document.getElementById(data[i]).disabled='false';
+  }
+ }
+ getContent('','/cgi-bin/services.cgi?Install_pkg_list',"function:ShowInstallPkgList");
+}
+
+function ShowInstallPkgList(msg){
+ msg = msg.split("\n");
+ var name = '';
+ var oTable=window.document.getElementById('PackageListData');
+ var rowNum=oTable.rows.length;
+ if(rowNum>3){
+  rowNum = rowNum - 1;
+  for(rIndex=2;rIndex<rowNum;rIndex++)
+   oTable.deleteRow(-1);
+ }
+ 
+ var isIE = navigator.userAgent.search("MSIE") > -1; 
+ var thisHREF = document.location.href;
+ thisHREF = thisHREF.split( "/" );
+ var IP = thisHREF[2];
+
+ for (i=0; i<msg.length && msg[i] != "" ; i++){
+  var table_height=28;
+  var oTr=oTable.insertRow(-1);
+  data = msg[i].split("^");
+  for (j=0; j<data.length && data[j] != "" ; j++){
+   oCell=oTr.insertCell(j);
+   oCell.style.cssText="text-align: center;color: #000000;";
+
+   if(j==0){
+    name = data[1].split("%");
+    data[j]='<input type=checkbox id=package_'+i+' value=\"'+name[0]+'\" />';
+   }
+
+   if(j==1){
+    name = data[j].split("%");
+    oCell.style.cssText="text-align: center;color: #000000;padding: 0px 0px 0px 10px;";
+    data[j]=name[1];
+   }
+   if(j==3){
+    if((data[4]=="ON")&&(data[3]=="0")){
+     if((data[1]=="PrinterServer")&&(isIE)){
+     oCell.style.cssText="text-align: center;color: #008800;padding: 0px 0px 0px 10px;";
+     data[j]='<a href=\"file://'+IP+'\" target=\"_blank\">'+IP;
+     }else{
+      data[j]='<a href=\'javascript:alert(decode(showText(252)));\' >'+IP;
+     }
+    }else if((data[4]=="ON")&&(data[3]!="0")){
+     oCell.style.cssText="text-align: center;color: #008800;padding: 0px 0px 0px 10px;";
+     data[j]='<a href=\"http://'+IP+':'+data[j]+'\" target=\"_blank\">'+IP+':'+data[j];
+    }else{
+     data[j]='';
+    }
+   }
+   
+   str = data[j];
+   //oCell.style.backgroundColor="#FFFFFF";
+   oCell.innerHTML=str;
+  }
+ }
+ //document.getElementById('DelPackage').disabled='false';
+ window.document.getElementById('Value').innerHTML = '<INPUT id=Now_Value value=\"'+i+'\" type=hidden>';
+ parent.calcHeight('parent');
+ hiddenBackgroundImage('wait_message');
+} 
+
+function SelectAll(){
+ var num = document.getElementById('Now_Value').value;
+ var checked=document.getElementById("package_all").checked;
+ for (x=0; x<num; x++){
+  document.getElementById("package_"+x).checked=checked;
+ }
+}
+
+function PackageAction(id){
+ var num = document.getElementById('Now_Value').value;
+ var str = '';
+ for (x=0; x<num; x++){
+  if (document.getElementById("package_"+x).checked==true)
+   var VALUE = document.getElementById("package_"+x).value+'^';
+  else
+   continue;
+
+   str += VALUE;
+ }
+ if(str==''){
+  return false;
+ } else {
+  if(id=="del"){
+   showBackgroundImage('del_message');
+   if (confirm(decode(showText(253))))
+    getContent('','/cgi-bin/services.cgi?PackageAction&'+id+'&'+str,'function:showPackageMsg');
+   else
+    location.replace ('install_pkg.htm');
+  } else if(id=="start"){
+   showBackgroundImage('start_message');
+   getContent('','/cgi-bin/services.cgi?PackageAction&'+id+'&'+str,'function:showPackageMsg');
+  } else {
+   showBackgroundImage('stop_message');
+   getContent('','/cgi-bin/services.cgi?PackageAction&'+id+'&'+str,'function:showPackageMsg');
+  }
+ }
+}
+
+function showPackageMsg(){
+ showBackgroundImage('wait_message');
+ location.replace ('install_pkg.htm');
+}
+  
+// ********************** Install package End ************************** //

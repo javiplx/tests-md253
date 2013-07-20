@@ -28,16 +28,18 @@ MEDIA_PATH=`find "${path}" -maxdepth 1 -type d|tr " " "^"`
 for i in $MEDIA_PATH; do
  i=`echo ${i}|tr "^" " "`
  [ "${i}" == "${path}" ] && continue
- [ "${i}" == "/home/.lpd" ] && continue
- [ "${i}" == "/home/BitTorrent/.btpd" ] && continue
+
+ string=${i##*/}
+ echo ${string}|/bin/grep "^\." >/dev/null 2>&1
+ [ $? -eq 0 ] && continue
+
  echo "<div class=\"spacer\">"
  echo "<div style='text-align:left;width:430px;float:left;'><span>"
  [ "$i/" == "$mp3_dir" ] && \
 	  echo "<input type=checkbox id=\"subDir_$num\" value=\"$i\" name=share onClick=selectDir(this.id,this.value) checked />" ||\
 	  echo "<input type=checkbox id=\"subDir_$num\" value=\"$i\" name=share onClick=selectDir(this.id,this.value) />"
  echo "</span>"
-
- string=${i##*/}
+ 
  echo "<span><a href='javascript:go(\"${i}\")'><img src=pictures/folder.gif height=18 align=top border=0>&nbsp;"${string}"</a></span>"
  echo "</div>"
  echo "</div>"

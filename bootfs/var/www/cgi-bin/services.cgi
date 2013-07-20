@@ -5,6 +5,7 @@ echo "<HTML><HEAD><TITLE>Sample CGI Output</TITLE></HEAD><BODY>"
 
 . /usr/libexec/modules/modules.conf
 CONFIG_PATH=/etc/sysconfig/config
+IFCFG=${CONFIG_PATH}/ifcfg-eth0
 
 DAAP_CONF=${CONFIG_PATH}/daapd.conf
 DNSR_CONF=${CONFIG_PATH}/responder.conf
@@ -19,6 +20,8 @@ BTPD_CONF=${CONFIG_PATH}/btpd.conf
 BTPD_BASE_DIR=/home/BitTorrent
 BTPD_TORRENTS=${BTPD_BASE_DIR}/.btpd/torrents_list
 ICONV=/usr/sbin/iconv
+PKGPATH=/usr/local/install
+PACKAGE=${PKGPATH}/package
 
 . $SERVICE_CONF
 
@@ -135,7 +138,11 @@ case ${func} in
   for i in ${FOLDER}; do
    i=`echo ${i}|/bin/tr "^" " "`
    [ "${i}" == "${SHARE_PATH}" ] && continue
-   [ "${i}" == "/home/.lpd" ] && continue
+ 
+   name=${i##*/}
+   echo ${name}|/bin/grep "^\." >/dev/null 2>&1
+   [ $? -eq 0 ] && continue
+ 
    AllowUser=`/bin/awk /AllowUser/'{print $2}' ${i}/.ftpaccess|/bin/sed 's/\ //g'`
    DenyUser=`/bin/awk /DenyUser/'{print $2}' ${i}/.ftpaccess|/bin/sed 's/\ //g'`
    [ "$DenyUser" == "" ] && DenyUser=none
@@ -167,8 +174,11 @@ case ${func} in
   FOLDER=`/bin/find "${SHARE_PATH}" -maxdepth 1 -type d|/bin/tr " " "^"`
   for folder in $FOLDER; do
    [ "${folder}" == "${SHARE_PATH}" ] && continue
-   [ "${folder}" == "/home/.lpd" ] && continue
+   
    folder=${folder##*/}
+   echo ${folder}|/bin/grep "^\." >/dev/null 2>&1
+   [ $? -eq 0 ] && continue
+   
    folder=`echo ${folder}|/bin/tr "^" " "`
    echo "$folder"
   done
@@ -259,6 +269,26 @@ case ${func} in
  DiskStatus)
   Status=`/bin/df|/bin/grep "/home$"`
   [ "$Status" == "" ] && echo "NoDisk" || echo "Enable"
+  ;;
+ Package_folder)
+  Status=`/bin/df|/bin/grep "/home$"`
+  [ "$Status" == "" ] && echo "NoDisk" || echo "Enable"
+  ;; 
+ Install_pkg_list)
+  Val=`/bin/cat ${PACKAGE} | tr " " "**"` 
+  
+  for i in ${Val}; do
+  PKG_Num=`/bin/echo $i | /bin/awk -F"~" '{print $1}'`
+  PKG_Name=`/bin/echo $i | /bin/awk -F"~" '{print $2}' | tr "**" " "`
+  PKG_Ver=`/bin/echo $i | /bin/awk -F"~" '{print $3}'`
+  PKG_URL=`/bin/echo $i | /bin/awk -F"~" '{print $4}'`
+  PKG_Status=`/bin/echo $i | /bin/awk -F"~" '{print $5}'`
+  echo check^$PKG_Num%$PKG_Name^$PKG_Ver^$PKG_URL^$PKG_Status
+  done
+  ;;
+ PackageAction) 
+  action=`echo ${QUERY_STRING} | cut '-d&' -f2`
+  service_package_manager ${QUERY_STRING} ${action}
   ;;
  *)
   echo "Hello Mapower ${QUERY_STRING} ${REQUEST_METHOD}"

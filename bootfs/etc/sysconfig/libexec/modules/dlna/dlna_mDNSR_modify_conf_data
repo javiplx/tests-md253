@@ -10,7 +10,7 @@ echo "\"$HOSTNAME\" _http._tcp local. 80"
 
  case $daapd in
   Enable)
-   echo "\"$HOSTNAME\" _daap._tcp local. 3689 txtvers=1 iTShVersion=131073 Version=196610"
+   echo "\"$HOSTNAME\" _daap._tcp local. 3689 \"txtvers=1\" \"iTShVersion=131073\" \"Version=196610\" \"Machine Name=$HOSTNAME\" "
    ;;
  esac
  }

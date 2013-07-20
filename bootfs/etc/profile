@@ -1,5 +1,5 @@
 #system variables
-export PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/install/bin
 export TERM=vt100
 
 set -o ignoreeof
