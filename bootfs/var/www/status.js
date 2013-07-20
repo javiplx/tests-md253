@@ -1,6 +1,5 @@
-if(document.cookie.indexOf("CD32N:MD-253")<0){
- location.replace ('login.htm');
-}
+
+recheckAccount();
 
 // ********************** Status Function Start ********************** //
 function GetStatusInfo(){

@@ -20,7 +20,6 @@ echo "\"$HOSTNAME\" _http._tcp local. 80"
   HWADDR=`/bin/awk -F= /HWADDR/'{print $2}' $IFCFG|/bin/sed 's/\ //g'` 
   DEVICE=`/bin/df|/bin/grep "home$"|/bin/awk '{print $1}'`
   ID=`/bin/blkid $DEVICE|/bin/awk '{print $2}' | /bin/awk -F= '{print $2}' |sed 's/"//g'`
-  echo $HOSTNAME    _afpovertcp._tcp.       local.  548
   echo "\"$HOSTNAME(Time Machine)\"     _adisk._tcp.    local.  9 \"sys=waMA=$HWADDR\" \"dk0=adVF=0x83,adVN=TimeMachine,adVU=$ID\""
   }
  }
