@@ -29,8 +29,8 @@ function handleResponse(http,div_id,type) {
 	//alert(response);
 
     if(type != "html"){
-        start = response.indexOf("<BODY>")+7;
-        end = response.indexOf("</BODY>");
+        var start = response.indexOf("<BODY>")+7;
+        var end = response.indexOf("</BODY>");
         response = response.substr(start,end-start);
     }
    //alert(response);

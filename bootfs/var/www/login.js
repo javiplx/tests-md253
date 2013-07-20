@@ -15,10 +15,10 @@ function keyDown(e){
 }
 
 function LoginSubmit(){
- var UserName = document.getElementById("UserName").value;
- var UserPasswd = document.getElementById("UserPasswd").value;
- getContent('','/cgi-bin/setup.cgi?webmaster&'+UserName+'&'+UserPasswd,"function:CheckLogin");
-}
+	var UserName = document.getElementById("UserName").value;
+	var UserPasswd = document.getElementById("UserPasswd").value;
+	getContent('','/cgi-bin/setup.cgi?webmaster&'+UserName+'&'+UserPasswd,"function:CheckLogin");
+	}
 
 function CheckLogin(msg){
  msg = msg.split("\n");
