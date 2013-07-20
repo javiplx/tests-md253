@@ -48,7 +48,8 @@ service_ntp_start >/dev/null 2>&1 &
 /sbin/insmod ${KERNEL_PATH}/usblp.ko >/dev/null 2>&1 &
 
 ${cron_ntp} >/dev/null 2>&1 &
-dlna_mDNSR_modify_conf &
+dlna_mDNSR_modify_conf
+dlna_start_daemon
  
 route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
 
