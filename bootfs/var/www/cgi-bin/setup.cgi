@@ -348,8 +348,61 @@ case ${func} in
   Login_passwd=`echo ${QUERY_STRING}|/bin/cut '-d&' -f3`
   user=`/bin/cat ${WEBMASTER}|/bin/cut '-d:' -f1`
   passwd=`/bin/cat ${WEBMASTER}|/bin/cut '-d:' -f2`
-  [ ${Login_user} == ${user} ] && [ ${Login_passwd} == ${passwd} ] && /bin/echo "OK"
+  [ ${Login_user} == ${user} ] && [ ${Login_passwd} == ${passwd} ] && {
+		/bin/echo "OK"
+
+		# create new uid
+		sum=`date +%s`
+		echo ${sum} > /tmp/tmp.txt
+		agent=`echo ${QUERY_STRING}|/bin/cut '-d&' -f4`
+		/bin/echo "${agent}" >> /tmp/tmp.txt
+
+		uid_tmp=`/bin/md5sum /tmp/tmp.txt`
+		uid=`expr substr "${uid_tmp}" 1 32`
+		touch /tmp/ck_${uid}_${sum}
+		/bin/echo "${uid}"
+		/bin/echo "${sum}"
+
+  }
   ;;
+	recheckaccount)
+		# clear old uid
+		# time out - 10 min
+		timeout=`date --date='-10 min' +%s`
+		for files in `ls /tmp`
+		do
+			file_uid=`echo ${files}|/bin/cut '-d_' -f2`
+			file_sum=`echo ${files}|/bin/cut '-d_' -f3`
+			if [ ${timeout} -gt ${file_sum} ]; then
+				/bin/rm -rf "/tmp/ck_${file_uid}_${file_sum}"
+			fi
+		done
+
+		uid_old=`echo ${QUERY_STRING}|/bin/cut '-d&' -f2`
+		sum_old=`echo ${QUERY_STRING}|/bin/cut '-d&' -f3`
+		oldfile="/tmp/ck_${uid_old}_${sum_old}"
+		if [ -f ${oldfile} ]; then
+			echo "OK"
+
+			# delete old uid
+			/bin/rm -f ${oldfile}
+			
+			# create new uid
+			sum=`date +%s`
+			echo ${sum} > /tmp/tmp.txt
+			agent=`echo ${QUERY_STRING}|/bin/cut '-d&' -f4`
+			/bin/echo "${agent}" >> /tmp/tmp.txt
+
+			uid_tmp=`/bin/md5sum /tmp/tmp.txt`
+			uid=`expr substr "${uid_tmp}" 1 32`
+			touch /tmp/ck_${uid}_${sum}
+			/bin/echo "${uid}"
+			/bin/echo "${sum}"
+
+		else
+			echo "Fail"
+		fi
+		;;
  *)
   echo "Hello Mapower ${QUERY_STRING} ${REQUEST_METHOD}"
   ;;

@@ -1,6 +1,5 @@
-if(document.cookie.indexOf("CD32N:MD-253")<0){
- location.replace ('login.htm');
-}
+
+recheckAccount();
 
 // ********************** Setup System Function Start ********************** //
 function GetStatusInfo(){
@@ -93,8 +92,10 @@ function Check_Data(value){
 }
 
 function Logout(){
-  document.cookie = "CD32N:"
-  location.replace ('login.htm');
+  document.cookie = "uid=;expires=0";
+  document.cookie = "sum=;expires=0";
+  location.replace ('index.html');
+
 }
 
 // ********************** Setup System Function End ************************ //

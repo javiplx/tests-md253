@@ -455,4 +455,20 @@ function sz(el, p) {
 
 })(jQuery);
 
+function recheckAccount(need_return) {
+	var uid = getCookie('uid');
+	var sum = getCookie('sum');
+	var agent = getCookie('agent');
+	var verify = getContent("","/cgi-bin/setup.cgi?recheckaccount&"+uid+"&"+sum+"&"+agent,"return",false);
 
+	msg = verify.split("\n");
+	if(need_return==true){
+		return verify;
+	}else if(msg[0]=="OK"){
+		document.cookie="uid="+msg[1]+";";
+		document.cookie="sum="+msg[2]+";";
+	}else{
+		if(msg[0]!="OK")
+			location.replace ('login.htm');
+	}
+}

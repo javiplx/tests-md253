@@ -1,6 +1,5 @@
-﻿if(document.cookie.indexOf("CD32N:MD-253")<0){
- location.replace ('login.htm');
-}
+﻿
+recheckAccount();
 
 //Javascript name: My Date Time Picker
 //Date created: 16-Nov-2003 23:19
