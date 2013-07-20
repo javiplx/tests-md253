@@ -15,23 +15,24 @@ function keyDown(e){
 }
 
 function LoginSubmit(){
- var UserName = document.getElementById("UserName").value;
- var UserPasswd = document.getElementById("UserPasswd").value;
- getContent('','/cgi-bin/setup.cgi?webmaster&'+UserName+'&'+UserPasswd,"function:CheckLogin");
-}
+	var UserName = document.getElementById("UserName").value;
+	var UserPasswd = document.getElementById("UserPasswd").value;
+	var agent = getCookie('agent');
 
-function CheckLogin(msg){
- msg = msg.split("\n");
- if(msg[0]=="OK"){
-  document.cookie = "CD32N:MD-253"
-  location.replace ('status.htm');
- } else {
-  document.getElementById("UserName").value = '';
-  document.getElementById("UserPasswd").value = '';
-  alert(decode(showText(219)));
-  setTimeout(function(){document.getElementById("UserName").focus();},10);
-  return false;
- }
+	var verify = getContent("","/cgi-bin/setup.cgi?webmaster&"+UserName+"&"+UserPasswd+"&"+agent,"return",false);
+	msg = verify.split("\n");
+	if(msg[0]=="OK"){
+		document.cookie = "uid="+msg[1]+";";
+		document.cookie = "sum="+msg[2]+";";
+		location.replace ('status.htm');
+	} else {
+		document.getElementById("UserName").value = '';
+		document.getElementById("UserPasswd").value = '';
+		alert(decode(showText(219)));
+		setTimeout(function(){document.getElementById("UserName").focus();},10);
+		return false;
+	}
+
 }
 
 function LoginCancel(){
@@ -41,6 +42,7 @@ function LoginCancel(){
 }
 
 function Logout(){
-  document.cookie = "CD32N:"
+  document.cookie = "uid=;expires=0";
+  document.cookie = "sum=;expires=0";
   location.replace ('index.html');
 }

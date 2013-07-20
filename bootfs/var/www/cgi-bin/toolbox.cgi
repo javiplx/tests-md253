@@ -209,7 +209,18 @@ case ${func} in
 		if [ "${oldversion}" != "${newVersion}" ]; then
 			# oldversion != "" 即須更新版本，先移除舊版本
 			if [ "${oldversion}" != "" ]; then
-				sh ${PKG_SCRIPT}/start-stop-status del
+			 sh ${PKG_SCRIPT}/start-stop-status del
+			 if [ "$PKG_IPK" == "TimeMachine" ]; then
+				/bin/killall -9 afpd
+                 while true; do 
+                   PID=`/bin/pidof afpd`
+                   [ "$PID" == "" ] && break || {
+                     /bin/killall -9 afpd
+                     /bin/sleep 1
+                   }
+                 done
+                 dlna_mDNSR_modify_conf 
+              fi
 			fi
 
 			#開始安裝

@@ -10,7 +10,7 @@ dlna_daapd_modify_conf
 
 service="daapd"
 for i in $service; do
- eval status=\$$i
+ eval status=`/bin/awk -F= /$i/'{print $2}' ${SERVICE_CONF}|/bin/sed 's/\ //g'`
  [ $status == "Enable" ] && {
   /bin/pidof ${i} >/dev/null 2>&1
   [ $? -ne 0 ] && {
@@ -25,5 +25,6 @@ for i in $service; do
    }
   }
 done
+
 
 }
