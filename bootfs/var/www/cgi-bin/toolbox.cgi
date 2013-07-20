@@ -42,7 +42,7 @@ case ${func} in
  CheckNEW)
   cd /tmp
    /bin/rm -f /tmp/version.xml
-  /bin/wget http://portal.sitecom.com/MD-253/v1001/upgrade/version.xml > /tmp/.msg 2>&1
+  /bin/wget http://portal.sitecom.com/MD-254/v1001/upgrade/version.xml > /tmp/.msg 2>&1
   [ $? -eq 0 ] && {
    VerNum=`/bin/awk -F\" /version/'{print $2}' /tmp/version.xml|/bin/sed 's/\ //g'`
 
@@ -173,46 +173,92 @@ case ${func} in
   /bin/rm -rf $tempFolder
   ;;
  "install_pkg")
-  # install package
-  if [ -d ${PKG_Folder} ]; then
-   cd ${PKG_Folder}
-   PKG=`echo ${QUERY_STRING}|/bin/cut '-d&' -f2`
-   PKG_IPK=`/bin/basename $PKG | /bin/awk -F"_" '{print $3}'`
-   PKG_SCRIPT=${PKG_IPK}/scripts
-   PKG_NAME=`/bin/cat ${PKG_SCRIPT}/INFO | /bin/grep "OFF"| /bin/awk -F"~" '{print $2}'`
-   
-   if [ ! -d ${PKG_IPK} ]; then
-    tar zxf $PKG ${PKG_SCRIPT}/INFO
-    [ $? -eq 0 ] || return 
-    [ ${PKG_IPK} != ${PKG_NAME} ] && {
-     echo "error"
-     /bin/rm -rf $PKG_IPK
-     return
-    }
-    pkg_need_size=`/bin/cat ${PKG_SCRIPT}/INFO | /bin/grep "SIZE"| /bin/awk -F= /SIZE/'{print $2}'`
-    hdd_remnant_size=`/bin/df| /bin/grep "/home$"| /bin/awk  '{print $4}'| /bin/sed s/\ //g`
-    remnant=$(($hdd_remnant_size-$pkg_need_size)) 
-    if [ ${remnant} -ge 0 ]; then
-     /bin/rm -rf $PKG_IPK
-     [ $? -eq 0 ] && tar zxf $PKG
-     [ $? -eq 0 ] || return 
-     if [ -d ${PKG_IPK} ]; then
-      /bin/cat ${PKG_SCRIPT}/INFO | /bin/grep "OFF" >> ${PACKAGE}
-      echo "ok"
-     else
-      echo "error"
-     fi
-    else
-     /bin/rm -rf $PKG_IPK
-     echo "no_remnant_size"
-    fi
-   else
-    echo "exist"
-   fi
-  else
-   echo "no_device"
-  fi 
-   ;;
+	# 若沒有須要的目錄，則須先建立
+	[ -d /home/PUBLIC/.pkg ] || {
+	/bin/mkdir -p /home/PUBLIC/.pkg/lib
+	/bin/mkdir -p /home/PUBLIC/.pkg/bin
+	}
+
+	# 若沒有須要的User，則須先建立
+	PKG_USER="squeeze lp"
+	for i in $PKG_USER; do 
+	user=`/bin/cat /etc/passwd | grep $i`
+	[ "X${user}" == "X" ] && /bin/adduser $i -h /home -H -D -G admin
+	done
+
+	# 若 /usr/local/install 存在才執行
+	if [ -d ${PKG_Folder} ]; then
+		cd ${PKG_Folder}
+		# 由 url 第二個參數取得package 名稱
+		PKG=`echo ${QUERY_STRING}|/bin/cut '-d&' -f2`
+		PKG_IPK=`/bin/basename $PKG | /bin/awk -F"_" '{print $3}'`
+		PKG_SCRIPT=${PKG_IPK}/scripts
+
+		# 將package 解壓縮至tmp
+		mkdir -p tmp
+		cd tmp
+		rm -rf $PKG_IPK
+		tar zxf $PKG
+
+		# 取得新package 版本
+		newVersion=`cat ${PKG_SCRIPT}/INFO | grep "OFF"| awk -F"~" '{print $3}'`
+
+		# 判斷是否有安裝過及版本是否不同
+		cd ..
+		oldversion=`cat package | grep ${PKG_IPK} | awk -F"~" '{print $3}'`
+		if [ "${oldversion}" != "${newVersion}" ]; then
+			# oldversion != "" 即須更新版本，先移除舊版本
+			if [ "${oldversion}" != "" ]; then
+				sh ${PKG_SCRIPT}/start-stop-status del
+			fi
+
+			#開始安裝
+			cd ${PKG_Folder}
+			#刪除原有的，並用新的取代
+			rm -rf $PKG_IPK
+			mv tmp/$PKG_IPK .
+
+			#再次確認
+			PKG_NAME=`/bin/cat ${PKG_SCRIPT}/INFO | /bin/grep "OFF"| /bin/awk -F"~" '{print $2}'`
+			[ ${PKG_IPK} != ${PKG_NAME} ] && {
+				echo -e "error"\\r
+				/bin/rm -rf $PKG_IPK
+				return
+			}
+			#確認所須間是否足夠
+			pkg_need_size=`/bin/cat ${PKG_SCRIPT}/INFO | /bin/grep "SIZE"| /bin/awk -F= /SIZE/'{print $2}'`
+			hdd_remnant_size=`/bin/df| /bin/grep "/home$"| /bin/awk  '{print $4}'| /bin/sed s/\ //g`
+			hdd_remnant_size=`/bin/echo ${hdd_remnant_size}000`
+
+			remnant=$(($hdd_remnant_size-$pkg_need_size)) 
+			if [ ${remnant} -ge 0 ]; then
+				if [ -d ${PKG_IPK} ]; then
+					/bin/cat ${PKG_SCRIPT}/INFO | /bin/grep "OFF" >> ${PACKAGE}
+					#判斷若為Twonkymedia則直接啟動
+					for pkg in `/bin/cat ${PACKAGE}`; do
+						Package=$pkg
+						PackageName=`echo "$Package"|/bin/awk -F~ '{print $2}'`
+						[ "${PackageName}" == "Twonkymedia" ] && {
+							PackageNum=`echo "$Package"|/bin/awk -F~ '{print $1}'`
+							String="PackageAction&${PackageName}&${PackageNum}"
+							service_package_manager ${String} start
+						}
+					done
+					echo -e "ok"\\r
+				else
+					echo -e "error"\\r
+				fi
+			else
+				/bin/rm -rf $PKG_IPK
+				echo -e "no_remnant_size"\\r
+			fi
+		else
+			echo -e "exist"\\r
+		fi
+	else
+		echo -e "no_device"\\r
+	fi 
+	;;
  *)
   echo "Hello Mapower ${QUERY_STRING} ${REQUEST_METHOD}"
   ;;

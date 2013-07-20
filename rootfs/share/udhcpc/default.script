@@ -2,6 +2,8 @@
 
 . /usr/libexec/modules/modules.conf
 discovery=/etc/sysconfig/system-script/cron-discovery
+TWONKY_PKGPATH=/usr/local/install/Twonkymedia
+
 # udhcpc script edited by Tim Riker <Tim@Rikers.org>
 
 [ -z "$1" ] && echo "Error: should be called from udhcpc" && exit 1
@@ -20,7 +22,11 @@ case "$1" in
   dlna_mDNSR_modify_conf >/dev/null 2>&1 &
   /bin/killall nmbd
   /usr/local/samba/sbin/nmbd >/dev/null 2>&1
-  /usr/local/TwonkyVision/twonkymedia.sh restart
+  [ -d ${TWONKY_PKGPATH} ] && {
+    /usr/local/install/Twonkymedia/scripts/twonkymedia/twonkymedia.sh restart  
+  } || {
+  	/usr/local/TwonkyVision/twonkymedia.sh restart
+  }
   ;;
  renew|bound)
   /sbin/ifconfig $interface $ip $BROADCAST $NETMASK
@@ -47,7 +53,11 @@ case "$1" in
   #kill `pidof udhcpc`
   /bin/killall nmbd
   /usr/local/samba/sbin/nmbd >/dev/null 2>&1
-  /usr/local/TwonkyVision/twonkymedia.sh restart
+  [ -d ${TWONKY_PKGPATH} ] && {
+   /usr/local/install/Twonkymedia/scripts/twonkymedia/twonkymedia.sh restart  
+  } || {
+   /usr/local/TwonkyVision/twonkymedia.sh restart
+  }
   /bin/logger "$0 - IPADDR:\"${ip}\" DHCP Start Succeed"
   ;;
 esac

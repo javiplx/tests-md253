@@ -267,7 +267,11 @@ function ShowInstallPkgList(msg){
 
    if(j==0){
     name = data[1].split("%");
-    data[j]='<input type=checkbox id=package_'+i+' value=\"'+name[0]+'\" />';
+    data[j]='<input type=checkbox id=package_'+i+' value=\"'+name[0]+'\"';
+	if(name[1]=="Twonkymedia")
+		data[j] += " Disabled=\"true\" />";
+	else
+		data[j] += " />";
    }
 
    if(j==1){
@@ -277,15 +281,20 @@ function ShowInstallPkgList(msg){
    }
    if(j==3){
     if((data[4]=="ON")&&(data[3]=="0")){
-     if((data[1]=="PrinterServer")&&(isIE)){
+     if((data[1]=="PrinterServer" || data[1]=="TimeMachine")&&(isIE)){
      oCell.style.cssText="text-align: center;color: #008800;padding: 0px 0px 0px 10px;";
      data[j]='<a href=\"file://'+IP+'\" target=\"_blank\">'+IP;
      }else{
       data[j]='<a href=\'javascript:alert(decode(showText(252)));\' >'+IP;
      }
     }else if((data[4]=="ON")&&(data[3]!="0")){
-     oCell.style.cssText="text-align: center;color: #008800;padding: 0px 0px 0px 10px;";
-     data[j]='<a href=\"http://'+IP+':'+data[j]+'\" target=\"_blank\">'+IP+':'+data[j];
+	 if(data[1]=="SqueezeCenter"){
+      oCell.style.cssText="text-align: center;color: #008800;padding: 0px 0px 0px 10px;";
+      data[j]='<a href=\"http://'+IP+':'+data[j]+'\" target=\"_blank\" onClick=alert(decode(showText(254))); >'+IP+':'+data[j];
+     }else{ 	 
+      oCell.style.cssText="text-align: center;color: #008800;padding: 0px 0px 0px 10px;";
+      data[j]='<a href=\"http://'+IP+':'+data[j]+'\" target=\"_blank\">'+IP+':'+data[j];
+     }
     }else{
      data[j]='';
     }
@@ -306,7 +315,9 @@ function SelectAll(){
  var num = document.getElementById('Now_Value').value;
  var checked=document.getElementById("package_all").checked;
  for (x=0; x<num; x++){
-  document.getElementById("package_"+x).checked=checked;
+  pkg_num = document.getElementById("package_"+x).value;
+  if(pkg_num!="4")
+    document.getElementById("package_"+x).checked=checked;
  }
 }
 

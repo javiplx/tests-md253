@@ -36,6 +36,8 @@ echo "comment = ${hostname}" >> ${SMB_HOST_CONF}
 old_daap_name=`/bin/awk /servername/'{print $2}' ${DAAP_CONF}|/bin/sed 's/\ //g'`
 $replaceFile "${DAAP_CONF}" "servername ${old_daap_name}" "servername ${hostname}"
 
+dlna_mDNSR_modify_conf
+
 # Restart service
 
 dlna_stop_daemon

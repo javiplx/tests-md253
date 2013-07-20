@@ -15,8 +15,10 @@ service_syslogd_start
 # mount HDD
 SMB_HDD_CONF=/etc/sysconfig/config/smb/hdd.inc
 SMB_SHARE_CONF=/etc/sysconfig/config/smb/shares.inc
+PRINTCAP_CONF=/etc/lprng/printcap
 cat /dev/null > ${SMB_HDD_CONF}
 cat /dev/null > ${SMB_SHARE_CONF}
+cat /dev/null > ${PRINTCAP_CONF}
 service_mount_hdd
 
 SERVICE_CONF=/etc/sysconfig/config/service
@@ -32,20 +34,11 @@ service_setcolor
  /bin/logger "$0 - udevd deamon Start Failed"
 
 network_start >/dev/null 2>&1
-service_package_manager  >/dev/null 2>&1
 service_ntp_start >/dev/null 2>&1 &
 /usr/local/samba/sbin/nmbd >/dev/null 2>&1
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - nmbd deamon Start Succeed" ||\
  /bin/logger "$0 - nmbd deamon Start Failed"
-
-SERVICE="crond smb ftp http btpd"
-for i in $SERVICE; do
- status=`/bin/awk -F= /$i/'{print $2}' ${SERVICE_CONF}`
- [ "$status" == "Enable" ] && service_${i}_start &
-done
-
-service_ssh_start &
 
 # Load USB kernel modules
 /sbin/insmod ${KERNEL_PATH}/usb-storage.ko >/dev/null 2>&1 &
@@ -58,5 +51,16 @@ ${cron_ntp} >/dev/null 2>&1 &
 dlna_mDNSR_modify_conf &
  
 route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
-/usr/local/TwonkyVision/twonkymedia.sh start
+
+#start twonkymedia
+#TWONKY_PKGPATH=/usr/local/install/Twonkymedia
+#[ -d ${TWONKY_PKGPATH} ] || /usr/local/TwonkyVision/twonkymedia.sh start
+
 service_package_manager "Service&default"
+
+SERVICE="crond smb ftp http btpd"
+for i in $SERVICE; do
+ status=`/bin/awk -F= /$i/'{print $2}' ${SERVICE_CONF}`
+ [ "$status" == "Enable" ] && service_${i}_start &
+done
+

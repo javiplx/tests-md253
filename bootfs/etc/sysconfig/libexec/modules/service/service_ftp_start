@@ -6,6 +6,11 @@ PUBLIC_ACCESS=/home/PUBLIC/.ftpaccess
 replaceFile=/var/www/cgi-bin/replaceFile
 
 FTP_SERVICE=`/bin/awk -F= /ftp/'{print $2}' $SERVICE_CONF`
+GLOBAL_CONF=/etc/sysconfig/config/proftpd/global.conf
+
+#patch ftp global configure
+$replaceFile "${GLOBAL_CONF}" "~ user" "/home user" >/dev/null 2>&1
+
 
 [ -d /var/log/proftpd ] || /bin/mkdir -p /var/log/proftpd
 [ -d /var/run/proftpd ] || /bin/mkdir -p /var/run/proftpd
