@@ -15,20 +15,21 @@ SLEEP=3
 VOL="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19"
 for i in $VOL; do
  $DISCOVERY "$model" "$name" "$group" "$version" >/dev/null 2>&1
- /bin/netstat -unlt|/bin/grep "${IPADDR}:137" >/dev/null 2>&1
- [ $? -eq 0 ] || {
-  /bin/killall nmbd
-  /usr/local/samba/sbin/nmbd
-  }
-
- /bin/netstat -unlt|/bin/grep "${IPADDR}:138" >/dev/null 2>&1
- [ $? -eq 0 ] || {
-  /bin/killall nmbd
-  /usr/local/samba/sbin/nmbd
-  }
-
  sleep $SLEEP
 done
+
+/bin/netstat -unlt|/bin/grep "${IPADDR}:137" >/dev/null 2>&1
+[ $? -eq 0 ] || {
+ /bin/killall nmbd
+ /usr/local/samba/sbin/nmbd
+ }
+
+/bin/netstat -unlt|/bin/grep "${IPADDR}:138" >/dev/null 2>&1
+[ $? -eq 0 ] || {
+ /bin/killall nmbd
+ /usr/local/samba/sbin/nmbd
+ }
+
 PID=`/bin/pidof twonkymedia`
 [ "$PID" == "" ] && {
   [ -d ${TWONKY_PKGPATH} ] && {

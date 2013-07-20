@@ -103,4 +103,9 @@ SambaConfig=/etc/sysconfig/config/smb/smb.conf
  $replaceFile "${SambaConfig}" "${OldData}" "${OldData}.twonky/"
  }
 
+#patch samba
+/bin/cp -af /usr/local/samba/sbin/audit.so /etc/smb/vfs
+/bin/cp -af /usr/local/samba/sbin/recycle.so /etc/smb/vfs
+
+
 }

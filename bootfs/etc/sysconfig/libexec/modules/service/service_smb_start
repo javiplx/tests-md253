@@ -5,7 +5,16 @@ smbd_pid=/var/run/smbd.pid
 nmbd_pid=/var/run/nmbd.pid
 PASSWD_PROG=/usr/local/samba/sbin/smbpasswd
 PASSWD_DB=/etc/sysconfig/config/smb/private/smbpasswd
+SMB_CONF=/etc/sysconfig/config/smb/smb.conf
 
+/bin/cat $SMB_CONF| /bin/grep "printcap"  >/dev/null 2>&1
+[ $? -eq 0 ] || {
+ /bin/sed '/passdb expand/aprintcap name = /etc/lprng/printcap'  $SMB_CONF > /tmp/.smb1
+ /bin/sed '/printcap name/aload printers = yes'  /tmp/.smb1  > /tmp/.smb2
+ /bin/sed '/load printers/aprinting = lprng'  /tmp/.smb2 > /tmp/.smb1
+ /bin/mv /tmp/.smb1 $SMB_CONF
+ }
+      
 PID=`/bin/pidof nmbd`
 [ "${PID}" == "" ] && {
  ${nmbd_prog}
