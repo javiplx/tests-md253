@@ -4,15 +4,17 @@ WEBMASTER=${ConfigPath}/webmaster.conf
 HTTP_CONF=${ConfigPath}/httpd.conf
 HTTP_STATUS=`/bin/cat ${HTTP_CONF}`
 
-[ "$HTTP_STATUS" == "" ] || {
- DATA=`/bin/cat ${HTTP_CONF}|/bin/sed 's/\/://g'`
- /bin/cat /dev/null > ${HTTP_CONF}
- echo "$DATA" > ${WEBMASTER}
- }
+#[ "$HTTP_STATUS" == "" ] || {
+# DATA=`/bin/cat ${HTTP_CONF}|/bin/sed 's/\/://g'`
+# /bin/cat /dev/null > ${HTTP_CONF}
+# echo "$DATA" > ${WEBMASTER}
+# }
 
 STATUS=`/bin/cat ${WEBMASTER}`
 [ "$STATUS" == "" ] &&\
  echo "admin:admin" > ${WEBMASTER}
+
+echo "/:$STATUS" > ${HTTP_CONF}
 
 /bin/nice -n -18 /sbin/httpd -h /var/www
 [ $? -eq 0 ] &&\
