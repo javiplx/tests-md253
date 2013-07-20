@@ -281,7 +281,7 @@ function ShowInstallPkgList(msg){
    }
    if(j==3){
     if((data[4]=="ON")&&(data[3]=="0")){
-     if((data[1]=="PrinterServer")&&(isIE)){
+     if((data[1]=="PrinterServer" || data[1]=="TimeMachine")&&(isIE)){
      oCell.style.cssText="text-align: center;color: #008800;padding: 0px 0px 0px 10px;";
      data[j]='<a href=\"file://'+IP+'\" target=\"_blank\">'+IP;
      }else{
@@ -315,7 +315,9 @@ function SelectAll(){
  var num = document.getElementById('Now_Value').value;
  var checked=document.getElementById("package_all").checked;
  for (x=0; x<num; x++){
-  document.getElementById("package_"+x).checked=checked;
+  pkg_num = document.getElementById("package_"+x).value;
+  if(pkg_num!="4")
+    document.getElementById("package_"+x).checked=checked;
  }
 }
 
