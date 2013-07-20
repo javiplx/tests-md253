@@ -366,6 +366,12 @@ case ${func} in
   }
   ;;
 	recheckaccount)
+		echo "OK"
+		echo "uid"
+		echo "sum"
+	;;
+
+	recheckaccount_old)
 		# clear old uid
 		# time out - 10 min
 		timeout=`date --date='-10 min' +%s`
