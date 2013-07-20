@@ -288,8 +288,13 @@ function ShowInstallPkgList(msg){
       data[j]='<a href=\'javascript:alert(decode(showText(252)));\' >'+IP;
      }
     }else if((data[4]=="ON")&&(data[3]!="0")){
-     oCell.style.cssText="text-align: center;color: #008800;padding: 0px 0px 0px 10px;";
-     data[j]='<a href=\"http://'+IP+':'+data[j]+'\" target=\"_blank\">'+IP+':'+data[j];
+	 if(data[1]=="SqueezeCenter"){
+      oCell.style.cssText="text-align: center;color: #008800;padding: 0px 0px 0px 10px;";
+      data[j]='<a href=\"http://'+IP+':'+data[j]+'\" target=\"_blank\" onClick=alert(decode(showText(254))); >'+IP+':'+data[j];
+     }else{ 	 
+      oCell.style.cssText="text-align: center;color: #008800;padding: 0px 0px 0px 10px;";
+      data[j]='<a href=\"http://'+IP+':'+data[j]+'\" target=\"_blank\">'+IP+':'+data[j];
+     }
     }else{
      data[j]='';
     }
