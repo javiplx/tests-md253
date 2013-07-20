@@ -42,7 +42,7 @@ case ${func} in
  CheckNEW)
   cd /tmp
    /bin/rm -f /tmp/version.xml
-  /bin/wget http://portal.sitecom.com/MD-253/v1001/upgrade/version.xml > /tmp/.msg 2>&1
+  /bin/wget http://portal.sitecom.com/MD-254/v1001/upgrade/version.xml > /tmp/.msg 2>&1
   [ $? -eq 0 ] && {
    VerNum=`/bin/awk -F\" /version/'{print $2}' /tmp/version.xml|/bin/sed 's/\ //g'`
 
