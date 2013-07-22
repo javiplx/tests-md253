@@ -36,7 +36,7 @@ mkdir -p etc/sysconfig/config/smb/folders etc/sysconfig/config/smb/private etc/s
 cd ..
 
 echo 'ttyS0::respawn:/sbin/getty -L ttyS0 115200 vt100' >> image/etc/inittab
-echo $FW > image/etc/sysconfig/config/version
+echo "SitecomNas_v$1" > image/etc/sysconfig/config/version
 
 umount image
 rmdir image
