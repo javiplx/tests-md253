@@ -24,6 +24,11 @@ temp=`echo "$string"|/bin/tr -s '[A-Z]' '-'|/bin/tr -s '[a-z]' '-'|\
 case ${TYPE} in
  ext2|ext3|xfs)
   /bin/mount /dev/${dev} ${SHARE_PATH}/${string} && /bin/chmod 777 ${SHARE_PATH}/${string}
+  [ -f ${SHARE_PATH}/${string}/.optware ] && {
+   /usr/bin/logger "$0 - found /opt filesystem on usb stick"
+   /bin/umount ${SHARE_PATH}/${string}
+   /bin/mount -t ${TYPE} /dev/${dev} /opt
+   }
   ;;
  vfat)
   /bin/blkid -c /dev/null -s TYPE|/bin/grep "hfsplus" >/dev/null 2>&1
