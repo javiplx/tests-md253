@@ -1,0 +1,221 @@
+Index: optware/make/py-psycopg2.mk
+===================================================================
+--- optware/make/py-psycopg2.mk	(revision 12863)
++++ optware/make/py-psycopg2.mk	(working copy)
+@@ -21,7 +21,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PY-PSYCOPG2_SITE=http://initd.org/pub/software/psycopg
++PY-PSYCOPG2_SITE=http://initd.org/psycopg/tarballs/PSYCOPG-2-3
+ PY-PSYCOPG2_VERSION=2.3.2
+ PY-PSYCOPG2_SOURCE=psycopg2-$(PY-PSYCOPG2_VERSION).tar.gz
+ PY-PSYCOPG2_DIR=psycopg2-$(PY-PSYCOPG2_VERSION)
+Index: optware/make/py-nevow.mk
+===================================================================
+--- optware/make/py-nevow.mk	(revision 12863)
++++ optware/make/py-nevow.mk	(working copy)
+@@ -23,7 +23,7 @@
+ #
+ PY-NEVOW_VERSION=0.9.33
+ PY-NEVOW_SOURCE=Nevow-$(PY-NEVOW_VERSION).tar.gz
+-PY-NEVOW_SITE=http://divmod.org/trac/attachment/wiki/SoftwareReleases/$(PY-NEVOW_SOURCE)?format=raw
++PY-NEVOW_SITE=http://ftp.osuosl.org/pub/nslu2/sources
+ PY-NEVOW_DIR=Nevow-$(PY-NEVOW_VERSION)
+ PY-NEVOW_UNZIP=zcat
+ PY-NEVOW_MAINTAINER=NSLU2 Linux <nslu2-linux@yahoogroups.com>
+Index: optware/make/util-linux.mk
+===================================================================
+--- optware/make/util-linux.mk	(revision 12863)
++++ optware/make/util-linux.mk	(working copy)
+@@ -20,7 +20,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-UTIL_LINUX_SITE=ftp://ftp.kernel.org/pub/linux/utils/util-linux
++UTIL_LINUX_SITE=ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.12
+ UTIL_LINUX_VERSION=2.12r
+ UTIL_LINUX_SOURCE=util-linux-$(UTIL_LINUX_VERSION).tar.gz
+ UTIL_LINUX_DIR=util-linux-$(UTIL_LINUX_VERSION)
+Index: optware/make/rtpproxy.mk
+===================================================================
+--- optware/make/rtpproxy.mk	(revision 12863)
++++ optware/make/rtpproxy.mk	(working copy)
+@@ -20,7 +20,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-RTPPROXY_SITE=http://b2bua.org/chrome/site
++RTPPROXY_SITE=http://ftp.osuosl.org/pub/nslu2/sources
+ RTPPROXY_VERSION=1.2.1
+ RTPPROXY_SOURCE=rtpproxy-$(RTPPROXY_VERSION).tar.gz
+ RTPPROXY_DIR=rtpproxy-$(RTPPROXY_VERSION)
+Index: optware/make/atop.mk
+===================================================================
+--- optware/make/atop.mk	(revision 12863)
++++ optware/make/atop.mk	(working copy)
+@@ -10,7 +10,7 @@
+ # questions. But feel free to update or change this package
+ # if there are reasons.
+ #
+-ATOP_SITE=http://www.atconsultancy.nl/atop/packages
++ATOP_SITE=http://www.atoptool.nl/download
+ ATOP_VERSION=1.21
+ ATOP_SOURCE=atop-$(ATOP_VERSION).tar.gz
+ ATOP_DIR=atop-$(ATOP_VERSION)
+Index: optware/make/py-pygresql.mk
+===================================================================
+--- optware/make/py-pygresql.mk	(revision 12863)
++++ optware/make/py-pygresql.mk	(working copy)
+@@ -21,7 +21,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PY-PYGRESQL_SITE=ftp://ftp.PyGreSQL.org/pub/distrib
++PY-PYGRESQL_SITE=http://PyGreSQL.org/files
+ PY-PYGRESQL_VERSION=3.8.1
+ PY-PYGRESQL_SOURCE=PyGreSQL-$(PY-PYGRESQL_VERSION).tgz
+ PY-PYGRESQL_DIR=PyGreSQL-$(PY-PYGRESQL_VERSION)
+Index: optware/make/py-turbogears.mk
+===================================================================
+--- optware/make/py-turbogears.mk	(revision 12863)
++++ optware/make/py-turbogears.mk	(working copy)
+@@ -21,7 +21,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PY-TURBOGEARS_SITE=http://files.turbogears.org/eggs
++PY-TURBOGEARS_SITE=http://pypi.python.org/packages/source/T/TurboGears
+ PY-TURBOGEARS_VERSION=1.1
+ PY-TURBOGEARS_IPK_VERSION=1
+ PY-TURBOGEARS_SOURCE=TurboGears-$(PY-TURBOGEARS_VERSION).tar.gz
+Index: optware/make/libcapi20.mk
+===================================================================
+--- optware/make/libcapi20.mk	(revision 12863)
++++ optware/make/libcapi20.mk	(working copy)
+@@ -19,7 +19,7 @@
+ #
+ # You should change all these variables to suit your package.
+ #
+-LIBCAPI20_SITE=ftp://ftp.melware.net/capi-utils
++LIBCAPI20_SITE=http://www.openadk.org/distfiles
+ LIBCAPI20_VERSION=3.0.5-cm
+ LIBCAPI20_SOURCE=libcapi20-$(LIBCAPI20_VERSION).tar.gz
+ LIBCAPI20_DIR=libcapi20-$(LIBCAPI20_VERSION)
+Index: optware/make/dash.mk
+===================================================================
+--- optware/make/dash.mk	(revision 12863)
++++ optware/make/dash.mk	(working copy)
+@@ -20,7 +20,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-DASH_SITE=http://ftp.debian.org/debian/pool/main/d/dash
++DASH_SITE=https://launchpad.net/debian/+archive/primary/+files
+ DASH_VERSION=0.5.6.1
+ DASH_SOURCE=dash_$(DASH_VERSION).orig.tar.gz
+ DASH_DIR=dash-$(DASH_VERSION)
+Index: optware/make/autossh.mk
+===================================================================
+--- optware/make/autossh.mk	(revision 12863)
++++ optware/make/autossh.mk	(working copy)
+@@ -20,7 +20,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-AUTOSSH_SITE=http://www.harding.motd.ca/autossh
++AUTOSSH_SITE=http://www.sfr-fresh.com/unix/privat
+ AUTOSSH_VERSION=1.4b
+ AUTOSSH_SOURCE=autossh-$(AUTOSSH_VERSION).tgz
+ AUTOSSH_DIR=autossh-$(AUTOSSH_VERSION)
+Index: optware/make/postgresql.mk
+===================================================================
+--- optware/make/postgresql.mk	(revision 12863)
++++ optware/make/postgresql.mk	(working copy)
+@@ -27,7 +27,7 @@
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+ POSTGRESQL_VERSION=8.2.13
+-POSTGRESQL_SITE=ftp://ftp.postgresql.org/pub/source/v$(POSTGRESQL_VERSION)
++POSTGRESQL_SITE=http://ftp.riken.go.jp/pub/FreeBSD/distfiles/postgresql
+ POSTGRESQL_SOURCE=postgresql-$(POSTGRESQL_VERSION).tar.bz2
+ POSTGRESQL_DIR=postgresql-$(POSTGRESQL_VERSION)
+ POSTGRESQL_UNZIP=bzcat
+Index: optware/make/py-mantissa.mk
+===================================================================
+--- optware/make/py-mantissa.mk	(revision 12863)
++++ optware/make/py-mantissa.mk	(working copy)
+@@ -23,7 +23,7 @@
+ #
+ PY-MANTISSA_VERSION=0.6.22
+ PY-MANTISSA_SOURCE=Mantissa-$(PY-MANTISSA_VERSION).tar.gz
+-PY-MANTISSA_SITE=http://divmod.org/trac/attachment/wiki/SoftwareReleases/$(PY-MANTISSA_SOURCE)?format=raw
++PY-MANTISSA_SITE=http://ftp.osuosl.org/pub/nslu2/sources
+ PY-MANTISSA_DIR=Mantissa-$(PY-MANTISSA_VERSION)
+ PY-MANTISSA_UNZIP=zcat
+ PY-MANTISSA_MAINTAINER=NSLU2 Linux <nslu2-linux@yahoogroups.com>
+Index: optware/make/picolisp.mk
+===================================================================
+--- optware/make/picolisp.mk	(revision 12863)
++++ optware/make/picolisp.mk	(working copy)
+@@ -20,7 +20,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PICOLISP_SITE=http://www.software-lab.biz/1024/?download&
++PICOLISP_SITE=http://www.software-lab.de/
+ PICOLISP_VERSION=2.2.6
+ PICOLISP_SOURCE=picoLisp-$(PICOLISP_VERSION).tgz
+ PICOLISP_DIR=picoLisp-$(PICOLISP_VERSION)
+Index: optware/make/mdadm.mk
+===================================================================
+--- optware/make/mdadm.mk	(revision 12863)
++++ optware/make/mdadm.mk	(working copy)
+@@ -19,7 +19,7 @@
+ #
+ # You should change all these variables to suit your package.
+ #
+-MDADM_SITE=http://www.cse.unsw.edu.au/~neilb/source/mdadm/
++MDADM_SITE=http://www.kernel.org/pub/linux/utils/raid/mdadm/
+ MDADM_VERSION=2.6
+ MDADM_SOURCE=mdadm-$(MDADM_VERSION).tgz
+ MDADM_DIR=mdadm-$(MDADM_VERSION)
+Index: optware/make/py-epsilon.mk
+===================================================================
+--- optware/make/py-epsilon.mk	(revision 12863)
++++ optware/make/py-epsilon.mk	(working copy)
+@@ -23,7 +23,7 @@
+ #
+ PY-EPSILON_VERSION=0.5.12
+ PY-EPSILON_SOURCE=Epsilon-$(PY-EPSILON_VERSION).tar.gz
+-PY-EPSILON_SITE=http://divmod.org/trac/attachment/wiki/SoftwareReleases/$(PY-EPSILON_SOURCE)?format=raw
++PY-EPSILON_SITE=http://ftp.osuosl.org/pub/nslu2/sources
+ PY-EPSILON_DIR=Epsilon-$(PY-EPSILON_VERSION)
+ PY-EPSILON_UNZIP=zcat
+ PY-EPSILON_MAINTAINER=NSLU2 Linux <nslu2-linux@yahoogroups.com>
+Index: optware/make/py-axiom.mk
+===================================================================
+--- optware/make/py-axiom.mk	(revision 12863)
++++ optware/make/py-axiom.mk	(working copy)
+@@ -23,7 +23,7 @@
+ #
+ PY-AXIOM_VERSION=0.5.31
+ PY-AXIOM_SOURCE=Axiom-$(PY-AXIOM_VERSION).tar.gz
+-PY-AXIOM_SITE=http://divmod.org/trac/attachment/wiki/SoftwareReleases/$(PY-AXIOM_SOURCE)?format=raw
++PY-AXIOM_SITE=http://ftp.osuosl.org/pub/nslu2/sources
+ PY-AXIOM_DIR=Axiom-$(PY-AXIOM_VERSION)
+ PY-AXIOM_UNZIP=zcat
+ PY-AXIOM_MAINTAINER=NSLU2 Linux <nslu2-linux@yahoogroups.com>
+Index: optware/Makefile
+===================================================================
+--- optware/Makefile	(revision 12932)
++++ optware/Makefile	(working copy)
+@@ -552,7 +552,7 @@
+ # The hostname or IP number of our local dl.sf.net mirror
+ SOURCEFORGE_MIRROR=downloads.sourceforge.net
+ #SOURCES_NLO_SITE=http://sources.nslu2-linux.org/sources
+-SOURCES_NLO_SITE=http://ftp.osuosl.org/pub/nslu2/sources
++SOURCES_NLO_SITE=http://ipkg.nslu2-linux.org/sources
+ 
+ TARGET_CXX=$(TARGET_CROSS)g++
+ TARGET_CC=$(TARGET_CROSS)gcc

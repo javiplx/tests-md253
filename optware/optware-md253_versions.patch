@@ -1,0 +1,88 @@
+diff -uNr optware.orig/make/dropbear.mk optware/make/dropbear.mk
+--- optware.orig/make/dropbear.mk	2012-12-09 16:57:17.000000000 +0100
++++ optware/make/dropbear.mk	2012-12-09 17:11:08.000000000 +0100
+@@ -9,6 +9,7 @@
+ 
+ DROPBEAR_SITE=http://matt.ucc.asn.au/dropbear/releases
+ DROPBEAR_VERSION=0.52
++#DROPBEAR_VERSION=0.51
+ DROPBEAR_SOURCE=dropbear-$(DROPBEAR_VERSION).tar.bz2
+ DROPBEAR_DIR=dropbear-$(DROPBEAR_VERSION)
+ DROPBEAR_UNZIP=bzcat
+diff -uNr optware.orig/make/hdparm.mk optware/make/hdparm.mk
+--- optware.orig/make/hdparm.mk	2012-12-09 16:57:17.000000000 +0100
++++ optware/make/hdparm.mk	2012-12-09 17:11:08.000000000 +0100
+@@ -13,7 +13,7 @@
+ # It is usually "zcat" (for .gz) or "bzcat" (for .bz2)
+ #
+ HDPARM_SITE=http://$(SOURCEFORGE_MIRROR)/sourceforge/hdparm
+-HDPARM_VERSION ?= 9.39
++HDPARM_VERSION ?= 9.27
+ HDPARM_SOURCE=hdparm-$(HDPARM_VERSION).tar.gz
+ HDPARM_DIR=hdparm-$(HDPARM_VERSION)
+ HDPARM_UNZIP=zcat
+diff -uNr optware.orig/make/logrotate.mk optware/make/logrotate.mk
+--- optware.orig/make/logrotate.mk	2012-12-09 16:57:17.000000000 +0100
++++ optware/make/logrotate.mk	2012-12-09 17:11:08.000000000 +0100
+@@ -15,9 +15,9 @@
+ # You should change all these variables to suit your package.
+ #
+ #LOGROTATE_SITE=http://ftp.debian.org/debian/pool/main/l/logrotate
+-LOGROTATE_VERSION=3.7.5
++LOGROTATE_VERSION=3.7.8
+ LOGROTATE_CVS_REPO=:pserver:anonymous@rhlinux.redhat.com:/usr/local/CVS
+-LOGROTATE_CVS_TAG=r3-7-5
++#LOGROTATE_CVS_TAG=r3-7-5
+ ifdef LOGROTATE_CVS_TAG
+ LOGROTATE_SOURCE=logrotate-cvs-$(LOGROTATE_VERSION).tar.gz
+ else
+diff -uNr optware.orig/make/mdadm.mk optware/make/mdadm.mk
+--- optware.orig/make/mdadm.mk	2012-12-09 17:09:31.000000000 +0100
++++ optware/make/mdadm.mk	2012-12-09 17:11:08.000000000 +0100
+@@ -20,8 +20,8 @@
+ # You should change all these variables to suit your package.
+ #
+ MDADM_SITE=http://www.kernel.org/pub/linux/utils/raid/mdadm/
+-MDADM_VERSION=2.6
+-MDADM_SOURCE=mdadm-$(MDADM_VERSION).tgz
++MDADM_VERSION=2.6.4
++MDADM_SOURCE=mdadm-$(MDADM_VERSION).tar.gz
+ MDADM_DIR=mdadm-$(MDADM_VERSION)
+ MDADM_UNZIP=zcat
+ MDADM_MAINTAINER=NSLU2 Linux <nslu2-linux@yahoogroups.com>
+diff -uNr optware.orig/make/proftpd.mk optware/make/proftpd.mk
+--- optware.orig/make/proftpd.mk	2012-12-09 16:57:17.000000000 +0100
++++ optware/make/proftpd.mk	2012-12-09 17:11:08.000000000 +0100
+@@ -21,7 +21,8 @@
+ #
+ PROFTPD_NAME=proftpd
+ PROFTPD_SITE=ftp://ftp.proftpd.org/distrib/source
+-PROFTPD_VERSION=1.3.4a
++PROFTPD_VERSION=1.3.3e
++#PROFTPD_VERSION=1.3.1
+ PROFTPD_SOURCE=$(PROFTPD_NAME)-$(PROFTPD_VERSION).tar.bz2
+ PROFTPD_DIR=$(PROFTPD_NAME)-$(PROFTPD_VERSION)
+ PROFTPD_UNZIP=bzcat
+diff -uNr optware.orig/make/samba.mk optware/make/samba.mk
+--- optware.orig/make/samba.mk	2012-12-09 16:57:17.000000000 +0100
++++ optware/make/samba.mk	2012-12-09 17:11:08.000000000 +0100
+@@ -21,6 +21,7 @@
+ #
+ SAMBA_SITE=http://www.samba.org/samba/ftp/stable
+ SAMBA_VERSION ?= 3.2.15
++#SAMBA_VERSION ?= 3.0.23c
+ SAMBA_IPK_VERSION ?= 5
+ SAMBA_SOURCE=samba-$(SAMBA_VERSION).tar.gz
+ SAMBA_DIR=samba-$(SAMBA_VERSION)
+diff -uNr optware.orig/make/smartmontools.mk optware/make/smartmontools.mk
+--- optware.orig/make/smartmontools.mk	2012-12-09 16:57:17.000000000 +0100
++++ optware/make/smartmontools.mk	2012-12-09 17:11:08.000000000 +0100
+@@ -12,7 +12,7 @@
+ #SMARTMONTOOLS_VERSION=5.38+cvs$(SMARTMONTOOLS_CVS_DATE)
+ #SMARTMONTOOLS_DIR=sm5
+ #else
+-SMARTMONTOOLS_VERSION=5.40
++SMARTMONTOOLS_VERSION=5.33
+ SMARTMONTOOLS_DIR=smartmontools-$(SMARTMONTOOLS_VERSION)
+ #endif
+ SMARTMONTOOLS_SOURCE=smartmontools-$(SMARTMONTOOLS_VERSION).tar.gz

@@ -1,0 +1,96 @@
+diff -uNr optware/make/e2fsprogs.mk optware/make/e2fsprogs.mk
+--- optware/make/e2fsprogs.mk	2012-12-09 16:51:09.000000000 +0100
++++ optware/make/e2fsprogs.mk	2012-12-09 17:15:24.000000000 +0100
+@@ -52,7 +52,7 @@
+ E2FSPROGS_CPPFLAGS=
+ E2FSPROGS_LDFLAGS=-Wl,-rpath-link,$(E2FSPROGS_BUILD_DIR)/lib
+ E2FSPROGS_CONFIG_ARGS=
+-ifneq (, $(filter ddwrt oleg openwrt-ixp4xx, $(OPTWARE_TARGET)))
++ifneq (, $(filter ddwrt oleg openwrt-ixp4xx md253, $(OPTWARE_TARGET)))
+ E2FSPROGS_CONFIG_ARGS += --disable-tls
+ endif
+ 
+diff -uNr optware/make/samba.mk optware/make/samba.mk
+--- optware/make/samba.mk	2012-12-09 17:14:47.000000000 +0100
++++ optware/make/samba.mk	2012-12-09 17:15:24.000000000 +0100
+@@ -199,6 +199,7 @@
+ $(SAMBA_BUILD_DIR)/.configured: $(DL_DIR)/$(SAMBA_SOURCE) $(SAMBA_PATCHES)
+ ifeq (openldap, $(filter openldap, $(PACKAGES)))
+ 	$(MAKE) openldap-stage 
++#	$(MAKE) openldap-libs-stage 
+ endif
+ 	$(MAKE) cups-stage
+ 	rm -rf $(BUILD_DIR)/$(SAMBA_DIR) $(@D)
+diff -uNr optware/make/iptables.mk optware/make/iptables.mk
+--- optware/make/iptables.mk	2012-12-09 16:57:17.000000000 +0100
++++ optware/make/iptables.mk	2012-12-09 17:15:24.000000000 +0100
+@@ -122,6 +122,7 @@
+ 		--host=$(GNU_TARGET_NAME) \
+ 		--target=$(GNU_TARGET_NAME) \
+ 		--prefix=$(IPTABLES_INST_DIR) \
++		$(DISABLE_IPV6) \
+ 		--enable-devel \
+ 	)
+ 	touch $(IPTABLES_BUILD_DIR)/.configured
+diff -uNr optware/make/php.mk optware/make/php.mk
+--- optware/make/php.mk	2012-12-09 16:57:17.000000000 +0100
++++ optware/make/php.mk	2012-12-09 17:15:24.000000000 +0100
+@@ -454,6 +454,7 @@
+ 		--build=$(GNU_HOST_NAME) \
+ 		--host=$(GNU_TARGET_NAME) \
+ 		--target=$(GNU_TARGET_NAME) \
++		$(DISABLE_IPV6) \
+ 		--prefix=/opt \
+ 		--with-config-file-scan-dir=/opt/etc/php.d \
+ 		--with-layout=GNU \
+diff -uNr optware/make/autossh.mk optware/make/autossh.mk
+--- optware/make/autossh.mk	2012-12-09 17:02:34.000000000 +0100
++++ optware/make/autossh.mk	2012-12-08 23:53:27.000000000 +0100
+@@ -21,7 +21,7 @@
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+ AUTOSSH_SITE=http://www.sfr-fresh.com/unix/privat
+-AUTOSSH_VERSION=1.4b
++AUTOSSH_VERSION=1.4c
+ AUTOSSH_SOURCE=autossh-$(AUTOSSH_VERSION).tgz
+ AUTOSSH_DIR=autossh-$(AUTOSSH_VERSION)
+ AUTOSSH_UNZIP=zcat
+
+diff -uNr optware/make/transmission.mk optware/make/transmission.mk
+--- optware/make/transmission.mk	2012-12-09 17:00:17.000000000 +0100
++++ optware/make/transmission.mk	2012-12-09 00:23:34.000000000 +0100
+@@ -55,6 +55,7 @@
+ #TRANSMISSION_CONFFILES=/opt/etc/transmission.conf
+ 
+ TRANSMISSION_PATCHES = $(TRANSMISSION_SOURCE_DIR)/int64_switch.patch \
++	$(TRANSMISSION_SOURCE_DIR)/broken_ipv6.patch
+ 
+ TRANSMISSION_CONFIG_ENV ?=
+ 
+diff -uNr optware/sources/transmission/broken_ipv6.patch optware/sources/transmission/broken_ipv6.patch
+--- optware/sources/transmission/broken_ipv6.patch	1970-01-01 01:00:00.000000000 +0100
++++ optware/sources/transmission/broken_ipv6.patch	2012-12-09 17:43:37.000000000 +0100
+@@ -0,0 +1,11 @@
++--- third-party/miniupnp/miniupnpc.c	2012-12-09 00:16:11.000000000 +0100
+++++ third-party/miniupnp/miniupnpc.c	2012-12-09 00:21:17.000000000 +0100
++@@ -402,7 +402,7 @@
++ 		p->sin6_family = AF_INET6;
++ 		if(sameport)
++ 			p->sin6_port = htons(PORT);
++-		p->sin6_addr = in6addr_any; /* in6addr_any is not available with MinGW32 3.4.2 */
+++		return NULL; /* in6addr_any is not available with MinGW32 3.4.2 */
++ 	} else {
++ 		struct sockaddr_in * p = (struct sockaddr_in *)&sockudp_r;
++ 		p->sin_family = AF_INET;
+Index: optware/make/libpth.mk
+===================================================================
+--- optware/make/libpth.mk	(revision 12863)
++++ optware/make/libpth.mk	(working copy)
+@@ -122,6 +122,7 @@
+ 		--target=$(GNU_TARGET_NAME) \
+ 		--prefix=/opt \
+ 		--disable-nls \
++		--with-mctx-dsp=ssjlj --with-mctx-stk=sas \
+ 	)
+ 	$(PATCH_LIBTOOL) $(@D)/libtool
+ 	touch $@
