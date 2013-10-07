@@ -82,8 +82,7 @@ diff -uNr optware/sources/transmission/broken_ipv6.patch optware/sources/transmi
 + 	} else {
 + 		struct sockaddr_in * p = (struct sockaddr_in *)&sockudp_r;
 + 		p->sin_family = AF_INET;
-Index: optware/make/libpth.mk
-===================================================================
+diff -uNr optware/make/libpth.mk optware/make/libpth.mk
 --- optware/make/libpth.mk	(revision 12863)
 +++ optware/make/libpth.mk	(working copy)
 @@ -122,6 +122,7 @@
