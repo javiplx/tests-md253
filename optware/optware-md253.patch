@@ -133,7 +133,7 @@ diff -uNr optware.orig/platforms/packages-md253.mk optware/platforms/packages-md
 +	dstat py-mx-base py-psycopg py-pygresql py-reportlab rhtvision \
 +	samba35 screen ser2net squid3 strongswan telldus-core textutils \
 +	tinyproxy wget xmail znc kamailio nmon squeak \
-+	cairo \
++	cairo py-turbogears \
 +	emacs22 ppp w3m py-bluez py-pastescript zile clearsilver gcal
 +
 +ASTERISK_PACKAGES =
