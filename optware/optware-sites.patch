@@ -401,6 +401,244 @@ Index: optware/make/libijs.mk
  	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(LIBIJS_SOURCE)
  
  #
+Index: optware/make/fixesext.mk
+===================================================================
+--- optware/make/fixesext.mk	(revision 12863)
++++ optware/make/fixesext.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(FIXESEXT_REPOSITORY) -z3 co $(FIXESEXT_CVS_OPTS) $(FIXESEXT_DIR) && \
+ 		tar -czf $@ $(FIXESEXT_DIR) && \
+ 		rm -rf $(FIXESEXT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ fixesext-source: $(DL_DIR)/fixesext-$(FIXESEXT_VERSION).tar.gz $(FIXESEXT_PATCHES)
+ 
+Index: optware/make/recordext.mk
+===================================================================
+--- optware/make/recordext.mk	(revision 12863)
++++ optware/make/recordext.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(RECORDEXT_REPOSITORY) -z3 co $(RECORDEXT_CVS_OPTS) $(RECORDEXT_DIR) && \
+ 		tar -czf $@ $(RECORDEXT_DIR) && \
+ 		rm -rf $(RECORDEXT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ recordext-source: $(DL_DIR)/recordext-$(RECORDEXT_VERSION).tar.gz $(RECORDEXT_PATCHES)
+ 
+Index: optware/make/xproto.mk
+===================================================================
+--- optware/make/xproto.mk	(revision 12863)
++++ optware/make/xproto.mk	(working copy)
+@@ -86,7 +86,8 @@
+ 		cvs -d $(XPROTO_REPOSITORY) -z3 co $(XPROTO_CVS_OPTS) $(XPROTO_DIR) && \
+ 		tar -czf $@ $(XPROTO_DIR) && \
+ 		rm -rf $(XPROTO_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xproto-source: $(DL_DIR)/xproto-$(XPROTO_VERSION).tar.gz $(XPROTO_PATCHES)
+ 
+Index: optware/make/xdpyinfo.mk
+===================================================================
+--- optware/make/xdpyinfo.mk	(revision 12863)
++++ optware/make/xdpyinfo.mk	(working copy)
+@@ -84,7 +84,8 @@
+ 		cvs -d $(XDPYINFO_REPOSITORY) -z3 co $(XDPYINFO_CVS_OPTS) $(XDPYINFO_DIR) && \
+ 		tar -czf $@ $(XDPYINFO_DIR) && \
+ 		rm -rf $(XDPYINFO_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xdpyinfo-source: $(DL_DIR)/xdpyinfo-$(XDPYINFO_VERSION).tar.gz $(XDPYINFO_PATCHES)
+ 
+Index: optware/make/gitosis.mk
+===================================================================
+--- optware/make/gitosis.mk	(revision 12863)
++++ optware/make/gitosis.mk	(working copy)
+@@ -92,7 +92,8 @@
+ 		cd gitosis && \
+ 		(git archive --format=tar --prefix=$(GITOSIS_DIR)/ $(GITOSIS_TREEISH) | gzip > $@) && \
+ 		rm -rf gitosis ; \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ gitosis-source: $(DL_DIR)/$(GITOSIS_DIR).tar.gz
+ 
+Index: optware/make/ipkg-opt.mk
+===================================================================
+--- optware/make/ipkg-opt.mk	(revision 12863)
++++ optware/make/ipkg-opt.mk	(working copy)
+@@ -100,7 +100,8 @@
+ 			-d $(IPKG-OPT_DIR) familiar/dist/ipkg/C && \
+ 		tar -czf $@ $(IPKG-OPT_DIR) && \
+ 		rm -rf $(IPKG-OPT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ ipkg-opt-source: $(DL_DIR)/ipkg-opt-$(IPKG-OPT_VERSION).tar.gz
+ 
+Index: optware/make/xtrans.mk
+===================================================================
+--- optware/make/xtrans.mk	(revision 12863)
++++ optware/make/xtrans.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(XTRANS_REPOSITORY) -z3 co $(XTRANS_CVS_OPTS) $(XTRANS_DIR) && \
+ 		tar -czf $@ $(XTRANS_DIR) && \
+ 		rm -rf $(XTRANS_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xtrans-source: $(DL_DIR)/xtrans-$(XTRANS_VERSION).tar.gz $(XTRANS_PATCHES)
+ 
+Index: optware/make/xpm.mk
+===================================================================
+--- optware/make/xpm.mk	(revision 12863)
++++ optware/make/xpm.mk	(working copy)
+@@ -83,7 +83,8 @@
+ 		cvs -d $(XPM_REPOSITORY) -z3 co $(XPM_CVS_OPTS) $(XPM_DIR) && \
+ 		tar -czf $@ $(XPM_DIR) && \
+ 		rm -rf $(XPM_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xpm-source: $(DL_DIR)/xpm-$(XPM_VERSION).tar.gz $(XPM_PATCHES)
+ 
+Index: optware/make/xtst.mk
+===================================================================
+--- optware/make/xtst.mk	(revision 12863)
++++ optware/make/xtst.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(XTST_REPOSITORY) -z3 co $(XTST_CVS_OPTS) $(XTST_DIR) && \
+ 		tar -czf $@ $(XTST_DIR) && \
+ 		rm -rf $(XTST_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xtst-source: $(DL_DIR)/xtst-$(XTST_VERSION).tar.gz $(XTST_PATCHES)
+ 
+Index: optware/make/xext.mk
+===================================================================
+--- optware/make/xext.mk	(revision 12863)
++++ optware/make/xext.mk	(working copy)
+@@ -84,7 +84,8 @@
+ 		cvs -d $(XEXT_REPOSITORY) -z3 co $(XEXT_CVS_OPTS) $(XEXT_DIR) && \
+ 		tar -czf $@ $(XEXT_DIR) && \
+ 		rm -rf $(XEXT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xext-source: $(DL_DIR)/xext-$(XEXT_VERSION).tar.gz $(XEXT_PATCHES)
+ 
+Index: optware/make/x11.mk
+===================================================================
+--- optware/make/x11.mk	(revision 12863)
++++ optware/make/x11.mk	(working copy)
+@@ -88,7 +88,8 @@
+ 		cvs -d $(X11_REPOSITORY) -z3 co $(X11_CVS_OPTS) $(X11_DIR) && \
+ 		tar -czf $@ $(X11_DIR) && \
+ 		rm -rf $(X11_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ x11-source: $(DL_DIR)/x11-$(X11_VERSION).tar.gz $(X11_PATCHES)
+ 
+Index: optware/make/xft.mk
+===================================================================
+--- optware/make/xft.mk	(revision 12863)
++++ optware/make/xft.mk	(working copy)
+@@ -84,7 +84,8 @@
+ 		cvs -d $(XFT_REPOSITORY) -z3 co $(XFT_CVS_OPTS) $(XFT_DIR) && \
+ 		tar -czf $@ $(XFT_DIR) && \
+ 		rm -rf $(XFT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xft-source: $(DL_DIR)/xft-$(XFT_VERSION).tar.gz $(XFT_PATCHES)
+ 
+Index: optware/make/renderext.mk
+===================================================================
+--- optware/make/renderext.mk	(revision 12863)
++++ optware/make/renderext.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(RENDEREXT_REPOSITORY) -z3 co $(RENDEREXT_CVS_OPTS) $(RENDEREXT_DIR) && \
+ 		tar -czf $@ $(RENDEREXT_DIR) && \
+ 		rm -rf $(RENDEREXT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ renderext-source: $(DL_DIR)/renderext-$(RENDEREXT_VERSION).tar.gz $(RENDEREXT_PATCHES)
+ 
+Index: optware/make/xfixes.mk
+===================================================================
+--- optware/make/xfixes.mk	(revision 12863)
++++ optware/make/xfixes.mk	(working copy)
+@@ -84,7 +84,8 @@
+ 		cvs -d $(XFIXES_REPOSITORY) -z3 co $(XFIXES_CVS_OPTS) $(XFIXES_DIR) && \
+ 		tar -czf $@ $(XFIXES_DIR) && \
+ 		rm -rf $(XFIXES_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xfixes-source: $(DL_DIR)/xfixes-$(XFIXES_VERSION).tar.gz $(XFIXES_PATCHES)
+ 
+Index: optware/make/xextensions.mk
+===================================================================
+--- optware/make/xextensions.mk	(revision 12863)
++++ optware/make/xextensions.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(XEXTENSIONS_REPOSITORY) -z3 co $(XEXTENSIONS_CVS_OPTS) $(XEXTENSIONS_DIR) && \
+ 		tar -czf $@ $(XEXTENSIONS_DIR) && \
+ 		rm -rf $(XEXTENSIONS_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xextensions-source: $(DL_DIR)/xextensions-$(XEXTENSIONS_VERSION).tar.gz $(XEXTENSIONS_PATCHES)
+ 
+Index: optware/make/xau.mk
+===================================================================
+--- optware/make/xau.mk	(revision 12863)
++++ optware/make/xau.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(XAU_REPOSITORY) -z3 co $(XAU_CVS_OPTS) $(XAU_DIR) && \
+ 		tar -czf $@ $(XAU_DIR) && \
+ 		rm -rf $(XAU_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xau-source: $(DL_DIR)/xau-$(XAU_VERSION).tar.gz $(XAU_PATCHES)
+ 
+Index: optware/make/xdmcp.mk
+===================================================================
+--- optware/make/xdmcp.mk	(revision 12863)
++++ optware/make/xdmcp.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(XDMCP_REPOSITORY) -z3 co $(XDMCP_CVS_OPTS) $(XDMCP_DIR) && \
+ 		tar -czf $@ $(XDMCP_DIR) && \
+ 		rm -rf $(XDMCP_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xdmcp-source: $(DL_DIR)/xdmcp-$(XDMCP_VERSION).tar.gz $(XDMCP_PATCHES)
+ 
 Index: optware/Makefile
 ===================================================================
 --- optware/Makefile	(revision 12932)
