@@ -1,3 +1,31 @@
+Index: optware/make/ccxstream.mk
+===================================================================
+--- optware/make/ccxstream.mk	(revision 12863)
++++ optware/make/ccxstream.mk	(working copy)
+@@ -56,7 +56,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(CCXSTREAM_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(CCXSTREAM_SITE)/$(CCXSTREAM_SOURCE)
++	$(WGET) -P $(DL_DIR) $(CCXSTREAM_SITE)/$(CCXSTREAM_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(CCXSTREAM_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/at.mk
+===================================================================
+--- optware/make/at.mk	(revision 12863)
++++ optware/make/at.mk	(working copy)
+@@ -86,7 +86,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(AT_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(AT_SITE)/$(AT_SOURCE)
++	$(WGET) -P $(DL_DIR) $(AT_SITE)/$(AT_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(AT_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
 Index: optware/make/py-psycopg2.mk
 ===================================================================
 --- optware/make/py-psycopg2.mk	(revision 12863)
