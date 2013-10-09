@@ -156,15 +156,14 @@ Index: optware/make/picolisp.mk
 ===================================================================
 --- optware/make/picolisp.mk	(revision 12863)
 +++ optware/make/picolisp.mk	(working copy)
-@@ -20,7 +20,7 @@
- # from your name or email address.  If you leave MAINTAINER set to
- # "NSLU2 Linux" other developers will feel free to edit.
+@@ -76,7 +75,6 @@
+ # then it will be fetched from the site using wget.
  #
--PICOLISP_SITE=http://www.software-lab.biz/1024/?download&
-+PICOLISP_SITE=http://www.software-lab.de/
- PICOLISP_VERSION=2.2.6
- PICOLISP_SOURCE=picoLisp-$(PICOLISP_VERSION).tgz
- PICOLISP_DIR=picoLisp-$(PICOLISP_VERSION)
+ $(DL_DIR)/$(PICOLISP_SOURCE):
+-	$(WGET) -O $(DL_DIR)/$(PICOLISP_SOURCE) "$(PICOLISP_SITE)$(PICOLISP_SOURCE)" || \
+ 	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(PICOLISP_SOURCE)
+ 
+ #
 Index: optware/make/mdadm.mk
 ===================================================================
 --- optware/make/mdadm.mk	(revision 12863)
@@ -200,6 +199,206 @@ Index: optware/make/py-axiom.mk
  $(DL_DIR)/$(PY-AXIOM_SOURCE):
 -	$(WGET) -O $@ $(PY-AXIOM_SITE) || \
  	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/quagga.mk
+===================================================================
+--- optware/make/quagga.mk	(revision 12863)
++++ optware/make/quagga.mk	(working copy)
+@@ -26,7 +26,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-QUAGGA_SITE=http://www.quagga.net/download
+ QUAGGA_VERSION=0.99.16
+ QUAGGA_SOURCE=quagga-$(QUAGGA_VERSION).tar.gz
+ QUAGGA_DIR=quagga-$(QUAGGA_VERSION)
+@@ -82,7 +81,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(QUAGGA_SOURCE):
+-	$(WGET) -P $(@D) $(QUAGGA_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/knock.mk
+===================================================================
+--- optware/make/knock.mk	(revision 12863)
++++ optware/make/knock.mk	(working copy)
+@@ -4,7 +4,6 @@
+ # 
+ ###########################################################
+ #
+-KNOCK_SITE=http://www.zeroflux.org/knock/files
+ KNOCK_VERSION=0.5
+ KNOCK_SOURCE=knock-$(KNOCK_VERSION).tar.gz
+ KNOCK_DIR=knock-$(KNOCK_VERSION)
+@@ -53,7 +52,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(KNOCK_SOURCE):
+-	$(WGET) -P $(@D) $(KNOCK_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/dircproxy.mk
+===================================================================
+--- optware/make/dircproxy.mk	(revision 12863)
++++ optware/make/dircproxy.mk	(working copy)
+@@ -20,7 +20,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-DIRCPROXY_SITE=http://dircproxy.securiweb.net/pub/1.1
+ DIRCPROXY_VERSION=1.1.0
+ DIRCPROXY_SOURCE=dircproxy-$(DIRCPROXY_VERSION).tar.gz
+ DIRCPROXY_DIR=dircproxy-$(DIRCPROXY_VERSION)
+@@ -76,7 +75,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(DIRCPROXY_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(DIRCPROXY_SITE)/$(@F) || \
+ 	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/libhid.mk
+===================================================================
+--- optware/make/libhid.mk	(revision 12863)
++++ optware/make/libhid.mk	(working copy)
+@@ -20,7 +20,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-LIBHID_SITE=https://alioth.debian.org/frs/download.php/1958
+ LIBHID_VERSION=0.2.16
+ LIBHID_SOURCE=libhid-$(LIBHID_VERSION).tar.gz
+ LIBHID_DIR=libhid-$(LIBHID_VERSION)
+@@ -80,7 +79,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(LIBHID_SOURCE):
+-	$(WGET) --no-check-certificate -P $(@D) $(LIBHID_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/calc.mk
+===================================================================
+--- optware/make/calc.mk	(revision 12863)
++++ optware/make/calc.mk	(working copy)
+@@ -20,7 +20,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-CALC_SITE=http://www.isthe.com/chongo/src/calc
+ CALC_VERSION=2.12.4.0
+ CALC_SOURCE=calc-$(CALC_VERSION).tar.bz2
+ CALC_DIR=calc-$(CALC_VERSION)
+@@ -76,7 +75,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(CALC_SOURCE):
+-	$(WGET) -P $(@D) $(CALC_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/minicom.mk
+===================================================================
+--- optware/make/minicom.mk	(revision 12863)
++++ optware/make/minicom.mk	(working copy)
+@@ -26,7 +26,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-MINICOM_SITE=http://alioth.debian.org/frs/download.php/3487
+ MINICOM_VERSION=2.5
+ MINICOM_SOURCE=minicom-$(MINICOM_VERSION).tar.gz
+ MINICOM_DIR=minicom-$(MINICOM_VERSION)
+@@ -86,7 +85,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(MINICOM_SOURCE):
+-	$(WGET) -P $(@D) $(MINICOM_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/eventlog.mk
+===================================================================
+--- optware/make/eventlog.mk	(revision 12863)
++++ optware/make/eventlog.mk	(working copy)
+@@ -4,7 +4,6 @@
+ #
+ ###########################################################
+ 
+-EVENTLOG_SITE=http://www.balabit.com/downloads/files/syslog-ng/sources/stable/src
+ EVENTLOG_VERSION=0.2.7
+ EVENTLOG_SOURCE=eventlog-$(EVENTLOG_VERSION).tar.gz
+ EVENTLOG_DIR=eventlog-$(EVENTLOG_VERSION)
+@@ -60,7 +59,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(EVENTLOG_SOURCE):
+-	$(WGET) -P $(@D) $(EVENTLOG_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/stunnel.mk
+===================================================================
+--- optware/make/stunnel.mk	(revision 12863)
++++ optware/make/stunnel.mk	(working copy)
+@@ -19,7 +19,6 @@
+ #
+ # You should change all these variables to suit your package.
+ #
+-STUNNEL_SITE=http://www.stunnel.org/download/stunnel/src
+ STUNNEL_VERSION=4.26
+ STUNNEL_SOURCE=stunnel-$(STUNNEL_VERSION).tar.gz
+ STUNNEL_DIR=stunnel-$(STUNNEL_VERSION)
+@@ -78,7 +77,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(STUNNEL_SOURCE):
+-	$(WGET) -P $(@D) $(STUNNEL_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/py-gdchart2.mk
+===================================================================
+--- optware/make/py-gdchart2.mk	(revision 12863)
++++ optware/make/py-gdchart2.mk	(working copy)
+@@ -21,7 +21,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PY-GDCHART2_SITE=http://www.nullcube.com/software/pygdchart2
+ PY-GDCHART2_VERSION=Beta1
+ PY-GDCHART2_SOURCE=pygdchart2.tar.gz
+ PY-GDCHART2_DIR=pygdchart2
+@@ -81,7 +80,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-GDCHART2_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(PY-GDCHART2_SITE)/$(@F) || \
+ 	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/libijs.mk
+===================================================================
+--- optware/make/libijs.mk	(revision 12863)
++++ optware/make/libijs.mk	(working copy)
+@@ -20,7 +20,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-LIBIJS_SITE=http://www.linuxprinting.org/ijs/download
+ LIBIJS_VERSION=0.35
+ LIBIJS_SOURCE=ijs-$(LIBIJS_VERSION).tar.bz2
+ LIBIJS_DIR=ijs-$(LIBIJS_VERSION)
+@@ -76,7 +75,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(LIBIJS_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(LIBIJS_SITE)/$(LIBIJS_SOURCE) || \
+ 	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(LIBIJS_SOURCE)
  
  #
 Index: optware/Makefile
