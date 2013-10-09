@@ -15,15 +15,14 @@ Index: optware/make/py-nevow.mk
 ===================================================================
 --- optware/make/py-nevow.mk	(revision 12863)
 +++ optware/make/py-nevow.mk	(working copy)
-@@ -23,7 +23,7 @@
+@@ -84,7 +83,6 @@
+ # then it will be fetched from the site using wget.
  #
- PY-NEVOW_VERSION=0.9.33
- PY-NEVOW_SOURCE=Nevow-$(PY-NEVOW_VERSION).tar.gz
--PY-NEVOW_SITE=http://divmod.org/trac/attachment/wiki/SoftwareReleases/$(PY-NEVOW_SOURCE)?format=raw
-+PY-NEVOW_SITE=http://ftp.osuosl.org/pub/nslu2/sources
- PY-NEVOW_DIR=Nevow-$(PY-NEVOW_VERSION)
- PY-NEVOW_UNZIP=zcat
- PY-NEVOW_MAINTAINER=NSLU2 Linux <nslu2-linux@yahoogroups.com>
+ $(DL_DIR)/$(PY-NEVOW_SOURCE):
+-	$(WGET) -O $@ $(PY-NEVOW_SITE) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
 Index: optware/make/util-linux.mk
 ===================================================================
 --- optware/make/util-linux.mk	(revision 12863)
@@ -41,15 +40,15 @@ Index: optware/make/rtpproxy.mk
 ===================================================================
 --- optware/make/rtpproxy.mk	(revision 12863)
 +++ optware/make/rtpproxy.mk	(working copy)
-@@ -20,7 +20,7 @@
- # from your name or email address.  If you leave MAINTAINER set to
- # "NSLU2 Linux" other developers will feel free to edit.
+@@ -79,7 +79,7 @@
+ # then it will be fetched from the site using wget.
  #
--RTPPROXY_SITE=http://b2bua.org/chrome/site
-+RTPPROXY_SITE=http://ftp.osuosl.org/pub/nslu2/sources
- RTPPROXY_VERSION=1.2.1
- RTPPROXY_SOURCE=rtpproxy-$(RTPPROXY_VERSION).tar.gz
- RTPPROXY_DIR=rtpproxy-$(RTPPROXY_VERSION)
+ $(DL_DIR)/$(RTPPROXY_SOURCE):
+-	$(WGET) -P $(@D) $(RTPROXY_SITE)/$(@F) || \
++	$(WGET) -P $(@D) $(RTPPROXY_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
 Index: optware/make/atop.mk
 ===================================================================
 --- optware/make/atop.mk	(revision 12863)
@@ -145,15 +144,14 @@ Index: optware/make/py-mantissa.mk
 ===================================================================
 --- optware/make/py-mantissa.mk	(revision 12863)
 +++ optware/make/py-mantissa.mk	(working copy)
-@@ -23,7 +23,7 @@
+@@ -81,7 +80,6 @@
+ # then it will be fetched from the site using wget.
  #
- PY-MANTISSA_VERSION=0.6.22
- PY-MANTISSA_SOURCE=Mantissa-$(PY-MANTISSA_VERSION).tar.gz
--PY-MANTISSA_SITE=http://divmod.org/trac/attachment/wiki/SoftwareReleases/$(PY-MANTISSA_SOURCE)?format=raw
-+PY-MANTISSA_SITE=http://ftp.osuosl.org/pub/nslu2/sources
- PY-MANTISSA_DIR=Mantissa-$(PY-MANTISSA_VERSION)
- PY-MANTISSA_UNZIP=zcat
- PY-MANTISSA_MAINTAINER=NSLU2 Linux <nslu2-linux@yahoogroups.com>
+ $(DL_DIR)/$(PY-MANTISSA_SOURCE):
+-	$(WGET) -O $@ $(PY-MANTISSA_SITE) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
 Index: optware/make/picolisp.mk
 ===================================================================
 --- optware/make/picolisp.mk	(revision 12863)
@@ -184,28 +182,26 @@ Index: optware/make/py-epsilon.mk
 ===================================================================
 --- optware/make/py-epsilon.mk	(revision 12863)
 +++ optware/make/py-epsilon.mk	(working copy)
-@@ -23,7 +23,7 @@
+@@ -81,7 +80,6 @@
+ # then it will be fetched from the site using wget.
  #
- PY-EPSILON_VERSION=0.5.12
- PY-EPSILON_SOURCE=Epsilon-$(PY-EPSILON_VERSION).tar.gz
--PY-EPSILON_SITE=http://divmod.org/trac/attachment/wiki/SoftwareReleases/$(PY-EPSILON_SOURCE)?format=raw
-+PY-EPSILON_SITE=http://ftp.osuosl.org/pub/nslu2/sources
- PY-EPSILON_DIR=Epsilon-$(PY-EPSILON_VERSION)
- PY-EPSILON_UNZIP=zcat
- PY-EPSILON_MAINTAINER=NSLU2 Linux <nslu2-linux@yahoogroups.com>
+ $(DL_DIR)/$(PY-EPSILON_SOURCE):
+-	$(WGET) -O $@ $(PY-EPSILON_SITE) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
 Index: optware/make/py-axiom.mk
 ===================================================================
 --- optware/make/py-axiom.mk	(revision 12863)
 +++ optware/make/py-axiom.mk	(working copy)
-@@ -23,7 +23,7 @@
+@@ -81,7 +80,6 @@
+ # then it will be fetched from the site using wget.
  #
- PY-AXIOM_VERSION=0.5.31
- PY-AXIOM_SOURCE=Axiom-$(PY-AXIOM_VERSION).tar.gz
--PY-AXIOM_SITE=http://divmod.org/trac/attachment/wiki/SoftwareReleases/$(PY-AXIOM_SOURCE)?format=raw
-+PY-AXIOM_SITE=http://ftp.osuosl.org/pub/nslu2/sources
- PY-AXIOM_DIR=Axiom-$(PY-AXIOM_VERSION)
- PY-AXIOM_UNZIP=zcat
- PY-AXIOM_MAINTAINER=NSLU2 Linux <nslu2-linux@yahoogroups.com>
+ $(DL_DIR)/$(PY-AXIOM_SOURCE):
+-	$(WGET) -O $@ $(PY-AXIOM_SITE) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
 Index: optware/Makefile
 ===================================================================
 --- optware/Makefile	(revision 12932)
