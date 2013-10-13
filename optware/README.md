@@ -33,7 +33,7 @@ Once the optware tree is prepared, we can build the packages as usual, by runnin
     make directories
     make toolchain ipkg-utils
 
-Before issuing the final `make`, there are some warnings we should account for. First, it is useful to manually build the python2x-stage targets, as they are broken and should be attempted twice to succeed. 
+Before issuing the final `make`, there are some warnings we should account for. First, it is useful to manually build the python2x-stage targets, as they are broken and should be attempted twice to succeed (build for 27 is ok). 
 
 With this small advice, we can perform a full optware build with a single run, but once finished, we can add some packages more. Bad dependency tracking recommends to hold building of clearsilver and py-pastescript until everything else is done. And gcal might fail packaging depending on the location where the repository was checked out, due to large paths.
 
