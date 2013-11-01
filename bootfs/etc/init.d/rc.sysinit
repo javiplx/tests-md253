@@ -40,6 +40,8 @@ service_ntp_start >/dev/null 2>&1 &
  /bin/logger "$0 - nmbd deamon Start Succeed" ||\
  /bin/logger "$0 - nmbd deamon Start Failed"
 
+service_ssh_start &
+
 # Load USB kernel modules
 /sbin/insmod ${KERNEL_PATH}/usb-storage.ko >/dev/null 2>&1 &
 [ $? -eq 0 ] &&\
