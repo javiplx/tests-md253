@@ -127,14 +127,14 @@ diff -uNr optware.orig/platforms/packages-md253.mk optware/platforms/packages-md
 +BROKEN_PACKAGES = \
 +	bacula bluez2-utils classpath dcraw distcc \
 +	erlang erl-yaws erl-ejabberd ficy \
-+	ghostscript gnokii gnuplot golang gsasl inetutils \
-+	inferno ircd-hybrid jamvm libnsl linphone microcom mimms \
-+	mpop msmtp nmap ntp ntpclient oww pango postfix psmisc puppy \
-+	dstat py-mx-base py-psycopg py-pygresql py-reportlab rhtvision \
++	golang gsasl inetutils \
++	inferno ircd-hybrid jamvm libnsl microcom mimms \
++	mpop msmtp nmap ntp ntpclient pango postfix psmisc puppy \
++	py-mx-base py-psycopg py-pygresql rhtvision \
 +	samba35 screen ser2net squid3 strongswan telldus-core textutils \
-+	tinyproxy wget xmail znc kamailio nmon squeak \
-+	cairo \
-+	emacs22 ppp w3m py-bluez py-pastescript zile clearsilver gcal
++	wget xmail nmon squeak \
++	libunistring opensips \
++	emacs22 ppp w3m py-bluez py-pastescript zile
 +
 +ASTERISK_PACKAGES =
 +
