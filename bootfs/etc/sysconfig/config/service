@@ -6,3 +6,4 @@ btpd=Enable
 daapd=Enable
 crond=Enable
 ssh=Disable
+optware=Disable
