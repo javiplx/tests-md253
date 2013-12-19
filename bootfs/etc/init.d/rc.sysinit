@@ -4,7 +4,6 @@
 
 . /usr/libexec/modules/modules.conf
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
-cron_ntp=/etc/sysconfig/system-script/cron-ntp
 export PATH
 
 service_mount_tmpfs
@@ -14,8 +13,6 @@ service_syslogd_start
 /bin/buttons_daemon
 # mount HDD
 service_mount_hdd
-
-KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 
 service_setcolor
 
@@ -28,12 +25,14 @@ network_start >/dev/null 2>&1
 service_ntp_start >/dev/null 2>&1 &
 
 # Load USB kernel modules
+KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 /sbin/insmod ${KERNEL_PATH}/usb-storage.ko >/dev/null 2>&1 &
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - Insert USB Kernel Module Succeed" ||\
  /bin/logger "$0 - Insert USB Kernel Module Failed"
 /sbin/insmod ${KERNEL_PATH}/usblp.ko >/dev/null 2>&1 &
 
+cron_ntp=/etc/sysconfig/system-script/cron-ntp
 ${cron_ntp} >/dev/null 2>&1 &
 
 /etc/init.d/rc.services
