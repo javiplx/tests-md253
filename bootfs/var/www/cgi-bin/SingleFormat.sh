@@ -168,6 +168,8 @@ done
 dlna_start_daemon >/dev/null 2>&1 &
 $TwonkyMedia start
 
+/bin/mkdir -p /home/.opt
+
 /bin/mkdir -p /home/PUBLIC/Media
 /bin/mkdir -p /home/PUBLIC/Packages
 /bin/mkdir -p /home/PUBLIC/.pkg/lib
