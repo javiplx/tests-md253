@@ -17,7 +17,6 @@ cat /dev/null > ${PRINTCAP_CONF}
  service_smb_modify_conf
 
 SERVICE_CONF=/etc/sysconfig/config/service
-EXEC=/etc/sysconfig/system-script/media_service
 . $SERVICE_CONF
 
 /usr/local/samba/sbin/nmbd >/dev/null 2>&1
