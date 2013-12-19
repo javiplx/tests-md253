@@ -27,7 +27,7 @@ case ${TYPE} in
   [ -f ${SHARE_PATH}/${string}/.optware ] && {
    /usr/bin/logger "$0 - found /opt filesystem on usb stick"
    /bin/umount ${SHARE_PATH}/${string}
-   /bin/mount -t ${TYPE} /dev/${dev} /opt
+   /bin/mount -t ${TYPE} /dev/${dev} /home/.opt
    }
   ;;
  vfat)
