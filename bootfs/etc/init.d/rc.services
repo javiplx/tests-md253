@@ -14,9 +14,6 @@ cat /dev/null > /etc/lprng/printcap
  rm -f /tmp/modify_smb_conf &&\
  service_smb_modify_conf
 
-SERVICE_CONF=/etc/sysconfig/config/service
-. $SERVICE_CONF
-
 /usr/local/samba/sbin/nmbd >/dev/null 2>&1
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - nmbd deamon Start Succeed" ||\
@@ -32,6 +29,9 @@ route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
 #[ -d ${TWONKY_PKGPATH} ] || /usr/local/TwonkyVision/twonkymedia.sh start
 
 service_package_manager "Service&default"
+
+SERVICE_CONF=/etc/sysconfig/config/service
+. $SERVICE_CONF
 
 SERVICE="ssh crond smb ftp http btpd optware"
 for i in $SERVICE; do
