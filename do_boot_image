@@ -1,5 +1,8 @@
 #!/bin/sh
 
+KERNEL=
+ROOTFS=
+
 if [ $# -ne 1 ] ; then
   echo "Usage : do_boot_image version"
   exit 1
@@ -58,6 +61,8 @@ add_file $FW.bin bootfs
 
 # Create root filesystem squash image
 
+if [ x$ROOTFS = xYES ] ; then
+
 mkdir -p rootfs/share/system
 
 # Flash is capable of at least 5136384 bytes from 2.3.27, 2.3.32, 2.3.33
@@ -65,11 +70,18 @@ mksquashfs rootfs filesystem.bin -noI -no-fragments -b 1048576
 
 add_file $FW.bin filesystem
 
+fi
+
 
 
 # Add kernel image
+
+if [ x$KERNEL = xYES ] ; then
+
 md5sum uImage.bin > uImage.md5sum
 tar -uf $FW.bin uImage.bin uImage.md5sum
 rm uImage.md5sum
+
+fi
 
 
