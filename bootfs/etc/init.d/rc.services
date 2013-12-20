@@ -6,12 +6,10 @@ export PATH
 
 service_smb_check_config
 
-SMB_HDD_CONF=/etc/sysconfig/config/smb/hdd.inc
-SMB_SHARE_CONF=/etc/sysconfig/config/smb/shares.inc
-PRINTCAP_CONF=/etc/lprng/printcap
-cat /dev/null > ${SMB_HDD_CONF}
-cat /dev/null > ${SMB_SHARE_CONF}
-cat /dev/null > ${PRINTCAP_CONF}
+cat /dev/null > /etc/sysconfig/config/smb/hdd.inc
+cat /dev/null > /etc/sysconfig/config/smb/shares.inc
+cat /dev/null > /etc/lprng/printcap
+
 [ -f /tmp/modify_smb_conf ] &&\
  rm -f /tmp/modify_smb_conf &&\
  service_smb_modify_conf
