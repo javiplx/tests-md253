@@ -1,12 +1,8 @@
 network_stop(){
-service="DHCPD"
-DHCPD_PID=`/bin/pidof udhcpc`
 
-for i in $service; do
- eval value=\$${i}_PID
- for pid in $value; do
+DHCPD_PID=`/bin/pidof udhcpc`
+for pid in $DHCPD_PID; do
   /bin/kill -9 $pid
- done
 done
 
 /bin/ifconfig lo down
