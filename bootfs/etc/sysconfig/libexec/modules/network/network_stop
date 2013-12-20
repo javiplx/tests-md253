@@ -1,7 +1,6 @@
 network_stop(){
-service="DHCPD LLD2D"
+service="DHCPD"
 DHCPD_PID=`/bin/pidof udhcpc`
-LLD2D_PID=`/bin/pidof lld2d`
 
 for i in $service; do
  eval value=\$${i}_PID

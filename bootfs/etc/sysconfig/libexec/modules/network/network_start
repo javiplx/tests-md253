@@ -65,5 +65,4 @@ echo "${IPADDR}	${HostName}" >> ${LMHost}
 
 #$discovery &
 /bin/hostname -F /etc/hostname
-#lld2d eth0
 }
