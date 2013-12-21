@@ -11,7 +11,7 @@ XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
 replaceFile=/bin/replaceFile
 crontable=/etc/sysconfig/config/root
 detectRebuild=/etc/sysconfig/system-script/detectRebuild
-TwonkyMedia=/usr/local/TwonkyVision/twonkymedia.sh
+TWONKY_PKGPATH=/usr/local/install/Twonkymedia
 
 PASSWD=/etc/passwd
 SLEEP=1
@@ -36,7 +36,9 @@ for service in $SERVICE; do
  service_${service}_stop >/dev/null 2>&1
 done
 dlna_stop_daemon >/dev/null 2>&1 &
-$TwonkyMedia stop
+[ -d ${TWONKY_PKGPATH} ] && {
+ ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh stop
+}
 service_package_manager "Service&stop"
 
 /bin/sleep $SLEEP
@@ -166,7 +168,9 @@ for service in $SERVICE; do
  service_${service}_start >/dev/null 2>&1 &
 done
 dlna_start_daemon >/dev/null 2>&1 &
-$TwonkyMedia start
+[ -d ${TWONKY_PKGPATH} ] && {
+ ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh start
+}
 
 /bin/mkdir -p /home/.opt
 

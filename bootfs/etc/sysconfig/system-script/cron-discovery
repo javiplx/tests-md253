@@ -41,7 +41,7 @@ done
 PID=`/bin/pidof twonkymedia`
 [ "$PID" == "" ] && {
   [ -d ${TWONKY_PKGPATH} ] && {
-   /usr/local/install/Twonkymedia/scripts/twonkymedia/twonkymedia.sh restart  
+   ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh restart
   } 
 }
 
