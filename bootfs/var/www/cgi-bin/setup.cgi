@@ -46,9 +46,10 @@ case ${func} in
  modify_ip)
   network_modify_conf ${QUERY_STRING}
   sleep 5
-  /usr/local/TwonkyVision/twonkymedia.sh stop
-  sleep 1
-  /usr/local/TwonkyVision/twonkymedia.sh start
+  TWONKY_PKGPATH=/usr/local/install/Twonkymedia
+  [ -d ${TWONKY_PKGPATH} ] && {
+   ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh restart
+  }
   ;;
  get_dhcp_ip)
   /bin/udhcpc -n -R -b -i eth0 --timeout=1 --tryagain=1 -s ${DHCP_TMP} >/dev/null 2>&1
