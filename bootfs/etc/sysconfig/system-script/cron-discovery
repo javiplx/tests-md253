@@ -39,9 +39,6 @@ PID=`/bin/pidof twonkymedia`
   [ -d ${TWONKY_PKGPATH} ] && {
    /usr/local/install/Twonkymedia/scripts/twonkymedia/twonkymedia.sh restart  
   } 
-#  || {
-#   /usr/local/TwonkyVision/twonkymedia.sh restart
-#  }
 }
 
 
