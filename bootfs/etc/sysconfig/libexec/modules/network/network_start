@@ -1,4 +1,5 @@
 network_start(){
+replaceFile=/usr/bin/replaceFile
 RESOLV=/etc/resolv.conf
 
 ConfigPath=/etc/sysconfig/config
