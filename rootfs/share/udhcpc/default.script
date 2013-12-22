@@ -8,7 +8,6 @@ TWONKY_PKGPATH=/usr/local/install/Twonkymedia
 
 [ -z "$1" ] && echo "Error: should be called from udhcpc" && exit 1
 
-RESOLV_CONF="/etc/resolv.conf"
 [ -n "$broadcast" ] && BROADCAST="broadcast $broadcast"
 [ -n "$subnet" ] && NETMASK="netmask $subnet"
 
@@ -42,11 +41,9 @@ case "$1" in
    done
   fi
 
-  echo -n > $RESOLV_CONF
   for i in $dns ; do
-   echo adding dns $i
-   echo nameserver $i >> $RESOLV_CONF
-  done
+   echo nameserver $i
+  done > /etc/resolv.conf
   $discovery &
   network_modify_current_address >/dev/null 2>&1 &
   dlna_mDNSR_modify_conf >/dev/null 2>&1 &
