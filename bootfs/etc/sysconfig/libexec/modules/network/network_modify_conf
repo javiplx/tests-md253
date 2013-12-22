@@ -1,7 +1,6 @@
 network_modify_conf(){
 QUERY_STRING=$1
 replaceFile=/var/www/cgi-bin/replaceFile
-RESOLV=/etc/resolv.conf
 SMB_CONF=/usr/local/samba/lib/smb.conf
 SMB_NET_CONF=/etc/sysconfig/config/smb/network.inc
 IFCFG=/etc/sysconfig/network-scripts/ifcfg-eth0

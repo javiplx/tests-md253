@@ -5,7 +5,6 @@ ConfigPath=/etc/sysconfig/config
 SmbPath=${ConfigPath}/smb
 SMB_CONF=${SmbPath}/smb.conf
 
-SMB_HOST_CONF=${SmbPath}/host.inc
 SMB_NET_CONF=${SmbPath}/network.inc
 LMHost=${SmbPath}/lmhosts
 
