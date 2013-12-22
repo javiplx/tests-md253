@@ -8,19 +8,9 @@ SMB_CONF=${SmbPath}/smb.conf
 SMB_NET_CONF=${SmbPath}/network.inc
 LMHost=${SmbPath}/lmhosts
 
-IFCFG=${ConfigPath}/ifcfg-eth0
-IFCFG_DEFAULT=${ConfigPath}/ifcfg-eth0.default
-
-. $IFCFG
-TMP_HWADDR="${HWADDR}"
-TMP_MTU="${MTU}"
+. ${ConfigPath}/ifcfg-eth0
 
 /bin/ifconfig lo 127.0.0.1 up
-[ "${BOOTPROTO}" == "dhcp" ] && {
- . $IFCFG_DEFAULT
- HWADDR="${TMP_HWADDR}"
- MTU="${TMP_MTU}"
- }
 
 /bin/ifconfig eth0 hw ether ${HWADDR}
 [ $? -eq 0 ] &&\
@@ -38,8 +28,6 @@ TMP_MTU="${MTU}"
 SMB_IPADDR=`/bin/awk "-F = " '/interfaces/{print $2}' $SMB_CONF`
 /bin/replaceFile "${SMB_CONF}" "interfaces = ${SMB_IPADDR}" "interfaces = ${IPADDR}/${NETMASK}"
 echo "hosts allow = ${NETWORK}/${NETMASK}" > ${SMB_NET_CONF}
-
-network_modify_current_address_data > $IFCFG
 
 /bin/cat /dev/null > ${RESOLV}
 for x in P S; do
