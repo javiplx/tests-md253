@@ -1,0 +1,60 @@
+#!/bin/sh
+
+echo "digraph md253 {"
+echo
+
+FUNCTIONS=$( sed -n -e 's/^\(.*\)(){/\1/p' bootfs/etc/sysconfig/libexec/modules/*/* )
+
+for f in ${FUNCTIONS} ; do
+  FOUND=NO
+  for source in $( grep -rwl $f bootfs/etc/sysconfig/libexec/modules/*/* 2> /dev/null ) ; do
+    if [ $f != ${source##*/} ] ; then
+      echo "\"${source##*/}\" -> \"$f\";"
+    else
+      FOUND=YES
+      fi
+    done
+  if [ $FOUND = YES ] ; then
+    echo "\"$f\";"
+  else
+    echo "\"$f\" [ peripheries=2 ];"
+    fi
+  done
+
+echo
+
+for f in ${FUNCTIONS} ; do
+  grep -rwl $f bootfs rootfs 2> /dev/null
+  done | egrep -v 'bootfs/etc/sysconfig/(libexec/modules|system-script)/' | \
+    sort -u | while read source ; do
+      echo "\"${source}\" [ label=\"${source##*/}\" , shape=rectangle ];"
+      done
+
+echo
+
+for f in ${FUNCTIONS} ; do
+  for source in $( grep -rwl $f bootfs rootfs 2> /dev/null | grep -v bootfs/etc/sysconfig/libexec/modules/ ) ; do
+      echo "\"$source\" -> \"$f\";"
+    done
+  done
+
+echo
+
+SCRIPTS=$( ls bootfs/etc/sysconfig/system-script/* )
+for script in ${SCRIPTS} ; do
+  echo "\"${script}\" [ label=\"${script##*/}\" , shape=rectangle , peripheries=2 ];"
+  done
+
+for f in ${SCRIPTS} ; do
+  for source in $( grep -rwl ${f#bootfs} bootfs rootfs 2> /dev/null ) ; do
+      if [ $f != ${source##*/} ] ; then
+        echo "\"${source#bootfs/etc/sysconfig/libexec/modules/*/}\" -> \"$f\";"
+        fi
+    done
+  done
+
+echo
+
+echo
+echo "}"
+
