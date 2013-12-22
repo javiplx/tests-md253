@@ -13,10 +13,10 @@ IFCFG=/etc/sysconfig/config/ifcfg-eth0
 MAC=${HWADDR}
 iptype=${BOOTPROTO}
 
-IP=`/bin/ifconfig eth0|/bin/awk '/inet\ addr/{print $2}'|/bin/cut -d ":" -f2`
-MASK=`/bin/ifconfig eth0|/bin/awk '/inet\ addr/{print $4}'|/bin/cut -d ":" -f2`
+IP=$ip
+MASK=$subnet
 NETWORK=`/bin/ipcalc -n $IP $MASK|/bin/cut -d "=" -f2`
-BROADCAST=`/bin/ipcalc -b $IP $MASK|/bin/cut -d "=" -f2`
+BROADCAST=$broadcast
 GATEWAY=`/bin/ip route|/bin/awk '/default/{print $3}'`
 
 num=1
