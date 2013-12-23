@@ -60,6 +60,4 @@ for i in ${FOLDER}; do
 
 done
 /bin/logger "$0 - Modify Samba Config \"shares.inc\""
-
-service_stop smb
 }
