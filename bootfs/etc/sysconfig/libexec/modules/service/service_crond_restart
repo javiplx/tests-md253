@@ -1,0 +1,10 @@
+service_crond_restart(){
+PID=`/bin/pidof crond`
+[ "$PID" == "" ] || {
+ for i in $PID; do
+  /bin/kill -9 $i
+ done
+ }
+rm -f /var/log/crond.log
+service_crond_start
+}
