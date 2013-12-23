@@ -34,6 +34,7 @@ cat <<EOF
 "bootfs/etc/udev/rules.d/10-local.rules" [ label="udev.rules" ];
 "rootfs/bin/buttons_daemon" [ label="buttons_daemon" , shape=rectangle ];
 "bootfs/etc/init.d/rc.sysinit" -> "rootfs/bin/buttons_daemon";
+"bootfs/etc/init.d/rc.sysinit" -> "bootfs/etc/init.d/rc.services";
 EOF
 
 echo
