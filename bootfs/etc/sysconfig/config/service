@@ -4,6 +4,5 @@ http=Enable
 LANGUAGE=en
 btpd=Enable
 daapd=Enable
-crond=Enable
 ssh=Disable
 optware=Disable

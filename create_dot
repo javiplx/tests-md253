@@ -74,7 +74,7 @@ for f in ${SCRIPTS} ; do
 
 echo
 
-for SERVICE in crond smb ftp http btpd optware ; do
+for SERVICE in smb ftp http btpd optware ; do
   cat <<-EOF
 	"bootfs/etc/init.d/rc.sysinit" -> "service_${SERVICE}_start" [ style=dotted ];
 	EOF
