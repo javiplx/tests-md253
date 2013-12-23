@@ -14,8 +14,6 @@ service_syslogd_start
 # mount HDD
 service_mount_hdd
 
-service_setcolor
-
 /bin/udevd --daemon
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - udevd deamon Start Succeed" ||\
