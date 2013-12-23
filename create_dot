@@ -32,7 +32,11 @@ echo
 cat <<EOF
 "bootfs/etc/sysconfig/config/root" [ label="crontab" ];
 "bootfs/etc/udev/rules.d/10-local.rules" [ label="udev.rules" ];
+"rootfs/bin/buttons_daemon" [ label="buttons_daemon" , shape=rectangle ];
+"bootfs/etc/init.d/rc.sysinit" -> "rootfs/bin/buttons_daemon";
 EOF
+
+echo
 
 for f in ${CGIS} ; do
   echo "\"${f}\" [ label=\"${f##*/}\" , shape=rectangle , peripheries=2 ];"
@@ -61,7 +65,7 @@ for script in ${SCRIPTS} ; do
   done
 
 for f in ${SCRIPTS} ; do
-  for source in $( grep -rwl ${f#bootfs} bootfs rootfs 2> /dev/null ) ; do
+  for source in $( grep -rwl ${f#bootfs} bootfs rootfs 2> /dev/null | grep -v rootfs/sbin/buttons_daemon ) ; do
       if [ $f != ${source##*/} ] ; then
         echo "\"${source#bootfs/etc/sysconfig/libexec/modules/*/}\" -> \"$f\";"
         fi
