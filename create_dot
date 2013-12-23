@@ -5,6 +5,8 @@ echo
 
 FUNCTIONS=$( sed -n -e 's/^\(.*\)(){/\1/p' bootfs/etc/sysconfig/libexec/modules/*/* )
 
+CGIS=$( ls bootfs/var/www/cgi-bin/* )
+
 for f in ${FUNCTIONS} ; do
   FOUND=NO
   for source in $( grep -rwl $f bootfs/etc/sysconfig/libexec/modules/*/* 2> /dev/null ) ; do
@@ -15,7 +17,11 @@ for f in ${FUNCTIONS} ; do
       fi
     done
   if [ $FOUND = YES ] ; then
-    echo "\"$f\";"
+    if [ ${f#service_} = $f ] ; then
+      echo "\"$f\";"
+    else
+      echo "\"$f\" [ label=\"${f#service_}\" ];"
+      fi
   else
     echo "\"$f\" [ peripheries=2 ];"
     fi
@@ -28,8 +34,12 @@ cat <<EOF
 "bootfs/etc/udev/rules.d/10-local.rules" [ label="udev.rules" ];
 EOF
 
-for f in ${FUNCTIONS} ; do
-  grep -rwl $f bootfs rootfs 2> /dev/null
+for f in ${CGIS} ; do
+  echo "\"${f}\" [ label=\"${f##*/}\" , shape=rectangle , peripheries=2 ];"
+  done
+
+for f in ${FUNCTIONS} ${CGIS} ; do
+  grep -rwl ${f##bootfs/var/www/} bootfs rootfs 2> /dev/null
   done | egrep -v 'bootfs/etc/sysconfig/(libexec/modules|system-script)/' | \
     sort -u | while read source ; do
       echo "\"${source}\" [ label=\"${source##*/}\" , shape=rectangle ];"
@@ -37,8 +47,8 @@ for f in ${FUNCTIONS} ; do
 
 echo
 
-for f in ${FUNCTIONS} ; do
-  for source in $( grep -rwl $f bootfs rootfs 2> /dev/null | grep -v bootfs/etc/sysconfig/libexec/modules/ ) ; do
+for f in ${FUNCTIONS} ${CGIS} ; do
+  for source in $( grep -rwl ${f##bootfs/var/www/} bootfs rootfs 2> /dev/null | grep -v bootfs/etc/sysconfig/libexec/modules/ ) ; do
       echo "\"$source\" -> \"$f\";"
     done
   done
