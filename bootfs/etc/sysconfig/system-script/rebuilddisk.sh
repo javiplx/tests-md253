@@ -5,7 +5,7 @@ export PATH
 . /usr/libexec/modules/modules.conf
 SHARE_PATH=/home
 PASSWD=/etc/passwd
-replaceFile=/bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
 crontable=/etc/sysconfig/config/root
 detectRebuild=/etc/sysconfig/system-script/detectRebuild

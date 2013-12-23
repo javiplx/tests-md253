@@ -3,7 +3,7 @@ SERVICE_PATH=/etc/sysconfig/config
 SERVICE_CONF=${SERVICE_PATH}/service
 PROFTPD_CONF=${SERVICE_PATH}/proftpd/proftpd.conf
 PUBLIC_ACCESS=/home/PUBLIC/.ftpaccess
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 
 FTP_SERVICE=`/bin/awk -F= /ftp/'{print $2}' $SERVICE_CONF`
 GLOBAL_CONF=/etc/sysconfig/config/proftpd/global.conf

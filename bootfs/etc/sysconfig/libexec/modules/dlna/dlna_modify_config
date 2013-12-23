@@ -1,5 +1,5 @@
 dlna_modify_config(){
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 SERVICE_CONF=/etc/sysconfig/config/service
 SMB_HOST_CONF=/etc/sysconfig/config/smb/host.inc
 DNSR_CONF=/etc/sysconfig/config/responder.conf

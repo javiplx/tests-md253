@@ -3,7 +3,7 @@ CONFIG_PATH=/etc/sysconfig/config
 SMB_SHARES_CONF=${CONFIG_PATH}/smb/shares
 
 SHARE_PATH=/home
-replaceFile=/bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 
 FolderName=`echo ${QUERY_STRING} | cut '-d&' -f2`
 UserName=`echo ${QUERY_STRING} | cut '-d&' -f3`

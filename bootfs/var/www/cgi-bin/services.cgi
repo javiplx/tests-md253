@@ -25,7 +25,7 @@ PACKAGE=${PKGPATH}/package
 
 . $SERVICE_CONF
 
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 
 case ${func} in

@@ -10,7 +10,7 @@ SMB_SHARES_CONF=${CONF_PATH}/smb/shares.inc
 SMB_HOST_CONF=${CONF_PATH}/smb/host.inc
 IFCFG=${CONF_PATH}/ifcfg-eth0
 IFCFG_DEFAULT=${CONF_PATH}/ifcfg-eth0.default
-replaceFile=/bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 TIMEMACHINEPORT="548"
 
 scsi_list=/etc/sysconfig/config/scsi.list

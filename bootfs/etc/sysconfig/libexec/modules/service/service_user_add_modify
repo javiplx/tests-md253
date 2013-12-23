@@ -2,7 +2,7 @@ service_user_add_modify(){
 CONFIG_PATH=/etc/sysconfig/config
 SMB_PATH=${CONFIG_PATH}/smb
 SMB_PASSWD_PROG=/usr/local/samba/sbin/smbpasswd
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
 
 /bin/adduser "${user}" -h /home -H -G user -D

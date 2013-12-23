@@ -1,5 +1,5 @@
 service_ftp_modify_conf(){
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 CONFIG_PATH=/etc/sysconfig/config
 service=${CONFIG_PATH}/service
 FTP_CONF=${CONFIG_PATH}/proftpd/proftpd.conf

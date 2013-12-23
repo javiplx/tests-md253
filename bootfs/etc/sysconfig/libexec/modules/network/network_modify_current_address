@@ -1,5 +1,5 @@
 network_modify_current_address(){
-replaceFile=/bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 
 ConfigPath=/etc/sysconfig/config
 SmbPath=${ConfigPath}/smb

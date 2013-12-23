@@ -8,7 +8,7 @@ SMB_CONF=${CONFIG_PATH}/smb/smb.conf
 scsi_list=${CONFIG_PATH}/scsi.list
 
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
-replaceFile=/bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 crontable=/etc/sysconfig/config/root
 detectRebuild=/etc/sysconfig/system-script/detectRebuild
 TwonkyMedia=/usr/local/TwonkyVision/twonkymedia.sh

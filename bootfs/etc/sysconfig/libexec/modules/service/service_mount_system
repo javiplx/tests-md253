@@ -14,7 +14,7 @@ service_mount_system(){
  exit
  }
 
-replaceFile=/bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 /bin/test -f /mnt/finish || {
  CONF_PATH=/etc/sysconfig/config
  IFCFG=${CONF_PATH}/ifcfg-eth0

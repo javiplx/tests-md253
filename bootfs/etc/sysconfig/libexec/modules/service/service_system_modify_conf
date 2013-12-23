@@ -7,7 +7,7 @@ LMHost=${SmbPath}/lmhosts
 SMB_HOST_CONF=${SmbPath}/host.inc
 DAAP_CONF=${ConfigPath}/daapd.conf
 
-replaceFile=/bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 SMB_PASSWD_PROG=/usr/local/samba/sbin/smbpasswd
 
 QUERY_STRING=$1

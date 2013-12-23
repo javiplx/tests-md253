@@ -90,7 +90,7 @@ done
     }
    }
 
-  replaceFile=/bin/replaceFile
+  replaceFile=/usr/bin/replaceFile
   crontable=/etc/sysconfig/config/root
   detectRebuildLine=`/bin/cat ${crontable}|/bin/grep "detectRebuild"`
   /usr/bin/mdadm -D /dev/md1|/bin/grep "spare rebuilding" >/dev/null 2>&1

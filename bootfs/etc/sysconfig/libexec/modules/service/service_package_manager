@@ -56,13 +56,13 @@ case ${pkg} in
    case ${PKG_FILE} in
     Twonkymedia)
      [ ${status} == "default"  -a  ${PKG_STATUS} == "OFF" ] && {
-      /bin/replaceFile  ${PACKAGE} ${PKG}~OFF  ${PKG}~ON
+      /usr/bin/replaceFile  ${PACKAGE} ${PKG}~OFF  ${PKG}~ON
       }
      status=start; PKG_STATUS=ON
      ;;
     #TimeMachine)
     # [ ${status} == "default"  -a  ${PKG_STATUS} == "OFF" ] && {
-    #  /bin/replaceFile  ${PACKAGE} ${PKG}~OFF  ${PKG}~ON
+    #  /usr/bin/replaceFile  ${PACKAGE} ${PKG}~OFF  ${PKG}~ON
     #  }
     # status=start; PKG_STATUS=ON
     # ;;

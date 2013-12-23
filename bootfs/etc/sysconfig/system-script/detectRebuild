@@ -2,7 +2,7 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
 export PATH
 
-replaceFile=/bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 crontable=/etc/sysconfig/config/root
 detectRebuild=/etc/sysconfig/system-script/detectRebuild
 

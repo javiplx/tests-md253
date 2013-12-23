@@ -1,7 +1,7 @@
 service_user_modify(){
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 SMB_PASSWD_PROG=/usr/local/samba/sbin/smbpasswd
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
 tmpfile=/tmp/menu.$$
 

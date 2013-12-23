@@ -1,5 +1,5 @@
 dlna_daapd_modify_conf(){
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/usr/bin/replaceFile
 SERVICE_PATH=/etc/sysconfig/config
 SERVICE_CONF=${SERVICE_PATH}/service
 DAAPD_CONF=${SERVICE_PATH}/daapd.conf
