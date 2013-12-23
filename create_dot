@@ -23,6 +23,11 @@ for f in ${FUNCTIONS} ; do
 
 echo
 
+cat <<EOF
+"bootfs/etc/sysconfig/config/root" [ label="crontab" ];
+"bootfs/etc/udev/rules.d/10-local.rules" [ label="udev.rules" ];
+EOF
+
 for f in ${FUNCTIONS} ; do
   grep -rwl $f bootfs rootfs 2> /dev/null
   done | egrep -v 'bootfs/etc/sysconfig/(libexec/modules|system-script)/' | \
