@@ -55,6 +55,23 @@ for f in ${SCRIPTS} ; do
 
 echo
 
+for SERVICE in crond smb ftp http btpd optware ; do
+  cat <<-EOF
+	"bootfs/etc/init.d/rc.sysinit" -> "service_${SERVICE}_start" [ style=dotted ];
+	EOF
+  done
+
+for SERVICE in smb ftp btpd ; do
+  cat <<-EOF
+	"bootfs/var/www/cgi-bin/scandisk.sh" -> "service_${SERVICE}_start" [ style=dotted ];
+	"bootfs/var/www/cgi-bin/SingleFormat.sh" -> "service_${SERVICE}_start" [ style=dotted ];
+	"bootfs/var/www/cgi-bin/format.sh" -> "service_${SERVICE}_start" [ style=dotted ];
+	"bootfs/var/www/cgi-bin/scandisk.sh" -> "service_${SERVICE}_stop" [ style=dotted ];
+	"bootfs/var/www/cgi-bin/SingleFormat.sh" -> "service_${SERVICE}_stop" [ style=dotted ];
+	"bootfs/var/www/cgi-bin/format.sh" -> "service_${SERVICE}_stop" [ style=dotted ];
+	EOF
+  done
+
 echo
 echo "}"
 
