@@ -57,7 +57,7 @@ case ${active} in
 esac
 
 detectRebuildLine=`/bin/cat ${crontable}|/bin/grep "${detectRebuild}"`
-echo "${detectRebuildLine}"|/bin/grep "#" >/devnull 2>&1
+echo "${detectRebuildLine}"|/bin/grep "#" >/dev/null 2>&1
 [ $? -eq 0 ] &&\
  $replaceFile "${crontable}" "${detectRebuildLine}" "* * * * * /etc/sysconfig/system-script/detectRebuild"
 
