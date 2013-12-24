@@ -1,4 +1,4 @@
-service_dlna_stop(){
+service_daapd_stop(){
  /bin/killall daapd >/dev/null 2>&1
  PID=`/bin/pidof daapd`
  for pid in $PID; do

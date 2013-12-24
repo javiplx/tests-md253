@@ -1,4 +1,4 @@
-service_dlna_modify_conf(){
+service_daapd_modify_conf(){
 replaceFile=/usr/bin/replaceFile
 SERVICE_PATH=/etc/sysconfig/config
 SERVICE_CONF=${SERVICE_PATH}/service

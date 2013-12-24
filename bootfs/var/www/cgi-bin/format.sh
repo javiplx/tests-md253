@@ -33,7 +33,7 @@ echo "hdd2 red clear" > /proc/mp_leds
 echo "hdd1 red set" > /proc/mp_leds
 echo "hdd2 red set" > /proc/mp_leds
 
-SERVICE="smb ftp btpd dlna"
+SERVICE="smb ftp btpd daapd"
 for i in $SERVICE; do
  status=`/bin/awk -F= /$i/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${i}_stop >/dev/null 2>&1

@@ -34,7 +34,7 @@ SERVICE_CONF=/etc/sysconfig/config/service
 
 service_crond_start &
 
-SERVICE="ssh smb ftp http dlna btpd optware"
+SERVICE="ssh smb ftp http daapd btpd optware"
 for i in $SERVICE; do
  status=`/bin/awk -F= /$i/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${i}_start &

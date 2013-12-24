@@ -58,7 +58,7 @@ case ${func} in
    Disable)
     #old_dir=`/bin/cat $DAAP_CONF|/bin/grep "^mp3_dir"|/bin/cut -c9-`
     #$replaceFile "${DAAP_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/" >/dev/null 2>&1
-    service_dlna_stop
+    service_daapd_stop
     ;;
   esac
   ;;
@@ -74,7 +74,7 @@ case ${func} in
    $replaceFile "$DAAP_CONF" "mp3_dir $old_path" "mp3_dir /tmp/"
    $replaceFile "$SERVICE_CONF" "daapd=${old_status}" "daapd=Disable"
 
-   service_dlna_stop
+   service_daapd_stop
 
    /bin/rm -rf /tmp/data
    dlna_mDNSR_modify_conf
@@ -82,7 +82,7 @@ case ${func} in
    $replaceFile "$DAAP_CONF" "mp3_dir $old_path" "mp3_dir $path/"
    $replaceFile "$SERVICE_CONF" "daapd=${old_status}" "daapd=Disable"
 
-   service_dlna_stop
+   service_daapd_stop
 
    /bin/rm -rf /tmp/data
    $replaceFile "$SERVICE_CONF" "daapd=Disable" "daapd=Enable"
@@ -96,7 +96,7 @@ case ${func} in
   $replaceFile "${DAAP_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/" >/dev/null 2>&1
   $replaceFile "${SERVICE_CONF}" "daapd=$old_status" "daapd=Disable"
 
-  service_dlna_stop
+  service_daapd_stop
 
   /bin/rm -rf /tmp/data
   dlna_mDNSR_modify_conf

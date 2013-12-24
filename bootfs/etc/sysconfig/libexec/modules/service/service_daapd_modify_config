@@ -1,4 +1,4 @@
-service_dlna_modify_config(){
+service_daapd_modify_config(){
 replaceFile=/usr/bin/replaceFile
 SERVICE_CONF=/etc/sysconfig/config/service
 SMB_HOST_CONF=/etc/sysconfig/config/smb/host.inc

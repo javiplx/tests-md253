@@ -142,10 +142,10 @@ case ${func} in
   /bin/hostname -F /etc/hostname
   echo "127.0.0.1	${hostname}.localdomain	${hostname}" > /etc/hosts
   export name="${hostname}"
-  service_dlna_modify_config
-  service_dlna_stop
+  service_daapd_modify_config
+  service_daapd_stop
   sleep 2
-  service_dlna_start
+  service_daapd_start
 
   NETBIOS=`/bin/cat ${SMB_HOST_CONF}|grep "^netbios"`
   echo "${NETBIOS}" > ${SMB_HOST_CONF}
