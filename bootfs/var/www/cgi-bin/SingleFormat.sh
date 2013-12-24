@@ -36,7 +36,7 @@ for service in $SERVICE; do
  status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${service}_stop >/dev/null 2>&1
 done
-dlna_stop_daemon >/dev/null 2>&1 &
+service_dlna_stop >/dev/null 2>&1 &
 $TwonkyMedia stop
 service_package_manager "Service&stop"
 
@@ -167,7 +167,7 @@ for service in $SERVICE; do
  status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${service}_start >/dev/null 2>&1 &
 done
-dlna_start_daemon >/dev/null 2>&1 &
+service_dlna_start >/dev/null 2>&1 &
 $TwonkyMedia start
 
 /bin/mkdir -p /home/.opt

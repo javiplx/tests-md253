@@ -40,11 +40,11 @@ dlna_mDNSR_modify_conf
 
 # Restart service
 
-dlna_stop_daemon
+service_dlna_stop
 service_ftp_stop
 service_smb_stop
 
-dlna_start_daemon
+service_dlna_start
 service_ftp_start
 service_smb_start
 

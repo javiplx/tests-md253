@@ -15,7 +15,7 @@ for i in $SERVICE; do
  status=`/bin/awk -F= /$i/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${i}_stop >/dev/null 2>&1
 done
-dlna_stop_daemon >/dev/null 2>&1 &
+service_dlna_stop >/dev/null 2>&1 &
 $TwonkyMedia stop
 
 /bin/sleep $SLEEP
@@ -96,5 +96,5 @@ for i in $SERVICE; do
  status=`/bin/awk -F= /$i/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${i}_start >/dev/null 2>&1 &
 done
-dlna_start_daemon >/dev/null 2>&1 &
+service_dlna_start >/dev/null 2>&1 &
 $TwonkyMedia start

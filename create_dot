@@ -81,7 +81,7 @@ for SERVICE in smb ftp http btpd optware ; do
 	EOF
   done
 
-for SERVICE in smb ftp btpd ; do
+for SERVICE in smb ftp btpd dlna ; do
   cat <<-EOF
 	"bootfs/var/www/cgi-bin/scandisk.sh" -> "service_${SERVICE}_start" [ style=dotted ];
 	"bootfs/var/www/cgi-bin/SingleFormat.sh" -> "service_${SERVICE}_start" [ style=dotted ];

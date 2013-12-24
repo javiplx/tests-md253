@@ -1,4 +1,4 @@
-dlna_stop_daemon(){
+service_dlna_stop(){
 service="daapd"
 for i in $service; do
  /bin/killall ${i}
