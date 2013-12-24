@@ -51,9 +51,7 @@ case ${func} in
 
   case ${status} in
    Enable)
-    [ -n "`/bin/pidof daapd`" ] || {
-     /usr/bin/daapd -m -c ${DAAP_CONF} -d 9 -D scan -f > /tmp/data 2>&1 &
-     }
+    service_daapd_start
     ;;
    Disable)
     #old_dir=`/bin/cat $DAAP_CONF|/bin/grep "^mp3_dir"|/bin/cut -c9-`
@@ -87,7 +85,7 @@ case ${func} in
    /bin/rm -rf /tmp/data
    $replaceFile "$SERVICE_CONF" "daapd=Disable" "daapd=Enable"
    dlna_mDNSR_modify_conf
-   /usr/bin/daapd -m -c ${DAAP_CONF} -d 9 -D scan -f > /tmp/data 2>&1 &
+   service_daapd_start
    }
   ;;
  stop_scan)
