@@ -10,10 +10,6 @@ VERSION=/etc/sysconfig/config/version
 
 replaceFile=/usr/bin/replaceFile
 
-#防止使用者直接使用
-#cgicheck=`/var/www/cgi-bin/login_command.cgi | grep OK`
-#[ "$cgicheck" != "OK" ] && QUERY_STRING="";
-
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 
 case ${func} in
