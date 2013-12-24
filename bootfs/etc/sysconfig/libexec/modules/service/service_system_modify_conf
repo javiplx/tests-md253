@@ -69,12 +69,7 @@ new_password=`echo ${QUERY_STRING} | cut '-d&' -f4`
 	done
 	/bin/logger "$0 - httpd deamon Stop"
 
-	creds=`/bin/cat ${WEBMASTER}`
-	echo "/:$creds" > ${HTTP_CONF}
-	/bin/nice -n -18 /sbin/httpd -h /var/www
-	[ $? -eq 0 ] &&\
-	/bin/logger "$0 - httpd deamon with BasicAuth Start Succeed" ||\
-	/bin/logger "$0 - httpd deamon with BasicAuth Start Failed"
+	service_http_start
 
  }
 }
