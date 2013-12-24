@@ -4,5 +4,6 @@ http=Enable
 LANGUAGE=en
 btpd=Enable
 daapd=Enable
+dlna=$daapd
 ssh=Disable
 optware=Disable

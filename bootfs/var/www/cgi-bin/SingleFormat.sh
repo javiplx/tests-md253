@@ -31,12 +31,11 @@ dev=`echo $1|/bin/cut '-d_' -f1`
 echo "${str} blue clear" > /proc/mp_leds
 echo "${str} red set" > /proc/mp_leds
 
-SERVICE="smb ftp btpd"
+SERVICE="smb ftp btpd dlna"
 for service in $SERVICE; do
  status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${service}_stop >/dev/null 2>&1
 done
-service_dlna_stop >/dev/null 2>&1 &
 $TwonkyMedia stop
 service_package_manager "Service&stop"
 
@@ -167,7 +166,6 @@ for service in $SERVICE; do
  status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${service}_start >/dev/null 2>&1 &
 done
-service_dlna_start >/dev/null 2>&1 &
 $TwonkyMedia start
 
 /bin/mkdir -p /home/.opt
