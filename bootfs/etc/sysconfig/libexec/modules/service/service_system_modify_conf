@@ -40,13 +40,16 @@ dlna_mDNSR_modify_conf
 
 # Restart service
 
-service_daapd_stop
-service_ftp_stop
-service_smb_stop
+SERVICE="daapd ftp smb"
+for service in $SERVICE; do
+ status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
+ [ "$status" == "Enable" ] && service_${service}_stop
+done
 
-service_daapd_start
-service_ftp_start
-service_smb_start
+for service in $SERVICE; do
+ status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
+ [ "$status" == "Enable" ] && service_${service}_start
+done
 
 # Modify New Admin Password
 new_password=`echo ${QUERY_STRING} | cut '-d&' -f4`

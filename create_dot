@@ -75,6 +75,13 @@ for f in ${SCRIPTS} ; do
 
 echo
 
+for SERVICE in daapd ftp smb ; do
+  cat <<-EOF
+	"service_system_modify_conf" -> "service_${SERVICE}_start" [ style=dotted ];
+	"service_system_modify_conf" -> "service_${SERVICE}_stop" [ style=dotted ];
+	EOF
+  done
+
 for SERVICE in smb ftp http daapd btpd optware ; do
   cat <<-EOF
 	"bootfs/etc/init.d/rc.sysinit" -> "service_${SERVICE}_start" [ style=dotted ];
