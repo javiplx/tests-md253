@@ -33,7 +33,8 @@ echo "${str} red set" > /proc/mp_leds
 
 SERVICE="smb ftp btpd"
 for service in $SERVICE; do
- service_${service}_stop >/dev/null 2>&1
+ status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
+ [ "$status" == "Enable" ] && service_${service}_stop >/dev/null 2>&1
 done
 dlna_stop_daemon >/dev/null 2>&1 &
 $TwonkyMedia stop
@@ -163,7 +164,8 @@ done
 /bin/rm -rf /tmp/ftpaccess
 
 for service in $SERVICE; do
- service_${service}_start >/dev/null 2>&1 &
+ status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
+ [ "$status" == "Enable" ] && service_${service}_start >/dev/null 2>&1 &
 done
 dlna_start_daemon >/dev/null 2>&1 &
 $TwonkyMedia start

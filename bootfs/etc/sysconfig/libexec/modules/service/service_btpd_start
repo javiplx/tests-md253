@@ -1,6 +1,5 @@
 service_btpd_start(){
 CONFIG_PATH=/etc/sysconfig/config
-SERVICE_CONF=${CONFIG_PATH}/service
 BTPD_BIN=/usr/bin/btpd
 BTPD_CONF=${CONFIG_PATH}/btpd.conf
 BTPD_BASE_DIR=/home/BitTorrent
@@ -18,8 +17,6 @@ BTPD_TORRENTS_PATH=${BTPD_START_PATH}/torrents_list
 
 /bin/df|/bin/awk '{print $NF}'|/bin/grep "^/home$" >/dev/null 2>&1
 [ $? -ne 0 ] && return
-BT_SERVICE=`/bin/awk -F= /btpd/'{print $2}' ${SERVICE_CONF}`
-[ "${BT_SERVICE}" == "Enable" ] || return
 
 . ${BTPD_CONF}
 [ ${incoming} == "0" ] && in_str="" || in_str="--bw-in ${incoming}"
