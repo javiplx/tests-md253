@@ -82,7 +82,7 @@ for SERVICE in daapd ftp smb ; do
 	EOF
   done
 
-for SERVICE in smb ftp http daapd btpd optware ; do
+for SERVICE in smb ftp daapd btpd optware ; do
   cat <<-EOF
 	"bootfs/etc/init.d/rc.sysinit" -> "service_${SERVICE}_start" [ style=dotted ];
 	EOF
