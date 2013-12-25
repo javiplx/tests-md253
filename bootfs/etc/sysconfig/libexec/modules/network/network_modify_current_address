@@ -10,7 +10,7 @@ LMHost=${SmbPath}/lmhosts
 IFCFG=/etc/sysconfig/config/ifcfg-eth0
 . $IFCFG
 
-MAC=${HWADDR}"
+MAC=${HWADDR}
 iptype=${BOOTPROTO}
 
 IP=`/bin/ifconfig eth0|/bin/awk '/inet\ addr/{print $2}'|/bin/cut -d ":" -f2`
