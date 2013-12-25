@@ -36,15 +36,19 @@ echo "comment = ${hostname}" >> ${SMB_HOST_CONF}
 old_daap_name=`/bin/awk /servername/'{print $2}' ${DAAP_CONF}|/bin/sed 's/\ //g'`
 $replaceFile "${DAAP_CONF}" "servername ${old_daap_name}" "servername ${hostname}"
 
-dlna_mDNSR_modify_conf
-
 # Restart service
+
+dlna_mDNSR_stop
 
 SERVICE="daapd ftp smb"
 for service in $SERVICE; do
  status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${service}_stop
 done
+
+dlna_mDNSR_modify_conf_data > ${ConfigPath}/responder.conf
+
+dlna_mDNSR_start
 
 for service in $SERVICE; do
  status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
