@@ -19,7 +19,7 @@ cat /dev/null > /etc/lprng/printcap
  /bin/logger "$0 - nmbd deamon Start Succeed" ||\
  /bin/logger "$0 - nmbd deamon Start Failed"
 
-dlna_mDNSR_modify_conf
+dlna_mDNSR_start
  
 route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
 
