@@ -20,10 +20,10 @@ case "$1" in
   /bin/ip route flush cache
   network_modify_current_address >/dev/null 2>&1 &
   dlna_mDNSR_stop
+  service_smb_stop
   dlna_mDNSR_modify_conf_data > /etc/sysconfig/config/responder.conf
   dlna_mDNSR_start
-  /bin/killall nmbd
-  /usr/local/samba/sbin/nmbd >/dev/null 2>&1
+  service_smb_start
   [ -d ${TWONKY_PKGPATH} ] && {
     ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh restart  
   }
@@ -50,10 +50,10 @@ case "$1" in
   $discovery &
   network_modify_current_address >/dev/null 2>&1 &
   dlna_mDNSR_stop
+  service_smb_stop
   dlna_mDNSR_modify_conf_data > /etc/sysconfig/config/responder.conf
   dlna_mDNSR_start
-  /bin/killall nmbd
-  /usr/local/samba/sbin/nmbd >/dev/null 2>&1
+  service_smb_start
   [ -d ${TWONKY_PKGPATH} ] && {
    ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh restart  
   }
