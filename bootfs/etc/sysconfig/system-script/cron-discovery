@@ -31,12 +31,8 @@ done
  /usr/local/samba/sbin/nmbd
  }
 
-DNSR_PID=`/bin/pidof DNSR`
-for i in $DNSR_PID; do
- /bin/kill -3 $i >/dev/null 2>&1
-done
-
-/usr/bin/DNSR -d -f ${CONF_FILE} >/dev/null 2>&1 &
+dlna_mDNSR_stop
+dlna_mDNSR_start
 
 PID=`/bin/pidof twonkymedia`
 [ "$PID" == "" ] && {
