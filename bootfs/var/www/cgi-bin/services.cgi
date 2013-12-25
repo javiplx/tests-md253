@@ -47,7 +47,9 @@ case ${func} in
   status=`echo ${QUERY_STRING}|/bin/cut '-d&' -f2`
   old_status=$daapd
   $replaceFile "$SERVICE_CONF" "daapd=${old_status}" "daapd=${status}"
-  dlna_mDNSR_modify_conf
+  dlna_mDNSR_stop
+  dlna_mDNSR_modify_conf_data > ${DNSR_CONF}
+  dlna_mDNSR_start
 
   case ${status} in
    Enable)
@@ -64,25 +66,21 @@ case ${func} in
         sed 's/\%60/\`/g'|sed 's/\%5B/\[/g'|sed 's/\%5D/\]/g'|sed 's/\%25/\%/g'|\
         sed 's/\%24/\$/g'|sed 's/\%21/\!/g'|sed 's/\%27/'\''/g'`
 
+  dlna_mDNSR_stop
+  service_daapd_stop
+
+  /bin/rm -rf /tmp/data
+  dlna_mDNSR_modify_conf_data > ${DNSR_CONF}
+  dlna_mDNSR_start
+
   old_path=`/bin/cat $DAAP_CONF|/bin/grep "^mp3_dir"|/bin/cut -c9-`
   old_status=$daapd
   [ "$path/" == "$old_path" ] && {
    $replaceFile "$DAAP_CONF" "mp3_dir $old_path" "mp3_dir /tmp/"
    $replaceFile "$SERVICE_CONF" "daapd=${old_status}" "daapd=Disable"
-
-   service_daapd_stop
-
-   /bin/rm -rf /tmp/data
-   dlna_mDNSR_modify_conf
    } || {
    $replaceFile "$DAAP_CONF" "mp3_dir $old_path" "mp3_dir $path/"
-   $replaceFile "$SERVICE_CONF" "daapd=${old_status}" "daapd=Disable"
-
-   service_daapd_stop
-
-   /bin/rm -rf /tmp/data
    $replaceFile "$SERVICE_CONF" "daapd=Disable" "daapd=Enable"
-   dlna_mDNSR_modify_conf
    service_daapd_start
    }
   ;;
@@ -92,10 +90,12 @@ case ${func} in
   $replaceFile "${DAAP_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/" >/dev/null 2>&1
   $replaceFile "${SERVICE_CONF}" "daapd=$old_status" "daapd=Disable"
 
+  dlna_mDNSR_stop
   service_daapd_stop
 
   /bin/rm -rf /tmp/data
-  dlna_mDNSR_modify_conf
+  dlna_mDNSR_modify_conf_data > ${DNSR_CONF}
+  dlna_mDNSR_start
   ;;
  Detected_UnderScan_First)
   for i in 1 2; do

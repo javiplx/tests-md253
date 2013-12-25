@@ -95,7 +95,9 @@ case ${func} in
                        /bin/sleep 1
                    }
                  done
-                 dlna_mDNSR_modify_conf 
+                 dlna_mDNSR_stop
+                 dlna_mDNSR_modify_conf_data > ${CONF_PATH}/responder.conf
+                 dlna_mDNSR_start
               fi 
 			fi
 

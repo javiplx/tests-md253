@@ -19,7 +19,9 @@ case "$1" in
   /bin/ip route replace default via 169.254.0.1 dev eth0
   /bin/ip route flush cache
   network_modify_current_address >/dev/null 2>&1 &
-  dlna_mDNSR_modify_conf >/dev/null 2>&1 &
+  dlna_mDNSR_stop
+  dlna_mDNSR_modify_conf_data > /etc/sysconfig/config/responder.conf
+  dlna_mDNSR_start
   /bin/killall nmbd
   /usr/local/samba/sbin/nmbd >/dev/null 2>&1
   [ -d ${TWONKY_PKGPATH} ] && {
@@ -47,7 +49,9 @@ case "$1" in
   done
   $discovery &
   network_modify_current_address >/dev/null 2>&1 &
-  dlna_mDNSR_modify_conf >/dev/null 2>&1 &
+  dlna_mDNSR_stop
+  dlna_mDNSR_modify_conf_data > /etc/sysconfig/config/responder.conf
+  dlna_mDNSR_start
   /bin/killall nmbd
   /usr/local/samba/sbin/nmbd >/dev/null 2>&1
   [ -d ${TWONKY_PKGPATH} ] && {
