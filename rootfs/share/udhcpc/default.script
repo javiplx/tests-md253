@@ -23,9 +23,7 @@ case "$1" in
   /bin/killall nmbd
   /usr/local/samba/sbin/nmbd >/dev/null 2>&1
   [ -d ${TWONKY_PKGPATH} ] && {
-    /usr/local/install/Twonkymedia/scripts/twonkymedia/twonkymedia.sh restart  
-  } || {
-  	/usr/local/TwonkyVision/twonkymedia.sh restart
+    ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh restart  
   }
   ;;
  renew|bound)
@@ -53,9 +51,7 @@ case "$1" in
   /bin/killall nmbd
   /usr/local/samba/sbin/nmbd >/dev/null 2>&1
   [ -d ${TWONKY_PKGPATH} ] && {
-   /usr/local/install/Twonkymedia/scripts/twonkymedia/twonkymedia.sh restart  
-  } || {
-   /usr/local/TwonkyVision/twonkymedia.sh restart
+   ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh restart  
   }
   /bin/logger "$0 - IPADDR:\"${ip}\" DHCP Start Succeed"
   ;;

@@ -5,7 +5,7 @@ export PATH
 . /usr/libexec/modules/modules.conf
 CONFIG_PATH=/etc/sysconfig/config
 scsi_list=${CONFIG_PATH}/scsi.list
-TwonkyMedia=/usr/local/TwonkyVision/twonkymedia.sh
+TWONKY_PKGPATH=/usr/local/install/Twonkymedia
 
 SLEEP=1
 SHARE_PATH=/home
@@ -15,7 +15,9 @@ for i in $SERVICE; do
  service_${i}_stop >/dev/null 2>&1
 done
 dlna_stop_daemon >/dev/null 2>&1 &
-$TwonkyMedia stop
+[ -d ${TWONKY_PKGPATH} ] && {
+ ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh stop
+}
 
 /bin/sleep $SLEEP
 
@@ -95,4 +97,6 @@ for i in $SERVICE; do
  service_${i}_start >/dev/null 2>&1 &
 done
 dlna_start_daemon >/dev/null 2>&1 &
-$TwonkyMedia start
+[ -d ${TWONKY_PKGPATH} ] && {
+ ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh start
+}
