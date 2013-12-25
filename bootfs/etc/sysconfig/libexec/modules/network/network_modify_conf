@@ -21,10 +21,7 @@ case ${iptype} in
    }
 
   network_stop
-  ( network_start
-    /bin/killall nmbd
-    /usr/local/samba/sbin/nmbd >/dev/null 2>&1
-    ) &
+  network_start &
   ;;
  static)
   for i in `echo ${QUERY_STRING} | /bin/tr "&" " "`; do
@@ -37,16 +34,15 @@ case ${iptype} in
   MAC=`/bin/awk -F= /HWADDR/'{print $2}' ${IFCFG}|/bin/sed 's/\ //g'`
   network_modify_conf_data > $IFCFG
 
+  dlna_mDNSR_stop
   network_stop
-  ( network_start
-    /bin/killall nmbd
-    /usr/local/samba/sbin/nmbd >/dev/null 2>&1
-    ) &
+  network_start &
 
   SMB_IPADDR=`/bin/awk "-F = " '/interfaces/{print $2}' $SMB_CONF`
   $replaceFile "${SMB_CONF}" "interfaces = ${SMB_IPADDR}" "interfaces = ${IP}/${MASK}"
   echo "hosts allow = ${NETWORK}/${MASK}" > ${SMB_NET_CONF}
-  dlna_mDNSR_modify_conf >/dev/null 2>&1 &
+  dlna_mDNSR_modify_conf_data > /etc/sysconfig/config/responder.conf
+  dlna_mDNSR_start
   ;;
 esac
 }

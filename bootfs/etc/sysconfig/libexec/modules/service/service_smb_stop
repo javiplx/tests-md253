@@ -1,12 +1,17 @@
 service_smb_stop(){
-smbd_prog=/usr/local/samba/sbin/smbd
+nmbd_pid=/var/run/nmbd.pid
 smbd_pid=/var/run/smbd.pid
+
+PID=`/bin/pidof nmbd`
+for i in $PID; do
+ /bin/kill -9 $i >/dev/null 2>&1
+done
 
 PID=`/bin/pidof smbd`
 for i in $PID; do
  /bin/kill -9 $i >/dev/null 2>&1
 done
 
-/bin/rm -f ${smbd_pid} >/dev/null 2>&1
-/bin/logger "$0 - smbd deamon Stop"
+/bin/rm -f ${nmbd_pid} ${smbd_pid} >/dev/null 2>&1
+/bin/logger "$0 - samba daemons Stop"
 }

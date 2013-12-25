@@ -19,9 +19,11 @@ case "$1" in
   /bin/ip route replace default via 169.254.0.1 dev eth0
   /bin/ip route flush cache
   network_modify_current_address >/dev/null 2>&1 &
-  dlna_mDNSR_modify_conf >/dev/null 2>&1 &
-  /bin/killall nmbd
-  /usr/local/samba/sbin/nmbd >/dev/null 2>&1
+  dlna_mDNSR_stop
+  service_smb_stop
+  dlna_mDNSR_modify_conf_data > /etc/sysconfig/config/responder.conf
+  dlna_mDNSR_start
+  service_smb_start
   [ -d ${TWONKY_PKGPATH} ] && {
     ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh restart  
   }
@@ -47,9 +49,11 @@ case "$1" in
   done
   $discovery &
   network_modify_current_address >/dev/null 2>&1 &
-  dlna_mDNSR_modify_conf >/dev/null 2>&1 &
-  /bin/killall nmbd
-  /usr/local/samba/sbin/nmbd >/dev/null 2>&1
+  dlna_mDNSR_stop
+  service_smb_stop
+  dlna_mDNSR_modify_conf_data > /etc/sysconfig/config/responder.conf
+  dlna_mDNSR_start
+  service_smb_start
   [ -d ${TWONKY_PKGPATH} ] && {
    ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh restart  
   }

@@ -1,0 +1,8 @@
+service_daapd_stop(){
+ /bin/killall daapd >/dev/null 2>&1
+ PID=`/bin/pidof daapd`
+ for pid in $PID; do
+  /bin/kill -9 $pid >/dev/null 2>&1
+  done
+/bin/logger "$0 - \"daapd\" deamon Stop"
+}

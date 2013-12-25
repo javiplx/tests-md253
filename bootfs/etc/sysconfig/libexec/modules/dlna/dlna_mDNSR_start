@@ -1,0 +1,6 @@
+dlna_mDNSR_start(){
+SERVICE_PATH=/etc/sysconfig/config
+CONF_FILE=${SERVICE_PATH}/responder.conf
+
+/usr/bin/DNSR -d -f ${CONF_FILE} >/dev/null 2>&1 &
+}

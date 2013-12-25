@@ -36,17 +36,24 @@ echo "comment = ${hostname}" >> ${SMB_HOST_CONF}
 old_daap_name=`/bin/awk /servername/'{print $2}' ${DAAP_CONF}|/bin/sed 's/\ //g'`
 $replaceFile "${DAAP_CONF}" "servername ${old_daap_name}" "servername ${hostname}"
 
-dlna_mDNSR_modify_conf
-
 # Restart service
 
-dlna_stop_daemon
-service_ftp_stop
-service_smb_stop
+dlna_mDNSR_stop
 
-dlna_start_daemon
-service_ftp_start
-service_smb_start
+SERVICE="daapd ftp smb"
+for service in $SERVICE; do
+ status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
+ [ "$status" == "Enable" ] && service_${service}_stop
+done
+
+dlna_mDNSR_modify_conf_data > ${ConfigPath}/responder.conf
+
+dlna_mDNSR_start
+
+for service in $SERVICE; do
+ status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
+ [ "$status" == "Enable" ] && service_${service}_start
+done
 
 # Modify New Admin Password
 new_password=`echo ${QUERY_STRING} | cut '-d&' -f4`
@@ -66,12 +73,7 @@ new_password=`echo ${QUERY_STRING} | cut '-d&' -f4`
 	done
 	/bin/logger "$0 - httpd deamon Stop"
 
-	creds=`/bin/cat ${WEBMASTER}`
-	echo "/:$creds" > ${HTTP_CONF}
-	/bin/nice -n -18 /sbin/httpd -h /var/www
-	[ $? -eq 0 ] &&\
-	/bin/logger "$0 - httpd deamon with BasicAuth Start Succeed" ||\
-	/bin/logger "$0 - httpd deamon with BasicAuth Start Failed"
+	service_http_start
 
  }
 }

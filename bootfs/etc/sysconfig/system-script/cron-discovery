@@ -19,25 +19,6 @@ for i in $VOL; do
  sleep $SLEEP
 done
 
-/bin/netstat -unlt|/bin/grep "${IPADDR}:137" >/dev/null 2>&1
-[ $? -eq 0 ] || {
- /bin/killall nmbd
- /usr/local/samba/sbin/nmbd
- }
-
-/bin/netstat -unlt|/bin/grep "${IPADDR}:138" >/dev/null 2>&1
-[ $? -eq 0 ] || {
- /bin/killall nmbd
- /usr/local/samba/sbin/nmbd
- }
-
-DNSR_PID=`/bin/pidof DNSR`
-for i in $DNSR_PID; do
- /bin/kill -3 $i >/dev/null 2>&1
-done
-
-/usr/bin/DNSR -d -f ${CONF_FILE} >/dev/null 2>&1 &
-
 PID=`/bin/pidof twonkymedia`
 [ "$PID" == "" ] && {
   [ -d ${TWONKY_PKGPATH} ] && {

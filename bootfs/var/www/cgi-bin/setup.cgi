@@ -45,8 +45,10 @@ case ${func} in
   #/bin/awk -F= /HWADDR/'{print $2}' $IFCFG|/bin/sed 's/\ //g'
   ;;
  modify_ip)
+  service_smb_stop
   network_modify_conf ${QUERY_STRING}
   sleep 5
+  service_smb_start
   TWONKY_PKGPATH=/usr/local/install/Twonkymedia
   [ -d ${TWONKY_PKGPATH} ] && {
    ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh restart
