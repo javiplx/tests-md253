@@ -211,14 +211,6 @@ case ${func} in
 			if [ "${oldversion}" != "" ]; then
 			 sh ${PKG_SCRIPT}/start-stop-status del
 			 if [ "$PKG_IPK" == "TimeMachine" ]; then
-				/bin/killall -9 afpd
-                 while true; do 
-                   PID=`/bin/pidof afpd`
-                   [ "$PID" == "" ] && break || {
-                     /bin/killall -9 afpd
-                     /bin/sleep 1
-                   }
-                 done
                  dlna_mDNSR_stop
                  dlna_mDNSR_modify_conf_data > /etc/sysconfig/config/responder.conf
                  dlna_mDNSR_start
