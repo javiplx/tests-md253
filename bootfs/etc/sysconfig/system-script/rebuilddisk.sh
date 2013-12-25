@@ -5,7 +5,6 @@ export PATH
 . /usr/libexec/modules/modules.conf
 SHARE_PATH=/home
 PASSWD=/etc/passwd
-replaceFile=/usr/bin/replaceFile
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
 crontable=/etc/sysconfig/config/root
 detectRebuild=/etc/sysconfig/system-script/detectRebuild
@@ -59,6 +58,6 @@ esac
 detectRebuildLine=`/bin/cat ${crontable}|/bin/grep "${detectRebuild}"`
 echo "${detectRebuildLine}"|/bin/grep "#" >/dev/null 2>&1
 [ $? -eq 0 ] && {
- $replaceFile "${crontable}" "${detectRebuildLine}" "* * * * * /etc/sysconfig/system-script/detectRebuild"
+ /usr/bin/replaceFile "${crontable}" "${detectRebuildLine}" "* * * * * /etc/sysconfig/system-script/detectRebuild"
  service_crond_restart
  }

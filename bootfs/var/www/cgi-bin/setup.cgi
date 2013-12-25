@@ -21,7 +21,6 @@ format_hdd=/var/www/cgi-bin/format.sh
 SingleFormat=/var/www/cgi-bin/SingleFormat.sh
 scandisk_hdd=/var/www/cgi-bin/scandisk.sh
 raid1_rebuild=/etc/sysconfig/system-script/rebuilddisk.sh
-replaceFile=/usr/bin/replaceFile
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 
 case ${func} in

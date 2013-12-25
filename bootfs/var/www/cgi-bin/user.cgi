@@ -13,7 +13,6 @@ SMB_CONF=${SMB_PATH}/smb.conf
 SHARE_PATH=/home
 
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
-replaceFile=/usr/bin/replaceFile
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 
 case ${func} in
@@ -126,7 +125,7 @@ case ${func} in
   STATUS=`echo ${QUERY_STRING} | cut '-d&' -f2`
   Quota=`echo ${QUERY_STRING} | cut '-d&' -f3`
   PASSWD_LINE=`/bin/cat /etc/passwd|/bin/grep "^nobody:"`
-  $replaceFile "/etc/passwd" "${PASSWD_LINE}" "nobody:!!:99:98:${Quota},${Quota}:/home/PUBLIC:/sbin/nologin"
+  /usr/bin/replaceFile "/etc/passwd" "${PASSWD_LINE}" "nobody:!!:99:98:${Quota},${Quota}:/home/PUBLIC:/sbin/nologin"
   ${XFS_QUOTA} -x -c "limit -u bsoft=${Quota}g bhard=${Quota}g 99" /home
   service_smb_${STATUS}
   ;;

@@ -2,7 +2,6 @@ service_ssh_start(){
 SERVICE_PATH=/etc/sysconfig/config
 RSA_PATH=${SERVICE_PATH}/ssh
 RSA_FILE=${RSA_PATH}/ssh_rsa_host_key
-replaceFile=/usr/bin/replaceFile
 PID_FILE=/var/run/dropbear.pid
 
 mkdir -p ${RSA_PATH}

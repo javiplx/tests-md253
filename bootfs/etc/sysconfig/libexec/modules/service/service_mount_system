@@ -14,7 +14,6 @@ service_mount_system(){
  exit
  }
 
-replaceFile=/usr/bin/replaceFile
 /bin/test -f /mnt/finish || {
  CONF_PATH=/etc/sysconfig/config
  IFCFG=${CONF_PATH}/ifcfg-eth0
@@ -36,7 +35,7 @@ replaceFile=/usr/bin/replaceFile
 
  NEW_MAC=`/bin/awk -F= /HWADDR/'{print $2}' /mnt/ifcfg-eth0.default|/bin/sed 's/\ //g'`
  OLD_MAC=`/bin/awk -F= /HWADDR/'{print $2}' /mnt/ifcfg-eth0|/bin/sed 's/\ //g'`
- $replaceFile "/mnt/ifcfg-eth0" "HWADDR=${OLD_MAC}" "HWADDR=${NEW_MAC}"
+ /usr/bin/replaceFile "/mnt/ifcfg-eth0" "HWADDR=${OLD_MAC}" "HWADDR=${NEW_MAC}"
 
  /bin/touch /mnt/finish
  }

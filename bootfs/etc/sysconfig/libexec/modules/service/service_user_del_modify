@@ -2,7 +2,6 @@ service_user_del_modify(){
 CONFIG_PATH=/etc/sysconfig/config
 SMB_PATH=${CONFIG_PATH}/smb
 SMB_PASSWD_PROG=/usr/local/samba/sbin/smbpasswd
-replaceFile=/usr/bin/replaceFile
 
 UserName=`echo ${user}|/bin/sed 's/\^/\ /g'`
 for user in $UserName; do

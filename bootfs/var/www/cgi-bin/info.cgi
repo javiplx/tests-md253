@@ -8,8 +8,6 @@ SMB_HOST_CONF=/etc/sysconfig/config/smb/host.inc
 IFCFG=/etc/sysconfig/network-scripts/ifcfg-eth0
 VERSION=/etc/sysconfig/config/version
 
-replaceFile=/usr/bin/replaceFile
-
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 
 case ${func} in

@@ -1,5 +1,4 @@
 service_smb_modify_scurity(){
-replaceFile=/usr/bin/replaceFile
 CONFIG_PATH=/etc/sysconfig/config
 SMB_CONF=${CONFIG_PATH}/smb/smb.conf
 SMB_SHARES_CONF=${CONFIG_PATH}/smb/shares.inc
@@ -8,9 +7,8 @@ NEW_MODE=$1
 [ "$NEW_MODE" == "" ] && NEW_MODE=share
 
 OLD_MODE=`/bin/awk -F= /security/'{print $2}' ${SMB_CONF}|/bin/sed 's/\ //g'`
-$replaceFile "$SMB_CONF" "security = $OLD_MODE" "security = $NEW_MODE"
+/usr/bin/replaceFile "$SMB_CONF" "security = $OLD_MODE" "security = $NEW_MODE"
 
-SLEEP=1
 Directory="PUBLIC Media BitTorrent"
 SHARE_PATH=/home
 for path in $Directory; do

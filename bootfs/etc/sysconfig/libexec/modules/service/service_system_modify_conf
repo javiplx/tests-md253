@@ -7,7 +7,6 @@ LMHost=${SmbPath}/lmhosts
 SMB_HOST_CONF=${SmbPath}/host.inc
 DAAP_CONF=${ConfigPath}/daapd.conf
 
-replaceFile=/usr/bin/replaceFile
 SMB_PASSWD_PROG=/usr/local/samba/sbin/smbpasswd
 
 QUERY_STRING=$1
@@ -34,7 +33,7 @@ echo "server string = ${hostname}" >> ${SMB_HOST_CONF}
 echo "comment = ${hostname}" >> ${SMB_HOST_CONF}
 
 old_daap_name=`/bin/awk /servername/'{print $2}' ${DAAP_CONF}|/bin/sed 's/\ //g'`
-$replaceFile "${DAAP_CONF}" "servername ${old_daap_name}" "servername ${hostname}"
+/usr/bin/replaceFile "${DAAP_CONF}" "servername ${old_daap_name}" "servername ${hostname}"
 
 # Restart service
 
