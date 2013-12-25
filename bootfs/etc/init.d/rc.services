@@ -14,11 +14,6 @@ cat /dev/null > /etc/lprng/printcap
  rm -f /tmp/modify_smb_conf &&\
  service_smb_modify_conf
 
-/usr/local/samba/sbin/nmbd >/dev/null 2>&1
-[ $? -eq 0 ] &&\
- /bin/logger "$0 - nmbd deamon Start Succeed" ||\
- /bin/logger "$0 - nmbd deamon Start Failed"
-
 dlna_mDNSR_start
  
 route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
