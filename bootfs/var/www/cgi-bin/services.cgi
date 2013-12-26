@@ -48,16 +48,10 @@ case ${func} in
 
   case ${status} in
    Enable)
-    [ -n "`/bin/pidof daapd`" ] || {
-     /usr/bin/daapd -m -c ${DAAP_CONF} -d 9 -D scan -f > /tmp/data 2>&1 &
-     }
+    dlna_start_daemon
     ;;
    Disable)
-    /bin/killall daapd >/dev/null 2>&1
-    PID=`/bin/pidof daapd`
-    for pid in $PID; do
-     /bin/kill -9 ${pid}
-    done
+    dlna_stop_daemon
     ;;
   esac
   ;;
@@ -73,11 +67,7 @@ case ${func} in
    $replaceFile "$DAAP_CONF" "mp3_dir $old_path" "mp3_dir /tmp/"
    $replaceFile "$SERVICE_CONF" "daapd=${old_status}" "daapd=Disable"
 
-   /bin/killall daapd >/dev/null 2>&1
-   PID=`/bin/pidof daapd`
-   for pid in $PID; do
-    /bin/kill -9 ${pid}
-   done
+   dlna_stop_daemon
 
    /bin/rm -rf /tmp/data
    dlna_mDNSR_modify_conf
@@ -85,16 +75,12 @@ case ${func} in
    $replaceFile "$DAAP_CONF" "mp3_dir $old_path" "mp3_dir $path/"
    $replaceFile "$SERVICE_CONF" "daapd=${old_status}" "daapd=Disable"
 
-   /bin/killall daapd >/dev/null 2>&1
-   PID=`/bin/pidof daapd`
-   for pid in $PID; do
-    /bin/kill -9 ${pid}
-   done
+   dlna_stop_daemon
 
    /bin/rm -rf /tmp/data
    $replaceFile "$SERVICE_CONF" "daapd=Disable" "daapd=Enable"
    dlna_mDNSR_modify_conf
-   /usr/bin/daapd -m -c ${DAAP_CONF} -d 9 -D scan -f > /tmp/data 2>&1 &
+   dlna_start_daemon
    }
   ;;
  stop_scan)
@@ -103,11 +89,7 @@ case ${func} in
   $replaceFile "${DAAP_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/" >/dev/null 2>&1
   $replaceFile "${SERVICE_CONF}" "daapd=$old_status" "daapd=Disable"
 
-  /bin/killall daapd >/dev/null 2>&1
-  PID=`/bin/pidof daapd`
-  for pid in $PID; do
-   /bin/kill -9 ${pid}
-  done
+  dlna_stop_daemon
 
   /bin/rm -rf /tmp/data
   dlna_mDNSR_modify_conf
