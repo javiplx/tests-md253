@@ -53,7 +53,9 @@ route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
 
 service_package_manager "Service&default"
 
-SERVICE="crond smb ftp http btpd optware"
+service_crond_start &
+
+SERVICE="smb ftp http btpd optware"
 for i in $SERVICE; do
  status=`/bin/awk -F= /$i/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${i}_start &
