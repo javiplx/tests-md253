@@ -26,9 +26,7 @@ OLD_AllowUser=`/bin/awk /AllowUser/'{print $2}' ${ConfigFile}|/bin/sed 's/\ //g'
 OLD_AllowUser_Line=`/bin/cat ${ConfigFile}|/bin/grep "AllowUser"`
 $replaceFile "${ConfigFile}" "${OLD_AllowUser_Line}" "${OLD_AllowUser_Line}${UserName},"
 
-service_ftp_stop
-service_smb_stop
+service_stop_all ftp smb
 sleep 2
-service_ftp_start
-service_smb_start
+service_start_all ftp smb
 }
