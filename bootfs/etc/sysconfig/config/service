@@ -1,6 +1,5 @@
 smb=Enable
 ftp=Enable
-http=Enable
 LANGUAGE=en
 btpd=Enable
 daapd=Enable
