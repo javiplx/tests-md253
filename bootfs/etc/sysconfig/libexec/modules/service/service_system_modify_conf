@@ -63,16 +63,7 @@ new_password=`echo ${QUERY_STRING} | cut '-d&' -f4`
  echo "admin:${new_password}" | /bin/chpasswd
  (echo "${new_password}";echo "${new_password}")|${SMB_PASSWD_PROG} -s -a admin >/dev/null 2>&1
 
-
-	# restart httpd for change password
-	/bin/killall httpd
-	PID=`/bin/pidof httpd`
-	for i in $PID; do
-	/bin/kill -9 $i >/dev/null 2>&1
-	done
-	/bin/logger "$0 - httpd deamon Stop"
-
-	service_http_start
+	service_http_restart
 
  }
 }
