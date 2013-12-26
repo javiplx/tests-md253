@@ -3,12 +3,10 @@ SERVICE_CONF=/etc/sysconfig/config/service
 
 . ${SERVICE_CONF}
 
-for service in smb ftp btpd ; do
+for service in smb ftp btpd daapd ; do
  status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${service}_start &
 done
-
-[ "$daapd" == "Enable"] && dlna_start_daemon &
 
 wait
 }
