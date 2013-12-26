@@ -65,3 +65,4 @@ for i in $SERVICE; do
  [ "$status" == "Enable" ] && service_${i}_start &
 done
 
+service_optware_start &
