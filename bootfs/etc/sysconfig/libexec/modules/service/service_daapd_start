@@ -1,18 +1,14 @@
 service_daapd_start(){
 SERVICE_PATH=/etc/sysconfig/config
-SERVICE_CONF=$SERVICE_PATH/service
 
 service_daapd_modify_config
 
-. $SERVICE_CONF
 /bin/df|/bin/awk '{print $NF}'|/bin/grep "^/home$" >/dev/null 2>&1
 [ $? -ne 0 ] && return;
 
- [ $daapd == "Enable" ] && {
      /usr/bin/daapd -m -c $SERVICE_PATH/daapd.conf -d 9 -D scan -f > /tmp/data 2>&1 &
      [ $? -eq 0 ] &&\
       /bin/logger "$0 - daapd deamon Start Succeed" ||\
       /bin/logger "$0 - daapd deamon Start Failed"
-  }
 
 }
