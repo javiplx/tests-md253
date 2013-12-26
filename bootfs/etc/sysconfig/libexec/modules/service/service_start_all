@@ -1,0 +1,12 @@
+service_start_all() {
+SERVICE_CONF=/etc/sysconfig/config/service
+
+. ${SERVICE_CONF}
+
+for service in smb ftp btpd ; do
+ status=`/bin/awk -F= /$service/'{print $2}' ${SERVICE_CONF}`
+ [ "$status" == "Enable" ] && service_${service}_start &
+done
+
+wait
+}

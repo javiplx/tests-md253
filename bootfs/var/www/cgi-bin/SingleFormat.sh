@@ -31,10 +31,7 @@ dev=`echo $1|/bin/cut '-d_' -f1`
 echo "${str} blue clear" > /proc/mp_leds
 echo "${str} red set" > /proc/mp_leds
 
-SERVICE="smb ftp btpd"
-for service in $SERVICE; do
- service_${service}_stop >/dev/null 2>&1
-done
+service_stop_all
 dlna_stop_daemon >/dev/null 2>&1 &
 $TwonkyMedia stop
 service_package_manager "Service&stop"
@@ -162,9 +159,7 @@ for Dir in $Directory; do
 done
 /bin/rm -rf /tmp/ftpaccess
 
-for service in $SERVICE; do
- service_${service}_start >/dev/null 2>&1 &
-done
+service_start_all
 dlna_start_daemon >/dev/null 2>&1 &
 $TwonkyMedia start
 

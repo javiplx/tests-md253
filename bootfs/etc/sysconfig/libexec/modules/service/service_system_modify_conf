@@ -41,12 +41,10 @@ dlna_mDNSR_modify_conf
 # Restart service
 
 dlna_stop_daemon
-service_ftp_stop
-service_smb_stop
+service_stop_all
 
 dlna_start_daemon
-service_ftp_start
-service_smb_start
+service_start_all
 
 # Modify New Admin Password
 new_password=`echo ${QUERY_STRING} | cut '-d&' -f4`
