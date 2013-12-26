@@ -3,6 +3,9 @@
 echo "digraph md253 {"
 echo
 
+echo "compound=true;"
+echo
+
 FUNCTIONS=$( sed -n -e 's/^\(.*\)(){/\1/p' bootfs/etc/sysconfig/libexec/modules/*/* )
 
 CGIS=$( ls bootfs/var/www/cgi-bin/* )
@@ -84,20 +87,39 @@ for SERVICE in daapd ftp smb ; do
 
 for SERVICE in smb ftp daapd btpd optware ; do
   cat <<-EOF
-	"bootfs/etc/init.d/rc.sysinit" -> "service_${SERVICE}_start" [ style=dotted ];
+	"bootfs/etc/init.d/rc.services" -> "service_${SERVICE}_start" [ style=dotted , lhead=cluster_svcstart ];
 	EOF
   done
 
-for SERVICE in smb ftp btpd daapd ; do
-  cat <<-EOF
-	"bootfs/var/www/cgi-bin/scandisk.sh" -> "service_${SERVICE}_start" [ style=dotted ];
-	"bootfs/var/www/cgi-bin/SingleFormat.sh" -> "service_${SERVICE}_start" [ style=dotted ];
-	"bootfs/var/www/cgi-bin/format.sh" -> "service_${SERVICE}_start" [ style=dotted ];
-	"bootfs/var/www/cgi-bin/scandisk.sh" -> "service_${SERVICE}_stop" [ style=dotted ];
-	"bootfs/var/www/cgi-bin/SingleFormat.sh" -> "service_${SERVICE}_stop" [ style=dotted ];
-	"bootfs/var/www/cgi-bin/format.sh" -> "service_${SERVICE}_stop" [ style=dotted ];
-	EOF
-  done
+cat <<EOF
+"bootfs/etc/init.d/rc.services" -> "service_optware_start";
+"bootfs/etc/init.d/rc.services" -> "service_smb_start" [ style=dotted , lhead=cluster_svcstart ];
+
+"bootfs/var/www/cgi-bin/scandisk.sh" -> "service_smb_start" [ style=dotted , lhead=cluster_svcstart ];
+"bootfs/var/www/cgi-bin/SingleFormat.sh" -> "service_smb_start" [ style=dotted , lhead=cluster_svcstart ];
+"bootfs/var/www/cgi-bin/format.sh" -> "service_smb_start" [ style=dotted , lhead=cluster_svcstart ];
+"bootfs/var/www/cgi-bin/scandisk.sh" -> "service_smb_stop" [ style=dotted , lhead=cluster_svcstop ];
+"bootfs/var/www/cgi-bin/SingleFormat.sh" -> "service_smb_stop" [ style=dotted , lhead=cluster_svcstop ];
+"bootfs/var/www/cgi-bin/format.sh" -> "service_smb_stop" [ style=dotted , lhead=cluster_svcstop ];
+EOF
+
+echo
+
+cat <<EOF
+subgraph cluster_svcstart {
+"service_btpd_start";
+"service_ftp_start";
+"service_smb_start";
+"service_daapd_start";
+}
+
+subgraph cluster_svcstop {
+"service_btpd_stop";
+"service_ftp_stop";
+"service_smb_stop";
+"service_daapd_stop";
+}
+EOF
 
 echo
 echo "}"
