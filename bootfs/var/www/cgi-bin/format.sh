@@ -33,7 +33,7 @@ echo "hdd2 red clear" > /proc/mp_leds
 echo "hdd1 red set" > /proc/mp_leds
 echo "hdd2 red set" > /proc/mp_leds
 
-service_stop_all
+service_stop
 $TwonkyMedia stop
 service_package_manager "Service&stop"
 
@@ -116,7 +116,7 @@ for i in $Directory; do
 done
 /bin/rm -rf /tmp/ftpaccess
 
-service_start_all
+service_start
 $TwonkyMedia start
 
 /bin/mkdir -p /home/PUBLIC/Media

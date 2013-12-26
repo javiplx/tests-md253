@@ -10,7 +10,7 @@ TwonkyMedia=/usr/local/TwonkyVision/twonkymedia.sh
 SLEEP=1
 SHARE_PATH=/home
 
-service_stop_all
+service_stop
 $TwonkyMedia stop
 
 /bin/sleep $SLEEP
@@ -87,5 +87,5 @@ done
 
 service_smb_modify_conf
 
-service_start_all
+service_start
 $TwonkyMedia start

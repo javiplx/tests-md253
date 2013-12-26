@@ -23,6 +23,6 @@ old_Allow_Anon_Enable=`/bin/grep 'anonymous.conf' $FTP_CONF`
 new_Anon_Access_ReadWrite=`echo ${QUERY_STRING} | cut '-d&' -f6`
 service_ftp_modify_conf_data > ${ANONYMOUS_CONF}
 
-service_ftp_stop
-service_ftp_start
+service_stop ftp
+service_start ftp
 }

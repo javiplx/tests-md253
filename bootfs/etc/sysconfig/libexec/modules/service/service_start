@@ -1,4 +1,4 @@
-service_start_all() {
+service_start() {
 SERVICE_CONF=/etc/sysconfig/config/service
 
 . ${SERVICE_CONF}

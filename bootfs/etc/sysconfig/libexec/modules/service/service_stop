@@ -1,4 +1,4 @@
-service_stop_all() {
+service_stop() {
 SERVICE_CONF=/etc/sysconfig/config/service
 
 . ${SERVICE_CONF}
