@@ -1,13 +1,10 @@
 dlna_stop_daemon(){
-service="daapd"
-for i in $service; do
- /bin/killall ${i}
- STATUS=`/bin/pidof ${i}`
+ /bin/killall daapd
+ STATUS=`/bin/pidof daapd`
  [ -n "${STATUS}" ] && {
   for x in $STATUS; do
    /bin/kill -9 $x >/dev/null 2>&1
   done
   }
-done
 /bin/logger "$0 - \"daapd\" deamon Stop"
 }
