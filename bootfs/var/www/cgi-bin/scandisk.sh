@@ -11,7 +11,6 @@ SLEEP=1
 SHARE_PATH=/home
 
 service_stop_all
-dlna_stop_daemon >/dev/null 2>&1 &
 $TwonkyMedia stop
 
 /bin/sleep $SLEEP
@@ -89,5 +88,4 @@ done
 service_smb_modify_conf
 
 service_start_all
-dlna_start_daemon >/dev/null 2>&1 &
 $TwonkyMedia start
