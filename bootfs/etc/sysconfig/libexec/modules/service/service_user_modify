@@ -42,11 +42,9 @@ esac
 
 case ${func} in
  adduser|deluser)
-  service_ftp_stop
-  service_smb_stop
+  service_stop_all ftp smb
   sleep 2
-  service_ftp_start
-  service_smb_start
+  service_start_all ftp smb
   ;;
 esac
 }
