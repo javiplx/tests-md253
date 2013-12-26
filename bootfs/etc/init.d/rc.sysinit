@@ -54,7 +54,6 @@ service_crond_start &
 
 service_http_start &
 
-service_start_all
+service_start
 
 service_optware_start &
-

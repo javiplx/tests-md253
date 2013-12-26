@@ -11,7 +11,7 @@ outgoing=`echo ${QUERY_STRING} | cut '-d&' -f4`
 incoming=`echo ${QUERY_STRING} | cut '-d&' -f5`
 maxpeers=`echo ${QUERY_STRING} | cut '-d&' -f6`
 
-service_btpd_stop
+service_stop btpd
 
 new_status=`echo ${QUERY_STRING} | cut '-d&' -f2`
 old_status=`/bin/awk -F= /btpd/'{print $2}' ${SERVICE_CONF}|/bin/sed 's/\ //g'`
@@ -20,5 +20,5 @@ old_status=`/bin/awk -F= /btpd/'{print $2}' ${SERVICE_CONF}|/bin/sed 's/\ //g'`
 
 service_btpd_modify_conf_data > ${BTPD_CONF}
 /bin/logger "$0 - Modify btpd Config \"btpd.conf\""
-service_btpd_start
+service_start btpd
 }

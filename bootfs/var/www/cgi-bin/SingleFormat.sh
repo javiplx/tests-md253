@@ -31,7 +31,7 @@ dev=`echo $1|/bin/cut '-d_' -f1`
 echo "${str} blue clear" > /proc/mp_leds
 echo "${str} red set" > /proc/mp_leds
 
-service_stop_all
+service_stop
 $TwonkyMedia stop
 service_package_manager "Service&stop"
 
@@ -158,7 +158,7 @@ for Dir in $Directory; do
 done
 /bin/rm -rf /tmp/ftpaccess
 
-service_start_all
+service_start
 $TwonkyMedia start
 
 /bin/mkdir -p /home/.opt

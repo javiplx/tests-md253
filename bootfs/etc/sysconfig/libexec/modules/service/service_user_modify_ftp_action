@@ -46,7 +46,7 @@ case ${Action} in
   esac
   ;;
 esac
-service_ftp_stop
+service_stop ftp
 sleep 2
-service_ftp_start
+service_start ftp
 }
