@@ -26,8 +26,6 @@ KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 EXEC=/etc/sysconfig/system-script/media_service
 . $SERVICE_CONF
 
-service_setcolor
-
 /bin/udevd --daemon
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - udevd deamon Start Succeed" ||\
