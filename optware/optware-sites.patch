@@ -1,0 +1,1103 @@
+Index: optware/make/ccxstream.mk
+===================================================================
+--- optware/make/ccxstream.mk	(revision 12863)
++++ optware/make/ccxstream.mk	(working copy)
+@@ -56,7 +56,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(CCXSTREAM_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(CCXSTREAM_SITE)/$(CCXSTREAM_SOURCE)
++	$(WGET) -P $(DL_DIR) $(CCXSTREAM_SITE)/$(CCXSTREAM_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(CCXSTREAM_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/at.mk
+===================================================================
+--- optware/make/at.mk	(revision 12863)
++++ optware/make/at.mk	(working copy)
+@@ -86,7 +86,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(AT_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(AT_SITE)/$(AT_SOURCE)
++	$(WGET) -P $(DL_DIR) $(AT_SITE)/$(AT_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(AT_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/py-psycopg2.mk
+===================================================================
+--- optware/make/py-psycopg2.mk	(revision 12863)
++++ optware/make/py-psycopg2.mk	(working copy)
+@@ -21,7 +21,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PY-PSYCOPG2_SITE=http://initd.org/pub/software/psycopg
++PY-PSYCOPG2_SITE=http://initd.org/psycopg/tarballs/PSYCOPG-2-3
+ PY-PSYCOPG2_VERSION=2.3.2
+ PY-PSYCOPG2_SOURCE=psycopg2-$(PY-PSYCOPG2_VERSION).tar.gz
+ PY-PSYCOPG2_DIR=psycopg2-$(PY-PSYCOPG2_VERSION)
+Index: optware/make/py-nevow.mk
+===================================================================
+--- optware/make/py-nevow.mk	(revision 12863)
++++ optware/make/py-nevow.mk	(working copy)
+@@ -84,7 +83,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-NEVOW_SOURCE):
+-	$(WGET) -O $@ $(PY-NEVOW_SITE) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/util-linux.mk
+===================================================================
+--- optware/make/util-linux.mk	(revision 12863)
++++ optware/make/util-linux.mk	(working copy)
+@@ -20,7 +20,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-UTIL_LINUX_SITE=ftp://ftp.kernel.org/pub/linux/utils/util-linux
++UTIL_LINUX_SITE=ftp://ftp.kernel.org/pub/linux/utils/util-linux/v2.12
+ UTIL_LINUX_VERSION=2.12r
+ UTIL_LINUX_SOURCE=util-linux-$(UTIL_LINUX_VERSION).tar.gz
+ UTIL_LINUX_DIR=util-linux-$(UTIL_LINUX_VERSION)
+Index: optware/make/rtpproxy.mk
+===================================================================
+--- optware/make/rtpproxy.mk	(revision 12863)
++++ optware/make/rtpproxy.mk	(working copy)
+@@ -79,7 +79,7 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(RTPPROXY_SOURCE):
+-	$(WGET) -P $(@D) $(RTPROXY_SITE)/$(@F) || \
++	$(WGET) -P $(@D) $(RTPPROXY_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/atop.mk
+===================================================================
+--- optware/make/atop.mk	(revision 12863)
++++ optware/make/atop.mk	(working copy)
+@@ -10,7 +10,7 @@
+ # questions. But feel free to update or change this package
+ # if there are reasons.
+ #
+-ATOP_SITE=http://www.atconsultancy.nl/atop/packages
++ATOP_SITE=http://www.atoptool.nl/download
+ ATOP_VERSION=1.21
+ ATOP_SOURCE=atop-$(ATOP_VERSION).tar.gz
+ ATOP_DIR=atop-$(ATOP_VERSION)
+Index: optware/make/py-pygresql.mk
+===================================================================
+--- optware/make/py-pygresql.mk	(revision 12863)
++++ optware/make/py-pygresql.mk	(working copy)
+@@ -21,7 +21,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PY-PYGRESQL_SITE=ftp://ftp.PyGreSQL.org/pub/distrib
++PY-PYGRESQL_SITE=http://PyGreSQL.org/files
+ PY-PYGRESQL_VERSION=3.8.1
+ PY-PYGRESQL_SOURCE=PyGreSQL-$(PY-PYGRESQL_VERSION).tgz
+ PY-PYGRESQL_DIR=PyGreSQL-$(PY-PYGRESQL_VERSION)
+Index: optware/make/py-turbogears.mk
+===================================================================
+--- optware/make/py-turbogears.mk	(revision 12863)
++++ optware/make/py-turbogears.mk	(working copy)
+@@ -21,7 +21,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PY-TURBOGEARS_SITE=http://files.turbogears.org/eggs
++PY-TURBOGEARS_SITE=https://pypi.python.org/packages/source/T/TurboGears
+ PY-TURBOGEARS_VERSION=1.1
+ PY-TURBOGEARS_IPK_VERSION=1
+ PY-TURBOGEARS_SOURCE=TurboGears-$(PY-TURBOGEARS_VERSION).tar.gz
+@@ -107,7 +107,7 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-TURBOGEARS_SOURCE):
+-	$(WGET) -P $(@D) $(PY-TURBOGEARS_SITE)/$(@F) || \
++	$(WGET) --no-check-certificate -P $(@D) $(PY-TURBOGEARS_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/libcapi20.mk
+===================================================================
+--- optware/make/libcapi20.mk	(revision 12863)
++++ optware/make/libcapi20.mk	(working copy)
+@@ -19,7 +19,7 @@
+ #
+ # You should change all these variables to suit your package.
+ #
+-LIBCAPI20_SITE=ftp://ftp.melware.net/capi-utils
++LIBCAPI20_SITE=http://www.openadk.org/distfiles
+ LIBCAPI20_VERSION=3.0.5-cm
+ LIBCAPI20_SOURCE=libcapi20-$(LIBCAPI20_VERSION).tar.gz
+ LIBCAPI20_DIR=libcapi20-$(LIBCAPI20_VERSION)
+Index: optware/make/dash.mk
+===================================================================
+--- optware/make/dash.mk	(revision 12863)
++++ optware/make/dash.mk	(working copy)
+@@ -20,7 +20,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-DASH_SITE=http://ftp.debian.org/debian/pool/main/d/dash
++DASH_SITE=https://launchpad.net/debian/+archive/primary/+files
+ DASH_VERSION=0.5.6.1
+ DASH_SOURCE=dash_$(DASH_VERSION).orig.tar.gz
+ DASH_DIR=dash-$(DASH_VERSION)
+Index: optware/make/autossh.mk
+===================================================================
+--- optware/make/autossh.mk	(revision 12863)
++++ optware/make/autossh.mk	(working copy)
+@@ -20,7 +20,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-AUTOSSH_SITE=http://www.harding.motd.ca/autossh
++AUTOSSH_SITE=http://www.sfr-fresh.com/unix/privat
+ AUTOSSH_VERSION=1.4b
+ AUTOSSH_SOURCE=autossh-$(AUTOSSH_VERSION).tgz
+ AUTOSSH_DIR=autossh-$(AUTOSSH_VERSION)
+Index: optware/make/postgresql.mk
+===================================================================
+--- optware/make/postgresql.mk	(revision 12863)
++++ optware/make/postgresql.mk	(working copy)
+@@ -27,7 +27,7 @@
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+ POSTGRESQL_VERSION=8.2.13
+-POSTGRESQL_SITE=ftp://ftp.postgresql.org/pub/source/v$(POSTGRESQL_VERSION)
++POSTGRESQL_SITE=http://ftp.riken.go.jp/pub/FreeBSD/distfiles/postgresql
+ POSTGRESQL_SOURCE=postgresql-$(POSTGRESQL_VERSION).tar.bz2
+ POSTGRESQL_DIR=postgresql-$(POSTGRESQL_VERSION)
+ POSTGRESQL_UNZIP=bzcat
+Index: optware/make/py-mantissa.mk
+===================================================================
+--- optware/make/py-mantissa.mk	(revision 12863)
++++ optware/make/py-mantissa.mk	(working copy)
+@@ -81,7 +80,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-MANTISSA_SOURCE):
+-	$(WGET) -O $@ $(PY-MANTISSA_SITE) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/picolisp.mk
+===================================================================
+--- optware/make/picolisp.mk	(revision 12863)
++++ optware/make/picolisp.mk	(working copy)
+@@ -76,7 +75,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PICOLISP_SOURCE):
+-	$(WGET) -O $(DL_DIR)/$(PICOLISP_SOURCE) "$(PICOLISP_SITE)$(PICOLISP_SOURCE)" || \
+ 	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(PICOLISP_SOURCE)
+ 
+ #
+Index: optware/make/mdadm.mk
+===================================================================
+--- optware/make/mdadm.mk	(revision 12863)
++++ optware/make/mdadm.mk	(working copy)
+@@ -19,7 +19,7 @@
+ #
+ # You should change all these variables to suit your package.
+ #
+-MDADM_SITE=http://www.cse.unsw.edu.au/~neilb/source/mdadm/
++MDADM_SITE=http://www.kernel.org/pub/linux/utils/raid/mdadm/
+ MDADM_VERSION=2.6
+ MDADM_SOURCE=mdadm-$(MDADM_VERSION).tgz
+ MDADM_DIR=mdadm-$(MDADM_VERSION)
+Index: optware/make/py-epsilon.mk
+===================================================================
+--- optware/make/py-epsilon.mk	(revision 12863)
++++ optware/make/py-epsilon.mk	(working copy)
+@@ -81,7 +80,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-EPSILON_SOURCE):
+-	$(WGET) -O $@ $(PY-EPSILON_SITE) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/py-axiom.mk
+===================================================================
+--- optware/make/py-axiom.mk	(revision 12863)
++++ optware/make/py-axiom.mk	(working copy)
+@@ -81,7 +80,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-AXIOM_SOURCE):
+-	$(WGET) -O $@ $(PY-AXIOM_SITE) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/quagga.mk
+===================================================================
+--- optware/make/quagga.mk	(revision 12863)
++++ optware/make/quagga.mk	(working copy)
+@@ -26,7 +26,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-QUAGGA_SITE=http://www.quagga.net/download
+ QUAGGA_VERSION=0.99.16
+ QUAGGA_SOURCE=quagga-$(QUAGGA_VERSION).tar.gz
+ QUAGGA_DIR=quagga-$(QUAGGA_VERSION)
+@@ -82,7 +81,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(QUAGGA_SOURCE):
+-	$(WGET) -P $(@D) $(QUAGGA_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/knock.mk
+===================================================================
+--- optware/make/knock.mk	(revision 12863)
++++ optware/make/knock.mk	(working copy)
+@@ -4,7 +4,6 @@
+ # 
+ ###########################################################
+ #
+-KNOCK_SITE=http://www.zeroflux.org/knock/files
+ KNOCK_VERSION=0.5
+ KNOCK_SOURCE=knock-$(KNOCK_VERSION).tar.gz
+ KNOCK_DIR=knock-$(KNOCK_VERSION)
+@@ -53,7 +52,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(KNOCK_SOURCE):
+-	$(WGET) -P $(@D) $(KNOCK_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/dircproxy.mk
+===================================================================
+--- optware/make/dircproxy.mk	(revision 12863)
++++ optware/make/dircproxy.mk	(working copy)
+@@ -20,7 +20,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-DIRCPROXY_SITE=http://dircproxy.securiweb.net/pub/1.1
+ DIRCPROXY_VERSION=1.1.0
+ DIRCPROXY_SOURCE=dircproxy-$(DIRCPROXY_VERSION).tar.gz
+ DIRCPROXY_DIR=dircproxy-$(DIRCPROXY_VERSION)
+@@ -76,7 +75,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(DIRCPROXY_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(DIRCPROXY_SITE)/$(@F) || \
+ 	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/libhid.mk
+===================================================================
+--- optware/make/libhid.mk	(revision 12863)
++++ optware/make/libhid.mk	(working copy)
+@@ -20,7 +20,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-LIBHID_SITE=https://alioth.debian.org/frs/download.php/1958
+ LIBHID_VERSION=0.2.16
+ LIBHID_SOURCE=libhid-$(LIBHID_VERSION).tar.gz
+ LIBHID_DIR=libhid-$(LIBHID_VERSION)
+@@ -80,7 +79,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(LIBHID_SOURCE):
+-	$(WGET) --no-check-certificate -P $(@D) $(LIBHID_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/calc.mk
+===================================================================
+--- optware/make/calc.mk	(revision 12863)
++++ optware/make/calc.mk	(working copy)
+@@ -20,7 +20,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-CALC_SITE=http://www.isthe.com/chongo/src/calc
+ CALC_VERSION=2.12.4.0
+ CALC_SOURCE=calc-$(CALC_VERSION).tar.bz2
+ CALC_DIR=calc-$(CALC_VERSION)
+@@ -76,7 +75,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(CALC_SOURCE):
+-	$(WGET) -P $(@D) $(CALC_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/minicom.mk
+===================================================================
+--- optware/make/minicom.mk	(revision 12863)
++++ optware/make/minicom.mk	(working copy)
+@@ -26,7 +26,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-MINICOM_SITE=http://alioth.debian.org/frs/download.php/3487
+ MINICOM_VERSION=2.5
+ MINICOM_SOURCE=minicom-$(MINICOM_VERSION).tar.gz
+ MINICOM_DIR=minicom-$(MINICOM_VERSION)
+@@ -86,7 +85,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(MINICOM_SOURCE):
+-	$(WGET) -P $(@D) $(MINICOM_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/eventlog.mk
+===================================================================
+--- optware/make/eventlog.mk	(revision 12863)
++++ optware/make/eventlog.mk	(working copy)
+@@ -4,7 +4,6 @@
+ #
+ ###########################################################
+ 
+-EVENTLOG_SITE=http://www.balabit.com/downloads/files/syslog-ng/sources/stable/src
+ EVENTLOG_VERSION=0.2.7
+ EVENTLOG_SOURCE=eventlog-$(EVENTLOG_VERSION).tar.gz
+ EVENTLOG_DIR=eventlog-$(EVENTLOG_VERSION)
+@@ -60,7 +59,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(EVENTLOG_SOURCE):
+-	$(WGET) -P $(@D) $(EVENTLOG_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/stunnel.mk
+===================================================================
+--- optware/make/stunnel.mk	(revision 12863)
++++ optware/make/stunnel.mk	(working copy)
+@@ -19,7 +19,6 @@
+ #
+ # You should change all these variables to suit your package.
+ #
+-STUNNEL_SITE=http://www.stunnel.org/download/stunnel/src
+ STUNNEL_VERSION=4.26
+ STUNNEL_SOURCE=stunnel-$(STUNNEL_VERSION).tar.gz
+ STUNNEL_DIR=stunnel-$(STUNNEL_VERSION)
+@@ -78,7 +77,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(STUNNEL_SOURCE):
+-	$(WGET) -P $(@D) $(STUNNEL_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/py-gdchart2.mk
+===================================================================
+--- optware/make/py-gdchart2.mk	(revision 12863)
++++ optware/make/py-gdchart2.mk	(working copy)
+@@ -21,7 +21,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PY-GDCHART2_SITE=http://www.nullcube.com/software/pygdchart2
+ PY-GDCHART2_VERSION=Beta1
+ PY-GDCHART2_SOURCE=pygdchart2.tar.gz
+ PY-GDCHART2_DIR=pygdchart2
+@@ -81,7 +80,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-GDCHART2_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(PY-GDCHART2_SITE)/$(@F) || \
+ 	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/libijs.mk
+===================================================================
+--- optware/make/libijs.mk	(revision 12863)
++++ optware/make/libijs.mk	(working copy)
+@@ -20,7 +20,6 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-LIBIJS_SITE=http://www.linuxprinting.org/ijs/download
+ LIBIJS_VERSION=0.35
+ LIBIJS_SOURCE=ijs-$(LIBIJS_VERSION).tar.bz2
+ LIBIJS_DIR=ijs-$(LIBIJS_VERSION)
+@@ -76,7 +75,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(LIBIJS_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(LIBIJS_SITE)/$(LIBIJS_SOURCE) || \
+ 	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(LIBIJS_SOURCE)
+ 
+ #
+Index: optware/make/fixesext.mk
+===================================================================
+--- optware/make/fixesext.mk	(revision 12863)
++++ optware/make/fixesext.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(FIXESEXT_REPOSITORY) -z3 co $(FIXESEXT_CVS_OPTS) $(FIXESEXT_DIR) && \
+ 		tar -czf $@ $(FIXESEXT_DIR) && \
+ 		rm -rf $(FIXESEXT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ fixesext-source: $(DL_DIR)/fixesext-$(FIXESEXT_VERSION).tar.gz $(FIXESEXT_PATCHES)
+ 
+Index: optware/make/recordext.mk
+===================================================================
+--- optware/make/recordext.mk	(revision 12863)
++++ optware/make/recordext.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(RECORDEXT_REPOSITORY) -z3 co $(RECORDEXT_CVS_OPTS) $(RECORDEXT_DIR) && \
+ 		tar -czf $@ $(RECORDEXT_DIR) && \
+ 		rm -rf $(RECORDEXT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ recordext-source: $(DL_DIR)/recordext-$(RECORDEXT_VERSION).tar.gz $(RECORDEXT_PATCHES)
+ 
+Index: optware/make/xproto.mk
+===================================================================
+--- optware/make/xproto.mk	(revision 12863)
++++ optware/make/xproto.mk	(working copy)
+@@ -86,7 +86,8 @@
+ 		cvs -d $(XPROTO_REPOSITORY) -z3 co $(XPROTO_CVS_OPTS) $(XPROTO_DIR) && \
+ 		tar -czf $@ $(XPROTO_DIR) && \
+ 		rm -rf $(XPROTO_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xproto-source: $(DL_DIR)/xproto-$(XPROTO_VERSION).tar.gz $(XPROTO_PATCHES)
+ 
+Index: optware/make/xdpyinfo.mk
+===================================================================
+--- optware/make/xdpyinfo.mk	(revision 12863)
++++ optware/make/xdpyinfo.mk	(working copy)
+@@ -84,7 +84,8 @@
+ 		cvs -d $(XDPYINFO_REPOSITORY) -z3 co $(XDPYINFO_CVS_OPTS) $(XDPYINFO_DIR) && \
+ 		tar -czf $@ $(XDPYINFO_DIR) && \
+ 		rm -rf $(XDPYINFO_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xdpyinfo-source: $(DL_DIR)/xdpyinfo-$(XDPYINFO_VERSION).tar.gz $(XDPYINFO_PATCHES)
+ 
+Index: optware/make/gitosis.mk
+===================================================================
+--- optware/make/gitosis.mk	(revision 12863)
++++ optware/make/gitosis.mk	(working copy)
+@@ -92,7 +92,8 @@
+ 		cd gitosis && \
+ 		(git archive --format=tar --prefix=$(GITOSIS_DIR)/ $(GITOSIS_TREEISH) | gzip > $@) && \
+ 		rm -rf gitosis ; \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ gitosis-source: $(DL_DIR)/$(GITOSIS_DIR).tar.gz
+ 
+Index: optware/make/ipkg-opt.mk
+===================================================================
+--- optware/make/ipkg-opt.mk	(revision 12863)
++++ optware/make/ipkg-opt.mk	(working copy)
+@@ -100,7 +100,8 @@
+ 			-d $(IPKG-OPT_DIR) familiar/dist/ipkg/C && \
+ 		tar -czf $@ $(IPKG-OPT_DIR) && \
+ 		rm -rf $(IPKG-OPT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ ipkg-opt-source: $(DL_DIR)/ipkg-opt-$(IPKG-OPT_VERSION).tar.gz
+ 
+Index: optware/make/xtrans.mk
+===================================================================
+--- optware/make/xtrans.mk	(revision 12863)
++++ optware/make/xtrans.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(XTRANS_REPOSITORY) -z3 co $(XTRANS_CVS_OPTS) $(XTRANS_DIR) && \
+ 		tar -czf $@ $(XTRANS_DIR) && \
+ 		rm -rf $(XTRANS_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xtrans-source: $(DL_DIR)/xtrans-$(XTRANS_VERSION).tar.gz $(XTRANS_PATCHES)
+ 
+Index: optware/make/xpm.mk
+===================================================================
+--- optware/make/xpm.mk	(revision 12863)
++++ optware/make/xpm.mk	(working copy)
+@@ -83,7 +83,8 @@
+ 		cvs -d $(XPM_REPOSITORY) -z3 co $(XPM_CVS_OPTS) $(XPM_DIR) && \
+ 		tar -czf $@ $(XPM_DIR) && \
+ 		rm -rf $(XPM_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xpm-source: $(DL_DIR)/xpm-$(XPM_VERSION).tar.gz $(XPM_PATCHES)
+ 
+Index: optware/make/xtst.mk
+===================================================================
+--- optware/make/xtst.mk	(revision 12863)
++++ optware/make/xtst.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(XTST_REPOSITORY) -z3 co $(XTST_CVS_OPTS) $(XTST_DIR) && \
+ 		tar -czf $@ $(XTST_DIR) && \
+ 		rm -rf $(XTST_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xtst-source: $(DL_DIR)/xtst-$(XTST_VERSION).tar.gz $(XTST_PATCHES)
+ 
+Index: optware/make/xext.mk
+===================================================================
+--- optware/make/xext.mk	(revision 12863)
++++ optware/make/xext.mk	(working copy)
+@@ -84,7 +84,8 @@
+ 		cvs -d $(XEXT_REPOSITORY) -z3 co $(XEXT_CVS_OPTS) $(XEXT_DIR) && \
+ 		tar -czf $@ $(XEXT_DIR) && \
+ 		rm -rf $(XEXT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xext-source: $(DL_DIR)/xext-$(XEXT_VERSION).tar.gz $(XEXT_PATCHES)
+ 
+Index: optware/make/x11.mk
+===================================================================
+--- optware/make/x11.mk	(revision 12863)
++++ optware/make/x11.mk	(working copy)
+@@ -88,7 +88,8 @@
+ 		cvs -d $(X11_REPOSITORY) -z3 co $(X11_CVS_OPTS) $(X11_DIR) && \
+ 		tar -czf $@ $(X11_DIR) && \
+ 		rm -rf $(X11_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ x11-source: $(DL_DIR)/x11-$(X11_VERSION).tar.gz $(X11_PATCHES)
+ 
+Index: optware/make/xft.mk
+===================================================================
+--- optware/make/xft.mk	(revision 12863)
++++ optware/make/xft.mk	(working copy)
+@@ -84,7 +84,8 @@
+ 		cvs -d $(XFT_REPOSITORY) -z3 co $(XFT_CVS_OPTS) $(XFT_DIR) && \
+ 		tar -czf $@ $(XFT_DIR) && \
+ 		rm -rf $(XFT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xft-source: $(DL_DIR)/xft-$(XFT_VERSION).tar.gz $(XFT_PATCHES)
+ 
+Index: optware/make/renderext.mk
+===================================================================
+--- optware/make/renderext.mk	(revision 12863)
++++ optware/make/renderext.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(RENDEREXT_REPOSITORY) -z3 co $(RENDEREXT_CVS_OPTS) $(RENDEREXT_DIR) && \
+ 		tar -czf $@ $(RENDEREXT_DIR) && \
+ 		rm -rf $(RENDEREXT_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ renderext-source: $(DL_DIR)/renderext-$(RENDEREXT_VERSION).tar.gz $(RENDEREXT_PATCHES)
+ 
+Index: optware/make/xfixes.mk
+===================================================================
+--- optware/make/xfixes.mk	(revision 12863)
++++ optware/make/xfixes.mk	(working copy)
+@@ -84,7 +84,8 @@
+ 		cvs -d $(XFIXES_REPOSITORY) -z3 co $(XFIXES_CVS_OPTS) $(XFIXES_DIR) && \
+ 		tar -czf $@ $(XFIXES_DIR) && \
+ 		rm -rf $(XFIXES_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xfixes-source: $(DL_DIR)/xfixes-$(XFIXES_VERSION).tar.gz $(XFIXES_PATCHES)
+ 
+Index: optware/make/xextensions.mk
+===================================================================
+--- optware/make/xextensions.mk	(revision 12863)
++++ optware/make/xextensions.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(XEXTENSIONS_REPOSITORY) -z3 co $(XEXTENSIONS_CVS_OPTS) $(XEXTENSIONS_DIR) && \
+ 		tar -czf $@ $(XEXTENSIONS_DIR) && \
+ 		rm -rf $(XEXTENSIONS_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xextensions-source: $(DL_DIR)/xextensions-$(XEXTENSIONS_VERSION).tar.gz $(XEXTENSIONS_PATCHES)
+ 
+Index: optware/make/xau.mk
+===================================================================
+--- optware/make/xau.mk	(revision 12863)
++++ optware/make/xau.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(XAU_REPOSITORY) -z3 co $(XAU_CVS_OPTS) $(XAU_DIR) && \
+ 		tar -czf $@ $(XAU_DIR) && \
+ 		rm -rf $(XAU_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xau-source: $(DL_DIR)/xau-$(XAU_VERSION).tar.gz $(XAU_PATCHES)
+ 
+Index: optware/make/xdmcp.mk
+===================================================================
+--- optware/make/xdmcp.mk	(revision 12863)
++++ optware/make/xdmcp.mk	(working copy)
+@@ -82,7 +82,8 @@
+ 		cvs -d $(XDMCP_REPOSITORY) -z3 co $(XDMCP_CVS_OPTS) $(XDMCP_DIR) && \
+ 		tar -czf $@ $(XDMCP_DIR) && \
+ 		rm -rf $(XDMCP_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ xdmcp-source: $(DL_DIR)/xdmcp-$(XDMCP_VERSION).tar.gz $(XDMCP_PATCHES)
+ 
+Index: optware/make/py-pudge.mk
+===================================================================
+--- optware/make/py-pudge.mk	(revision 12863)
++++ optware/make/py-pudge.mk	(working copy)
+@@ -81,7 +81,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-PUDGE_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(PY-PUDGE_SITE)/$(PY-PUDGE_SOURCE)
++	$(WGET) -P $(DL_DIR) $(PY-PUDGE_SITE)/$(PY-PUDGE_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(PY-PUDGE_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/ser.mk
+===================================================================
+--- optware/make/ser.mk	(revision 12863)
++++ optware/make/ser.mk	(working copy)
+@@ -82,7 +82,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(SER_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(SER_SITE)/$(SER_SOURCE)
++	$(WGET) -P $(DL_DIR) $(SER_SITE)/$(SER_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(SER_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/xrender.mk
+===================================================================
+--- optware/make/xrender.mk	(revision 12863)
++++ optware/make/xrender.mk	(working copy)
+@@ -84,7 +84,8 @@
+ 		cvs -d $(XRENDER_REPOSITORY) -z3 co $(XRENDER_CVS_OPTS) $(XRENDER_DIR) && \
+ 		tar -czf $@ $(XRENDER_DIR) && \
+ 		rm -rf $(XRENDER_DIR) \
+-	)
++	) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/xrender-$(XRENDER_VERSION).tar.gz
+ 
+ xrender-source: $(DL_DIR)/xrender-$(XRENDER_VERSION).tar.gz $(XRENDER_PATCHES)
+ 
+Index: optware/make/hpijs.mk
+===================================================================
+--- optware/make/hpijs.mk	(revision 12863)
++++ optware/make/hpijs.mk	(working copy)
+@@ -81,7 +81,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(HPIJS_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(HPIJS_SITE)/$(HPIJS_SOURCE)
++	$(WGET) -P $(DL_DIR) $(HPIJS_SITE)/$(HPIJS_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(HPIJS_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/py-cjson.mk
+===================================================================
+--- optware/make/py-cjson.mk	(revision 12863)
++++ optware/make/py-cjson.mk	(working copy)
+@@ -85,7 +85,7 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-CJSON_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(PY-CJSON_SITE)/$(PY-CJSON_SOURCE)
++	$(WGET) --no-check-certificate -P $(DL_DIR) $(PY-CJSON_SITE)/$(PY-CJSON_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/electric-fence.mk
+===================================================================
+--- optware/make/electric-fence.mk	(revision 12863)
++++ optware/make/electric-fence.mk	(working copy)
+@@ -21,7 +21,7 @@
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+ # ELECTRIC_FENCE_SITE=http://perens.com/FreeSoftware/ElectricFence
+-ELECTRIC_FENCE_SITE=http://ftp.debian.org/debian/pool/main/e/electric-fence
++ELECTRIC_FENCE_SITE=http://archive.debian.org/debian/pool/main/e/electric-fence
+ ELECTRIC_FENCE_VERSION=2.1.14.1
+ ELECTRIC_FENCE_SOURCE=electric-fence_$(ELECTRIC_FENCE_VERSION).tar.gz
+ ELECTRIC_FENCE_DIR=electric-fence-$(ELECTRIC_FENCE_VERSION)
+Index: optware/make/libusb.mk
+===================================================================
+--- optware/make/libusb.mk	(revision 12863)
++++ optware/make/libusb.mk	(working copy)
+@@ -66,7 +66,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(LIBUSB_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(LIBUSB_SITE)/$(LIBUSB_SOURCE)
++	$(WGET) -P $(DL_DIR) $(LIBUSB_SITE)/$(LIBUSB_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(LIBUSB_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/vitetris.mk
+===================================================================
+--- optware/make/vitetris.mk	(revision 12863)
++++ optware/make/vitetris.mk	(working copy)
+@@ -76,7 +76,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(VITETRIS_SOURCE):
+-	$(WGET) -P $(@D) $(VITETRIS_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/radiusclient-ng.mk
+===================================================================
+--- optware/make/radiusclient-ng.mk	(revision 12863)
++++ optware/make/radiusclient-ng.mk	(working copy)
+@@ -78,7 +78,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(RADIUSCLIENT_NG_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(RADIUSCLIENT_NG_SITE)/$(RADIUSCLIENT_NG_SOURCE)
++	$(WGET) -P $(DL_DIR) $(RADIUSCLIENT_NG_SITE)/$(RADIUSCLIENT_NG_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(RADIUSCLIENT_NG_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/ipython.mk
+===================================================================
+--- optware/make/ipython.mk	(revision 12863)
++++ optware/make/ipython.mk	(working copy)
+@@ -86,8 +86,10 @@
+ #
+ $(DL_DIR)/$(IPYTHON_SOURCE):
+ 	$(WGET) -P $(@D) $(IPYTHON_SITE)/$(@F) || \
+-	$(WGET) -P $(@D) $(IPYTHON_SITE)/old/$(@F)
++	$(WGET) -P $(@D) $(IPYTHON_SITE)/old/$(@F) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
++
+ #
+ # The source code depends on it existing within the download directory.
+ # This target will be called by the top level Makefile to download the
+Index: optware/make/cups.mk
+===================================================================
+--- optware/make/cups.mk	(revision 12863)
++++ optware/make/cups.mk	(working copy)
+@@ -117,7 +117,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(CUPS_SOURCE):
+-	$(WGET) -P $(@D) $(CUPS_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/py-selector.mk
+===================================================================
+--- optware/make/py-selector.mk	(revision 12863)
++++ optware/make/py-selector.mk	(working copy)
+@@ -81,7 +81,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-SELECTOR_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(PY-SELECTOR_SITE)/$(PY-SELECTOR_SOURCE)
++	$(WGET) -P $(DL_DIR) $(PY-SELECTOR_SITE)/$(PY-SELECTOR_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(PY-SELECTOR_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/nagios-plugins.mk
+===================================================================
+--- optware/make/nagios-plugins.mk	(revision 12863)
++++ optware/make/nagios-plugins.mk	(working copy)
+@@ -116,7 +116,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(NAGIOS_PLUGINS_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(NAGIOS_PLUGINS_SITE)/$(NAGIOS_PLUGINS_SOURCE)
++	$(WGET) -P $(DL_DIR) $(NAGIOS_PLUGINS_SITE)/$(NAGIOS_PLUGINS_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(NAGIOS_PLUGINS_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/ez-ipupdate.mk
+===================================================================
+--- optware/make/ez-ipupdate.mk	(revision 12863)
++++ optware/make/ez-ipupdate.mk	(working copy)
+@@ -78,7 +78,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(EZ-IPUPDATE_SOURCE):
+-	$(WGET) -P $(@D) $(EZ-IPUPDATE_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/xpdf.mk
+===================================================================
+--- optware/make/xpdf.mk	(revision 12863)
++++ optware/make/xpdf.mk	(working copy)
+@@ -74,7 +74,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(XPDF_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(XPDF_SITE)/$(XPDF_SOURCE)
++	$(WGET) -P $(DL_DIR) $(XPDF_SITE)/$(XPDF_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(XPDF_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/py-turbokid.mk
+===================================================================
+--- optware/make/py-turbokid.mk	(revision 12863)
++++ optware/make/py-turbokid.mk	(working copy)
+@@ -83,7 +83,7 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-TURBOKID_SOURCE):
+-	$(WGET) -P $(@D) $(PY-TURBOKID_SITE)/$(@F) || \
++	$(WGET) --no-check-certificate -P $(@D) $(PY-TURBOKID_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/py-pastewebkit.mk
+===================================================================
+--- optware/make/py-pastewebkit.mk	(revision 12863)
++++ optware/make/py-pastewebkit.mk	(working copy)
+@@ -85,7 +85,7 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-PASTEWEBKIT_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(PY-PASTEWEBKIT_SITE)/$(PY-PASTEWEBKIT_SOURCE)
++	$(WGET) --no-check-certificate -P $(DL_DIR) $(PY-PASTEWEBKIT_SITE)/$(PY-PASTEWEBKIT_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/xinetd.mk
+===================================================================
+--- optware/make/xinetd.mk	(revision 12863)
++++ optware/make/xinetd.mk	(working copy)
+@@ -84,7 +84,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(XINETD_SOURCE):
+-	$(WGET) -P $(@D) $(XINETD_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/py-turbocheetah.mk
+===================================================================
+--- optware/make/py-turbocheetah.mk	(revision 12863)
++++ optware/make/py-turbocheetah.mk	(working copy)
+@@ -84,7 +84,7 @@
+ #
+ ifeq ($(PY-TURBOCHEETAH_SVN_TAG),)
+ $(DL_DIR)/$(PY-TURBOCHEETAH_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(PY-TURBOCHEETAH_SITE)/$(PY-TURBOCHEETAH_SOURCE)
++	$(WGET) --no-check-certificate -P $(DL_DIR) $(PY-TURBOCHEETAH_SITE)/$(PY-TURBOCHEETAH_SOURCE)
+ endif
+ 
+ #
+Index: optware/make/py-wsgiref.mk
+===================================================================
+--- optware/make/py-wsgiref.mk	(revision 12863)
++++ optware/make/py-wsgiref.mk	(working copy)
+@@ -74,7 +74,7 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-WSGIREF_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(PY-WSGIREF_SITE)/$(PY-WSGIREF_SOURCE)
++	$(WGET) --no-check-certificate -P $(DL_DIR) $(PY-WSGIREF_SITE)/$(PY-WSGIREF_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/nvi.mk
+===================================================================
+--- optware/make/nvi.mk	(revision 12863)
++++ optware/make/nvi.mk	(working copy)
+@@ -89,7 +89,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(NVI_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(NVI_SITE)/$(NVI_SOURCE)|| \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/py-buildutils.mk
+===================================================================
+--- optware/make/py-buildutils.mk	(revision 12863)
++++ optware/make/py-buildutils.mk	(working copy)
+@@ -81,7 +81,7 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-BUILDUTILS_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(PY-BUILDUTILS_SITE)/$(PY-BUILDUTILS_SOURCE)
++	$(WGET) --no-check-certificate -P $(DL_DIR) $(PY-BUILDUTILS_SITE)/$(PY-BUILDUTILS_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/nail.mk
+===================================================================
+--- optware/make/nail.mk	(revision 12863)
++++ optware/make/nail.mk	(working copy)
+@@ -74,7 +74,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(NAIL_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(NAIL_SITE)/$(NAIL_SOURCE)
++	$(WGET) -P $(DL_DIR) $(NAIL_SITE)/$(NAIL_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(NAIL_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/gdb.mk
+===================================================================
+--- optware/make/gdb.mk	(revision 12863)
++++ optware/make/gdb.mk	(working copy)
+@@ -79,7 +79,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(GDB_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(GDB_SITE)/$(GDB_SOURCE)
++	$(WGET) -P $(DL_DIR) $(GDB_SITE)/$(GDB_SOURCE) || \
++	$(WGET) -P $(DL_DIR) $(SOURCES_NLO_SITE)/$(GDB_SOURCE)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/dosfstools.mk
+===================================================================
+--- optware/make/dosfstools.mk	(revision 12863)
++++ optware/make/dosfstools.mk	(working copy)
+@@ -20,7 +20,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-DOSFSTOOLS_SITE=http://www.daniel-baumann.ch/software/dosfstools
++DOSFSTOOLS_SITE=http://daniel-baumann.ch/files/software/dosfstools
+ DOSFSTOOLS_VERSION=3.0.9
+ DOSFSTOOLS_SOURCE=dosfstools-$(DOSFSTOOLS_VERSION).tar.bz2
+ DOSFSTOOLS_DIR=dosfstools-$(DOSFSTOOLS_VERSION)
+Index: optware/make/mxml.mk
+===================================================================
+--- optware/make/mxml.mk	(revision 12863)
++++ optware/make/mxml.mk	(working copy)
+@@ -73,7 +73,6 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(MXML_SOURCE):
+-	$(WGET) -P $(@D) $(MXML_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/pygments.mk
+===================================================================
+--- optware/make/pygments.mk	(revision 12863)
++++ optware/make/pygments.mk	(working copy)
+@@ -22,7 +22,7 @@
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+ PYGMENTS_VERSION=1.3.1
+-PYGMENTS_SITE=http://pypi.python.org/packages/source/P/Pygments
++PYGMENTS_SITE=https://pypi.python.org/packages/source/P/Pygments
+ PYGMENTS_SOURCE=Pygments-$(PYGMENTS_VERSION).tar.gz
+ PYGMENTS_DIR=Pygments-$(PYGMENTS_VERSION)
+ PYGMENTS_UNZIP=zcat
+@@ -81,7 +81,7 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PYGMENTS_SOURCE):
+-	$(WGET) -P $(@D) $(PYGMENTS_SITE)/$(@F) || \
++	$(WGET) --no-check-certificate -P $(@D) $(PYGMENTS_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/py-cheetah.mk
+===================================================================
+--- optware/make/py-cheetah.mk	(revision 12863)
++++ optware/make/py-cheetah.mk	(working copy)
+@@ -21,7 +21,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PY-CHEETAH_SITE=http://pypi.python.org/packages/source/C/Cheetah
++PY-CHEETAH_SITE=https://pypi.python.org/packages/source/C/Cheetah
+ PY-CHEETAH_VERSION=2.4.2.1
+ PY-CHEETAH_SOURCE=Cheetah-$(PY-CHEETAH_VERSION).tar.gz
+ PY-CHEETAH_DIR=Cheetah-$(PY-CHEETAH_VERSION)
+@@ -79,7 +79,7 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-CHEETAH_SOURCE):
+-	$(WGET) -P $(@D) $(PY-CHEETAH_SITE)/$(@F) || \
++	$(WGET) --no-check-certificate -P $(@D) $(PY-CHEETAH_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/py-configobj.mk
+===================================================================
+--- optware/make/py-configobj.mk	(revision 12863)
++++ optware/make/py-configobj.mk	(working copy)
+@@ -21,7 +21,7 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PY-CONFIGOBJ_SITE=http://pypi.python.org/packages/source/c/configobj
++PY-CONFIGOBJ_SITE=https://pypi.python.org/packages/source/c/configobj
+ PY-CONFIGOBJ_VERSION=4.7.2
+ PY-CONFIGOBJ_SOURCE=configobj-$(PY-CONFIGOBJ_VERSION).tar.gz
+ PY-CONFIGOBJ_DIR=configobj-$(PY-CONFIGOBJ_VERSION)
+@@ -81,7 +81,7 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(PY-CONFIGOBJ_SOURCE):
+-	$(WGET) -P $(@D) $(PY-CONFIGOBJ_SITE)/$(@F) || \
++	$(WGET) --no-check-certificate -P $(@D) $(PY-CONFIGOBJ_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ 
+Index: optware/Makefile
+===================================================================
+--- optware/Makefile	(revision 12932)
++++ optware/Makefile	(working copy)
+@@ -552,7 +552,7 @@
+ # The hostname or IP number of our local dl.sf.net mirror
+ SOURCEFORGE_MIRROR=downloads.sourceforge.net
+ #SOURCES_NLO_SITE=http://sources.nslu2-linux.org/sources
+-SOURCES_NLO_SITE=http://ftp.osuosl.org/pub/nslu2/sources
++SOURCES_NLO_SITE=http://ipkg.nslu2-linux.org/sources
+ 
+ TARGET_CXX=$(TARGET_CROSS)g++
+ TARGET_CC=$(TARGET_CROSS)gcc
