@@ -55,7 +55,9 @@ service_package_manager "Service&default"
 
 service_crond_start &
 
-SERVICE="smb ftp http btpd optware"
+service_http_start &
+
+SERVICE="smb ftp btpd optware"
 for i in $SERVICE; do
  status=`/bin/awk -F= /$i/'{print $2}' ${SERVICE_CONF}`
  [ "$status" == "Enable" ] && service_${i}_start &
