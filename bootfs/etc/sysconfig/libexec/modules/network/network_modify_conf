@@ -19,8 +19,7 @@ case ${iptype} in
    $replaceFile "${IFCFG}" "BOOTPROTO=${OLD_iptype}" "BOOTPROTO=${iptype}"
    }
 
-  network_stop
-  network_start &
+  network_restart &
   ;;
  static)
   for i in `echo ${QUERY_STRING} | /bin/tr "&" " "`; do
@@ -34,8 +33,7 @@ case ${iptype} in
   network_modify_conf_data > $IFCFG
 
   dlna_mDNSR_stop
-  network_stop
-  network_start &
+  network_restart &
 
   SMB_IPADDR=`/bin/awk "-F = " '/interfaces/{print $2}' $SMB_CONF`
   $replaceFile "${SMB_CONF}" "interfaces = ${SMB_IPADDR}" "interfaces = ${IP}/${MASK}"

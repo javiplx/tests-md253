@@ -1,4 +1,4 @@
-network_stop(){
+network_restart(){
 
 DHCPD_PID=`/bin/pidof udhcpc`
 for pid in $DHCPD_PID; do
@@ -9,4 +9,6 @@ done
 /bin/ifconfig eth0 0.0.0.0 up
 /bin/ifconfig eth0 down
 /bin/logger "$0 - NIC Stop"
+
+network_start
 }
