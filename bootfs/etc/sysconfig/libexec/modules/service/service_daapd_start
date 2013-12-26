@@ -1,8 +1,8 @@
-dlna_start_daemon(){
+service_daapd_start(){
 SERVICE_PATH=/etc/sysconfig/config
 SERVICE_CONF=$SERVICE_PATH/service
 
-dlna_daapd_modify_conf
+service_daapd_modify_config
 
 . $SERVICE_CONF
 /bin/df|/bin/awk '{print $NF}'|/bin/grep "^/home$" >/dev/null 2>&1
