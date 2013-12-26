@@ -8,5 +8,7 @@ for service in smb ftp btpd ; do
  [ "$status" == "Enable" ] && service_${service}_stop &
 done
 
+[ "$daapd" == "Enable"] && dlna_stop_daemon &
+
 wait
 }

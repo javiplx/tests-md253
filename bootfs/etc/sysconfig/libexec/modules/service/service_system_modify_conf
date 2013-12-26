@@ -38,12 +38,8 @@ $replaceFile "${DAAP_CONF}" "servername ${old_daap_name}" "servername ${hostname
 
 dlna_mDNSR_modify_conf
 
-# Restart service
-
-dlna_stop_daemon
+# Restart services
 service_stop_all
-
-dlna_start_daemon
 service_start_all
 
 # Modify New Admin Password

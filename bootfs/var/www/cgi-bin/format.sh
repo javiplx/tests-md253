@@ -34,7 +34,6 @@ echo "hdd1 red set" > /proc/mp_leds
 echo "hdd2 red set" > /proc/mp_leds
 
 service_stop_all
-dlna_stop_daemon >/dev/null 2>&1 &
 $TwonkyMedia stop
 service_package_manager "Service&stop"
 
@@ -118,7 +117,6 @@ done
 /bin/rm -rf /tmp/ftpaccess
 
 service_start_all
-dlna_start_daemon >/dev/null 2>&1 &
 $TwonkyMedia start
 
 /bin/mkdir -p /home/PUBLIC/Media
