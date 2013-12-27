@@ -3,6 +3,13 @@ ConfigPath=/etc/sysconfig/config
 WEBMASTER=${ConfigPath}/webmaster.conf
 HTTP_CONF=${ConfigPath}/httpd.conf
 
+/bin/killall httpd
+PID=`/bin/pidof httpd`
+for i in $PID; do
+ /bin/kill -9 $i >/dev/null 2>&1
+done
+/bin/logger "$0 - httpd deamon Stop"
+
 STATUS=`/bin/cat ${WEBMASTER}`
 [ "$STATUS" == "" ] &&\
  echo "admin:admin" > ${WEBMASTER}

@@ -19,10 +19,6 @@ cat /dev/null > ${SMB_SHARE_CONF}
 cat /dev/null > ${PRINTCAP_CONF}
 service_mount_hdd
 
-SERVICE_CONF=/etc/sysconfig/config/service
-. $SERVICE_CONF
-KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
-
 /bin/udevd --daemon
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - udevd deamon Start Succeed" ||\
@@ -35,7 +31,7 @@ service_ntp_start >/dev/null 2>&1 &
  /bin/logger "$0 - nmbd deamon Start Succeed" ||\
  /bin/logger "$0 - nmbd deamon Start Failed"
 
-service_ssh_start &
+KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 
 # Load USB kernel modules
 /sbin/insmod ${KERNEL_PATH}/usb-storage.ko >/dev/null 2>&1 &
@@ -46,16 +42,17 @@ service_ssh_start &
 
 ${cron_ntp} >/dev/null 2>&1 &
 dlna_mDNSR_modify_conf
-dlna_start_daemon
  
 route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
 
 service_package_manager "Service&default"
 
-SERVICE="crond smb ftp http btpd"
-for i in $SERVICE; do
- status=`/bin/awk -F= /$i/'{print $2}' ${SERVICE_CONF}`
- [ "$status" == "Enable" ] && service_${i}_start &
-done
+service_crond_start &
+
+service_http_start &
+
+service_ssh_start &
+
+service_start
 
 service_optware_start &
