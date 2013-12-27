@@ -1,8 +1,10 @@
 dlna_mDNSR_modify_conf_data(){
 SERVICE_PATH=/etc/sysconfig/config
 SERVICE_CONF=$SERVICE_PATH/service
-IFCFG=/etc/sysconfig/network-scripts/ifcfg-eth0
 . $SERVICE_CONF
+
+DISK=`/bin/fdisk -l|/bin/grep "^/dev/sd"`
+HOSTNAME=`/bin/cat /etc/hostname|/bin/sed 's/\ //g'`
 
 echo "\"$HOSTNAME\" _http._tcp local. 80"
 [ -z "$DISK" ] || {
@@ -15,13 +17,6 @@ echo "\"$HOSTNAME\" _http._tcp local. 80"
    ;;
  esac
  
- AFPD_PID=`/bin/pidof afpd`
- [ X${AFPD_PID} == "X" ] || { 
-  HWADDR=`/bin/awk -F= /HWADDR/'{print $2}' $IFCFG|/bin/sed 's/\ //g'` 
-  DEVICE=`/bin/df|/bin/grep "home$"|/bin/awk '{print $1}'`
-  ID=`/bin/blkid $DEVICE|/bin/awk '{print $2}' | /bin/awk -F= '{print $2}' |sed 's/"//g'`
-  echo "\"$HOSTNAME(Time Machine)\"     _adisk._tcp.    local.  9 \"sys=waMA=$HWADDR\" \"dk0=adVF=0x83,adVN=TimeMachine,adVU=$ID\""
-  }
  }
 /bin/logger "$0 - Modify mDNSResponder config : \"responder.conf\""
 }

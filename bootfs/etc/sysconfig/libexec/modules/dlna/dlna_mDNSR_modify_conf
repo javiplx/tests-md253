@@ -7,8 +7,6 @@ done
 
 SERVICE_PATH=/etc/sysconfig/config
 CONF_FILE=${SERVICE_PATH}/responder.conf
-DISK=`/bin/fdisk -l|/bin/grep "^/dev/sd"`
-HOSTNAME=`/bin/cat /etc/hostname|/bin/sed 's/\ //g'`
 dlna_mDNSR_modify_conf_data > ${CONF_FILE}
 
 /usr/bin/DNSR -d -f ${CONF_FILE} >/dev/null 2>&1 &

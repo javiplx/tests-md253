@@ -10,7 +10,6 @@ NEW_MODE=$1
 OLD_MODE=`/bin/awk -F= /security/'{print $2}' ${SMB_CONF}|/bin/sed 's/\ //g'`
 $replaceFile "$SMB_CONF" "security = $OLD_MODE" "security = $NEW_MODE"
 
-SLEEP=1
 Directory="PUBLIC Media BitTorrent"
 SHARE_PATH=/home
 for path in $Directory; do

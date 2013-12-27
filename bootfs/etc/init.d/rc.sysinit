@@ -1,6 +1,4 @@
 #!/bin/sh
-#dd if=/var/spool/system/squashfs.img of=/dev/ram1
-#/bin/mount /dev/ram1 /usr
 
 . /usr/libexec/modules/modules.conf
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
@@ -21,11 +19,6 @@ cat /dev/null > ${SMB_SHARE_CONF}
 cat /dev/null > ${PRINTCAP_CONF}
 service_mount_hdd
 
-KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
-EXEC=/etc/sysconfig/system-script/media_service
-
-service_setcolor
-
 /bin/udevd --daemon
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - udevd deamon Start Succeed" ||\
@@ -37,6 +30,8 @@ service_ntp_start >/dev/null 2>&1 &
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - nmbd deamon Start Succeed" ||\
  /bin/logger "$0 - nmbd deamon Start Failed"
+
+KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 
 # Load USB kernel modules
 /sbin/insmod ${KERNEL_PATH}/usb-storage.ko >/dev/null 2>&1 &
@@ -50,14 +45,14 @@ dlna_mDNSR_modify_conf
  
 route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
 
-#start twonkymedia
-#TWONKY_PKGPATH=/usr/local/install/Twonkymedia
-#[ -d ${TWONKY_PKGPATH} ] || /usr/local/TwonkyVision/twonkymedia.sh start
-
 service_package_manager "Service&default"
 
 service_crond_start &
 
 service_http_start &
 
+service_ssh_start &
+
 service_start
+
+service_optware_start &

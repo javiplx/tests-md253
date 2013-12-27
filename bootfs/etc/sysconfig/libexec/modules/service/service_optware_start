@@ -1,0 +1,18 @@
+service_optware_start(){
+
+if [ -d /opt/etc/init.d ]; then
+
+ # /etc/profile is not sourced at this point
+ export PATH=$PATH:/opt/bin:/opt/sbin
+ export LD_LIBRARY_PATH=/opt/lib
+
+ for f in /opt/etc/init.d/S* ; do
+  [ -x $f ] && $f start
+  [ $? -eq 0 ] &&\
+   /bin/logger "$0 - optware ${f##*/} deamon Start Succeed" ||\
+   /bin/logger "$0 - optware ${f##*/} deamon Start Failed"
+ done
+
+fi
+
+}
