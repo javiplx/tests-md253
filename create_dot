@@ -47,6 +47,7 @@ echo
 
 cat <<EOF
 "bootfs/etc/init.d/rc.sysinit" -> "bootfs/etc/init.d/rc.services";
+"bootfs/etc/init.d/rc.sysinit" -> "rootfs/bin/buttons_daemon";
 EOF
 
 echo
@@ -67,6 +68,7 @@ for script in ${SCRIPTS} ; do
 cat <<EOF
 "bootfs/etc/udev/rules.d/10-local.rules" [ label="udev.rules" ];
 "bootfs/etc/sysconfig/config/root" [ label="crontab" ];
+"rootfs/bin/buttons_daemon" [ label="buttons_daemon" , shape=rectangle ];
 EOF
 
 echo
