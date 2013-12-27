@@ -245,7 +245,7 @@ case ${func} in
  "ChangeMode")
   NEW_MODE=`echo ${QUERY_STRING} | cut '-d&' -f2`
   service_smb_modify_security $NEW_MODE
-  service_smb_stop
+  service_stop smb
   sleep 2
   service_start smb
   ;;
