@@ -45,8 +45,8 @@ case ${func} in
   ;;
  modify_ip)
   network_modify_conf ${QUERY_STRING}
-  /bin/killall nmbd
-  /usr/local/samba/sbin/nmbd >/dev/null 2>&1
+  service_stop smb
+  service_start smb
   sleep 5
   /usr/local/TwonkyVision/twonkymedia.sh stop
   sleep 1
