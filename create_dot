@@ -58,6 +58,13 @@ for script in ${SCRIPTS} ; do
   echo "\"${script}\" [ label=\"${script##*/}\" , shape=rectangle , peripheries=2 ];"
   done
 
+cat <<EOF
+"bootfs/etc/udev/rules.d/10-local.rules" [ label="udev.rules" ];
+"bootfs/etc/sysconfig/config/root" [ label="crontab" ];
+EOF
+
+echo
+
 for f in ${SCRIPTS} ; do
   for source in $( grep -rwl ${f#bootfs} bootfs rootfs 2> /dev/null | grep -v rootfs/sbin/buttons_daemon ) ; do
       if [ $f != ${source##*/} ] ; then
