@@ -6,6 +6,8 @@ service_daapd_modify_config
 /bin/df|/bin/awk '{print $NF}'|/bin/grep "^/home$" >/dev/null 2>&1
 [ $? -ne 0 ] && return;
 
+dlna_dnsr_start
+
      /usr/bin/daapd -m -c $SERVICE_PATH/daapd.conf -d 9 -D scan -f > /tmp/data 2>&1 &
      [ $? -eq 0 ] &&\
       /bin/logger "$0 - daapd deamon Start Succeed" ||\

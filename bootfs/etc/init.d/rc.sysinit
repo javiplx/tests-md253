@@ -44,7 +44,6 @@ KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 /sbin/insmod ${KERNEL_PATH}/usblp.ko >/dev/null 2>&1 &
 
 ${cron_ntp} >/dev/null 2>&1 &
-dlna_mDNSR_modify_conf
  
 route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
 
