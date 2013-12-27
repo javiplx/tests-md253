@@ -41,7 +41,6 @@ case ${func} in
   /bin/awk -F= /PDNS/'{print $2}' $IFCFG|/bin/sed 's/\ //g'
   /bin/awk -F= /SDNS/'{print $2}' $IFCFG|/bin/sed 's/\ //g'
   /bin/awk -F= /MTU/'{print $2}' $IFCFG|/bin/sed 's/\ //g'
-  #/bin/awk -F= /HWADDR/'{print $2}' $IFCFG|/bin/sed 's/\ //g'
   ;;
  modify_ip)
   network_modify_conf ${QUERY_STRING}
