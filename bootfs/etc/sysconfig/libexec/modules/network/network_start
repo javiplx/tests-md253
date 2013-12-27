@@ -36,9 +36,6 @@ TMP_MTU="${MTU}"
 /bin/ip route add default via ${GATEWAY} dev eth0
 /bin/ip route flush cache
 
-/bin/killall nmbd
-/usr/local/samba/sbin/nmbd >/dev/null 2>&1
-
 SMB_IPADDR=`/bin/awk "-F = " '/interfaces/{print $2}' $SMB_CONF`
 $replaceFile "${SMB_CONF}" "interfaces = ${SMB_IPADDR}" "interfaces = ${IPADDR}/${NETMASK}"
 echo "hosts allow = ${NETWORK}/${NETMASK}" > ${SMB_NET_CONF}
