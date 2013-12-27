@@ -70,7 +70,6 @@ case ${func} in
    service_stop daapd
 
    /bin/rm -rf /tmp/data
-   dlna_mDNSR_modify_conf
    } || {
    $replaceFile "$DAAP_CONF" "mp3_dir $old_path" "mp3_dir $path/"
    $replaceFile "$SERVICE_CONF" "daapd=${old_status}" "daapd=Disable"
@@ -92,7 +91,6 @@ case ${func} in
   service_stop daapd
 
   /bin/rm -rf /tmp/data
-  dlna_mDNSR_modify_conf
   ;;
  Detected_UnderScan_First)
   for i in 1 2; do
