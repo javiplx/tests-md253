@@ -18,9 +18,7 @@ var dtToday=new Date();
 var Cal;
 var docCal;
 var MonthName=["January", "February", "March", "April", "May", "June", "July","August", "September", "October", "November", "December"];
-//var MonthName=["一月", "二月", "三月", "四月", "五月", "六月","七月", "八月", "九月", "十月", "十一月", "十二月"];
 var WeekDayName=["Sunday","Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"];
-//var WeekDayName=["日","一","二","三","四","五","六"];
 var exDateTime;//Existing Date and Time
 
 //Configurable parameters

@@ -26,14 +26,12 @@ function  createRequestObject() {
 function handleResponse(http,div_id,type) {
 
 	var response = http.responseText;
-	//alert(response);
 
     if(type != "html"){
         var start = response.indexOf("<BODY>")+7;
         var end = response.indexOf("</BODY>");
         response = response.substr(start,end-start);
     }
-   //alert(response);
 
 	if(div_id != "" && div_id != "sync"){
 		if(type == "value"){
@@ -56,11 +54,8 @@ function handleResponse(http,div_id,type) {
  */
 function getContent(div_id,url,type,async){
 	var http = createRequestObject();
-	//alert(http);
 	var t = new Date().getTime();
-	//var url = 'cgi-bin/' + fid + "&" + t;
 	var url = url + "&" + getCookie('uid') + "&" + getCookie('sum') + "&" + t;
-	//alert(url);
 
 	if(async=='undefined' || async==null)
 	    async = true;
@@ -80,17 +75,14 @@ function getContent(div_id,url,type,async){
 	{
 		http.onreadystatechange = function()
 		{
-			//alert(http.readyState);
 			if(http.readyState == 4 && http.status == 200)
 			{
 				if(type != null && type.indexOf("function:") >= 0 )
 				{
 					var funs = type.split(":");
 					var fun_Name = funs[1];
-					//alert(fun_Name);
 					var fun = eval(fun_Name);
 					var fun_val = handleResponse(http,div_id,type);
-					//alert(fun_val);
 					if(funs.length>2)
 						fun(fun_val,funs[2]);
 					else
