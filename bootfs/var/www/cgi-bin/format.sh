@@ -5,9 +5,6 @@ export PATH
 mode=$1
 
 . /usr/libexec/modules/modules.conf
-CONFIG_PATH=/etc/sysconfig/config
-SMB_CONF=${CONFIG_PATH}/smb/smb.conf
-scsi_list=${CONFIG_PATH}/scsi.list
 
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
 replaceFile=/bin/replaceFile

@@ -2,7 +2,6 @@ service_ssh_start(){
 SERVICE_PATH=/etc/sysconfig/config
 RSA_PATH=${SERVICE_PATH}/ssh
 RSA_FILE=${RSA_PATH}/ssh_rsa_host_key
-replaceFile=/var/www/cgi-bin/replaceFile
 PID_FILE=/var/run/dropbear.pid
 SERVICE_CONF=${SERVICE_PATH}/service
 STATUS=`/bin/awk -F= /ssh/'{print $2}' ${SERVICE_CONF}|/bin/sed 's/\ //g'`

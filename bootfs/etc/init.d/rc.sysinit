@@ -1,6 +1,4 @@
 #!/bin/sh
-#dd if=/var/spool/system/squashfs.img of=/dev/ram1
-#/bin/mount /dev/ram1 /usr
 
 . /usr/libexec/modules/modules.conf
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
@@ -22,11 +20,7 @@ cat /dev/null > ${PRINTCAP_CONF}
 service_mount_hdd
 
 SERVICE_CONF=/etc/sysconfig/config/service
-KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
-EXEC=/etc/sysconfig/system-script/media_service
 . $SERVICE_CONF
-
-service_setcolor
 
 /bin/udevd --daemon
 [ $? -eq 0 ] &&\
@@ -42,6 +36,8 @@ service_ntp_start >/dev/null 2>&1 &
 
 service_ssh_start &
 
+KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
+
 # Load USB kernel modules
 /sbin/insmod ${KERNEL_PATH}/usb-storage.ko >/dev/null 2>&1 &
 [ $? -eq 0 ] &&\
@@ -54,10 +50,6 @@ dlna_mDNSR_modify_conf
 dlna_start_daemon
  
 route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
-
-#start twonkymedia
-#TWONKY_PKGPATH=/usr/local/install/Twonkymedia
-#[ -d ${TWONKY_PKGPATH} ] || /usr/local/TwonkyVision/twonkymedia.sh start
 
 service_package_manager "Service&default"
 

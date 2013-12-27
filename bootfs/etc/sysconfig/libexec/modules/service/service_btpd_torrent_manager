@@ -1,7 +1,6 @@
 service_btpd_torrent_manager(){
 CONFIG_PATH=/etc/sysconfig/config
 DownloadTorrentPath=/tmp/.btpd
-SERVICE_CONF=${CONFIG_PATH}/service
 BTPD_CONF=${CONFIG_PATH}/btpd.conf
 BTPD_BASE_DIR=/home/BitTorrent
 BTPD_TORRENTS=${BTPD_BASE_DIR}/.btpd/torrents_list
@@ -14,7 +13,6 @@ export BTPD_HOME=${BTPD_BASE_DIR}/.btpd
 case ${action} in
  add)
   FileName=`/bin/ls ${DownloadTorrentPath}`
-  #Source="`/bin/btinfo ${DownloadTorrentPath}/"${FileName}"|/bin/awk -F: /Name:/'{print $2}'|/bin/sed 's/^\ //'|/bin/sed 's/\ $//'`"
 
   Source=`/bin/btinfo ${DownloadTorrentPath}/"${FileName}"|/bin/grep -v "^Tracker URLs:"|\
   /bin/tr -s ' ' ' '|/bin/tr '\n' '#'|/bin/sed 's/'Files:#'/\n/'|/bin/sed 's/\#$//'`

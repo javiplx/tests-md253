@@ -55,23 +55,13 @@ function go(ppp){
   str='/';
 
  window.document.getElementById('now_path').innerHTML = '<b>'+showText(191)+'&nbsp;'+str+now_path+'</b><INPUT id=now_path_value value=\"'+str+now_path+'\" type=hidden>';
- //window.document.getElementById('now_path').innerHTML = '<b>'+getWord("itune_now_path")+'&nbsp;'+str+now_path+'</b>';
  getContent('DirList','/cgi-bin/mediaDir.cgi?'+ppp);
- //getContent('','/cgi-bin/mediaDir.cgi?'+ppp,"function:ListSubDir");
- //parent.calcHeight('parent');
  Detected_UnderScan_First();
 }
 
 function ListSubDir(msg){
  window.document.getElementById('DirList').innerHTML = msg;
  parent.calcHeight('parent');
- //Detected_UnderScan_First();
- //var iTune_state = document.getElementById('Old_Status_value').value;
- //if(iTune_state.indexOf("ON") != -1){
- // showBackgroundImage('wait_message');
- // UnderScan();
- //}
-
 }
 
 function OnChgiTuneStatus(id){
@@ -104,17 +94,8 @@ function iTuneChange(){
    return;
   }
  } else {
-  //if(confirm(getWord("message_itune_folder_disable"))){
    var status='Disable';
    var Old_Status_value = 'OFF';
-  //} else {
-   //if(iTune_state.indexOf("ON") != -1){
-    //window.document.getElementById('Now_Status').innerHTML = '<input type="radio" id="status_enable" onClick="OnChgiTuneStatus(this.id)" />&nbsp;'+getWord("ftp_enable")+'&nbsp;<input type="radio" id="status_disable" onClick="OnChgiTuneStatus(this.id)" />&nbsp;'+getWord("ftp_disable");
-    //document.getElementById("status_enable").checked=true;
-    //document.getElementById("status_disable").checked=false;
-   //}
-   //return;
-  //}
  }
  window.document.getElementById('Old_Status').innerHTML = '<INPUT id=Old_Status_value value=\"'+Old_Status_value+'\" type=hidden>';
  showBackgroundImage('ShowiTune');
@@ -133,7 +114,6 @@ function selectDir(id,value){
   }
  }
 
- //var multi=/^[\w\s-\/.]+$/g
  var multi=/^[\w\s-\/.\[\]{}()`~!@$%\'+,;=]+$/
  if (!multi.test(value)){
   alert(decode(showText(176)));
@@ -158,13 +138,9 @@ function selectDir(id,value){
    document.getElementById(id).checked=false;
   }
  } else {
-  //if(confirm(getWord("message_itune_folder_disable"))){
    showBackgroundImage('ShowiTune');
    window.document.getElementById('Old_Status').innerHTML = '<INPUT id=Old_Status_value value=OFF type=hidden>';
    getContent('','/cgi-bin/services.cgi?mp3_dir&'+value,"function:showMediaMessage:"+now_path);
-  //} else {
-   //document.getElementById(id).checked=true;
-  //}
  }
 }
 
@@ -309,7 +285,6 @@ function showuPnPStatus(msg){
   document.getElementById("status_disable").checked=true;
  }
 
- //window.document.getElementById('UPnPPort').value = msg[1];
  getContent('','/cgi-bin/services.cgi?DiskStatus',"function:uPnPActionControl");
 }
 
@@ -341,33 +316,8 @@ function uPnPChange() {
  else
   var status='Disable';
 
-/*
- var re=/[\S\w]+/;
- var object = document.getElementById('UPnPPort');
- var port = object.value;
-
- if (!re.test(port)){
-  setTimeout(function(){object.focus();object.select();},10);
-  alert(decode(showText(151)));
-  return false;
- }
-
- if (! Check_num('port',port)){
-  setTimeout(function(){object.focus();object.select();},10);
-  alert('\''+port+'\' '+decode(showText(157)));
-  return false;
- }
-
- if (port < 1024||port > 65534){
-  setTimeout(function(){object.focus();object.select();},10);
-  alert('\''+port+'\' '+decode(showText(157)));
-  return false;
- }
- */
-
  var crontable = document.getElementById("cronselect").value;
  showBackgroundImage('wait_message');
- //getContent('','/cgi-bin/services.cgi?modify_config&'+status+'&'+port+'&'+crontable,"function:showuPnPMessage");
  getContent('','/cgi-bin/services.cgi?modify_config&'+status+'&'+crontable,"function:showuPnPMessage");
 }
 
@@ -378,7 +328,6 @@ function uPnPRescan(){
 
 function showuPnPMessage(){
  hiddenBackgroundImage('wait_message');
- //location.replace ('media.htm');
  upnp_status();
 }
 // ********************** uPnP Function End ********************** //
@@ -834,7 +783,6 @@ function FTPFolderDelete(){
 }
 
 function showFolderMessage(){
- //getSambaStatus();
  location.replace ('ftp.htm');
 }
 

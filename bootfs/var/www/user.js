@@ -30,7 +30,6 @@ function showUserDataMessage(msg){
 
    if(j==0){
     oCell.style.cssText="color: #008800;padding: 0px 0px 0px 10px;";
-    //str=UserData[j];
     str='<a id='+UserData[j]+' href=javascript:ModifyUserWindown(\"'+UserData[j]+'\")>'+UserData[j];
    }
 
@@ -64,19 +63,11 @@ function showUserDataMessage(msg){
 
    if(j==3){
     oCell.style.cssText="text-align: center;color: #000000;padding: 0px 0px 0px 10px;";
-    //str = '<input type="button" id=\"'+UserData[0]+'\" value="'+showText(65)+'" onclick="ModifyUser(this.id)" /><input type="button" id=\"'+UserData[0]+'\" value="'+showText(66)+'" onclick="DeleteUser(this.id)" />';
     str = '<input type="button" id=\"'+UserData[0]+'\" value="'+showText(66)+'" onclick="DeleteUser(this.id)" />';
    }
 
    oCell.style.backgroundColor="#FFFFFF";
    oCell.innerHTML=str;
-
-   //if(j==1){
-   // if(UserData[1]=="0")
-   //  document.getElementById(UserData[0]+"_size").disabled=true;
-   // else
-   //  document.getElementById(UserData[0]+"_size").disabled=false;
-   //}
 
   }
  }
@@ -806,7 +797,6 @@ function FolderDelete(){
 }
 
 function showFolderMessage(){
- //getSambaStatus();
  location.replace ('share.htm');
 }
 
@@ -866,10 +856,4 @@ function CheckUSBFolder(folder_value){
  return true;
 }
 // ********************** Share Folder Function End ********************** //
-
-
-
-
-
-
 

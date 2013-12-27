@@ -4,27 +4,11 @@ echo -e ""\\r
 echo -e "<HTML><HEAD><TITLE>Sample CGI Output2</TITLE></HEAD><BODY>"\\r
 
 . /usr/libexec/modules/modules.conf
-PASSWD=/etc/passwd
-CONF_PATH=/etc/sysconfig/config
-SMB_SHARES_CONF=${CONF_PATH}/smb/shares.inc
-SMB_HOST_CONF=${CONF_PATH}/smb/host.inc
-IFCFG=${CONF_PATH}/ifcfg-eth0
-IFCFG_DEFAULT=${CONF_PATH}/ifcfg-eth0.default
-replaceFile=/bin/replaceFile
-TIMEMACHINEPORT="548"
 
-scsi_list=/etc/sysconfig/config/scsi.list
-
-format_hdd=/var/www/cgi-bin/format.sh
-SingleFormat=/var/www/cgi-bin/SingleFormat.sh
-XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
-
 
 PKG_Folder=/usr/local/install
 PACKAGE=${PKG_Folder}/package
-PKGPATH=/usr/local/install
-
 
 case ${func} in
 "SetExecTable")
@@ -87,14 +71,6 @@ case ${func} in
 			if [ "${oldversion}" != "" ]; then
 			  sh ${PKG_SCRIPT}/start-stop-status del
             if [ "$PKG_IPK" == "TimeMachine" ]; then
-			    /bin/killall -9 afpd
-                while true; do 
-                   PID=`/bin/pidof afpd`
-                   [ "$PID" == "" ] && break || {
-                       /bin/killall -9 afpd
-                       /bin/sleep 1
-                   }
-                 done
                  dlna_mDNSR_modify_conf 
               fi 
 			fi

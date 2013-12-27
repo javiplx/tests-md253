@@ -5,12 +5,9 @@ echo "<HTML><HEAD><TITLE>Sample CGI Output</TITLE></HEAD><BODY>"
 
 . /usr/libexec/modules/modules.conf
 CONFIG_PATH=/etc/sysconfig/config
-IFCFG=${CONFIG_PATH}/ifcfg-eth0
 
 DAAP_CONF=${CONFIG_PATH}/daapd.conf
-DNSR_CONF=${CONFIG_PATH}/responder.conf
 SERVICE_CONF=${CONFIG_PATH}/service
-CRONTABLE=${CONFIG_PATH}/root
 
 FTP_CONF=${CONFIG_PATH}/proftpd/proftpd.conf
 ANONYMOUS_CONF=${CONFIG_PATH}/proftpd/anonymous.conf
@@ -56,8 +53,6 @@ case ${func} in
      }
     ;;
    Disable)
-    #old_dir=`/bin/cat $DAAP_CONF|/bin/grep "^mp3_dir"|/bin/cut -c9-`
-    #$replaceFile "${DAAP_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/" >/dev/null 2>&1
     /bin/killall daapd >/dev/null 2>&1
     PID=`/bin/pidof daapd`
     for pid in $PID; do
@@ -224,14 +219,6 @@ case ${func} in
  TorrentList)
   export BTPD_HOME=${BTPD_BASE_DIR}/.btpd
 
-# Old detect rule
-#  file=`/bin/find "${BTPD_TORRENTS}/" -maxdepth 1 -type f|/bin/tr " " "^"`
-#  for i in ${file}; do
-#   name=`echo "${i##*/}"|/bin/sed 's/'.torrent'//g'|/bin/tr "^" " "`
-#   num=`/bin/cat ${BTPD_BASE_DIR}/.btpd/TorrentNumStatus|/bin/grep "${name}.torrent$"|/bin/awk '{print $1}'`
-#   [ "$num" == "" ] && continue
-
-# New detect rule
   Val=`/bin/cat ${BTPD_BASE_DIR}/.btpd/TorrentNumStatus|/bin/awk '{print $1}'`
   for i in ${Val}; do
    name=`/bin/cat ${BTPD_BASE_DIR}/.btpd/TorrentNumStatus|/bin/grep "^$i "|/bin/sed 's/^'$i'\ //'|/bin/sed 's/\.torrent$//'`

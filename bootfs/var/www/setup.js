@@ -107,7 +107,6 @@ function GetDeviceIP(){
 
 function ShowGetDeviceIP(msg){
  msg = msg.split("\n");
- //var data = new Array("iptype","ipadd","mask","gateway","dns_1","dns_2","mtu","macaddr");
  var data = new Array("iptype","ipadd","mask","gateway","dns_1","dns_2","mtu");
  for (i=0; i<data.length && data[i] != "" ; i++){
  	var str = data[i];
@@ -179,11 +178,9 @@ function OnChgType(id){
 }
 
 function ChangeIPStatus(){
- //var data = new Array("ipadd","mask","gateway","dns_1","dns_2","macaddr");
  var data = new Array("ipadd","mask","gateway","dns_1","dns_2");
  var ip_addr = document.getElementById("ipadd").value;
  var gateway = document.getElementById("gateway").value;
- //var mac = document.getElementById("macaddr").value;
  var dns_1 = document.getElementById("dns_1").value;
  var dns_2 = document.getElementById("dns_2").value;
  var netmask = document.getElementById("mask").value;
@@ -238,20 +235,6 @@ function ChangeIPStatus(){
   }
  }
 
-/*
- if (!re.test(mac)){
- alert(decode(showText(158)));
-  setTimeout(function(){document.getElementById("macaddr").focus();document.getElementById("macaddr").select();},10);
-  return false;
- } else {
-  if (! Check_mac(mac,"macaddr")){
-   alert (mac + decode(showText(157))+decode(showText(158)));
-   setTimeout(function(){document.getElementById("macaddr").focus();document.getElementById("macaddr").select();},10);
-   return false;
-  }
- }
- */
-
  var mtu = document.getElementById("JumboFramesSelect").value;
  var thisHREF = document.location.href;
  thisHREF = thisHREF.split( "/" );
@@ -259,17 +242,14 @@ function ChangeIPStatus(){
  if (document.getElementById('iptype_static').checked==true){
   if(ip_addr==thisHREF[2]){
   	showBackgroundImage('wait_message');
-   //getContent('','/cgi-bin/setup.cgi?modify_ip&static&IP='+ip_addr+'&MASK='+netmask+'&GATEWAY='+gateway+'&DNS_1='+dns_1+'&DNS_2='+dns_2+'&MAC='+mac+'&MTU='+mtu,'function:ChangeIPFinish');
    getContent('','/cgi-bin/setup.cgi?modify_ip&static&IP='+ip_addr+'&MASK='+netmask+'&GATEWAY='+gateway+'&DNS_1='+dns_1+'&DNS_2='+dns_2+'&MTU='+mtu,'function:ChangeIPFinish');
   } else {
    parent.document.location.href='http://'+ip_addr;
-   //getContent('','/cgi-bin/setup.cgi?modify_ip&static&IP='+ip_addr+'&MASK='+netmask+'&GATEWAY='+gateway+'&DNS_1='+dns_1+'&DNS_2='+dns_2+'&MAC='+mac+'&MTU='+mtu,'');
    getContent('','/cgi-bin/setup.cgi?modify_ip&static&IP='+ip_addr+'&MASK='+netmask+'&GATEWAY='+gateway+'&DNS_1='+dns_1+'&DNS_2='+dns_2+'&MTU='+mtu,'');
   }
 
  } else {
  	showBackgroundImage('wait_message');
- 	//getContent('','/cgi-bin/setup.cgi?get_dhcp_ip&'+mac,'function:DetectDHCPServer:'+mtu);
   getContent('','/cgi-bin/setup.cgi?get_dhcp_ip','function:DetectDHCPServer:'+mtu);
  }
  return result;
@@ -286,11 +266,9 @@ function DetectDHCPServer(msg,mtu){
   location.replace ('setup_network.htm');
  } else {
   if(ip[0]==thisHREF[2]){
-   //getContent('','/cgi-bin/setup.cgi?modify_ip&dhcp&'+mac+'&'+mtu,'function:ChangeIPFinish');
    getContent('','/cgi-bin/setup.cgi?modify_ip&dhcp&'+mtu,'function:ChangeIPFinish');
   } else {
    parent.document.location.href='http://'+ip[0];
-   //getContent('','/cgi-bin/setup.cgi?modify_ip&dhcp&'+mac+'&'+mtu,'');
    getContent('','/cgi-bin/setup.cgi?modify_ip&dhcp&'+mtu,'');
   }
  }

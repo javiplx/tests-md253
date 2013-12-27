@@ -41,7 +41,6 @@ done
   done
  done
 
- #/bin/mount -t xfs -o prjquota /dev/md1 ${SHARE_PATH}
  /bin/mount -t xfs -o uquota /dev/md1 ${SHARE_PATH}
  [ $? -eq 0 ] && {
   [ $DiskNum -lt 2 ] && {

@@ -55,7 +55,6 @@ echo "hdd2 red set" > /proc/mp_leds
  /usr/local/xfsprogs/xfs_repair -nL /dev/md1 >/dev/null 2>&1
  }
 
-#mount -t xfs -o prjquota /dev/md1 /home >/dev/null 2>&1
 [ "$RAID_MODE" == "" ] && {
  [ $DiskNum -lt 2 ] && {
   /bin/mount -t xfs -o uquota /dev/${dev}1 ${SHARE_PATH}

@@ -23,7 +23,6 @@ function DisableButton(){
 }
 
 function CheckNEW(){
- //showBackgroundImage('ShowUpLoadFile')
  showBackgroundImage('wait_message');
  getContent('','/cgi-bin/toolbox.cgi?CheckNEW',"function:showNewFirmware");
 }
@@ -304,7 +303,6 @@ function ShowInstallPkgList(msg){
    oCell.innerHTML=str;
   }
  }
- //document.getElementById('DelPackage').disabled='false';
  window.document.getElementById('Value').innerHTML = '<INPUT id=Now_Value value=\"'+i+'\" type=hidden>';
  parent.calcHeight('parent');
  hiddenBackgroundImage('wait_message');
