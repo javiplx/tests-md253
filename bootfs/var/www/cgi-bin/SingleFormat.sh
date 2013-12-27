@@ -11,7 +11,7 @@ XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
 replaceFile=/bin/replaceFile
 crontable=/etc/sysconfig/config/root
 detectRebuild=/etc/sysconfig/system-script/detectRebuild
-TwonkyMedia=/usr/local/TwonkyVision/twonkymedia.sh
+TWONKY_PKGPATH=/usr/local/install/Twonkymedia
 
 PASSWD=/etc/passwd
 SLEEP=1
@@ -32,7 +32,9 @@ echo "${str} blue clear" > /proc/mp_leds
 echo "${str} red set" > /proc/mp_leds
 
 service_stop
-$TwonkyMedia stop
+[ -d ${TWONKY_PKGPATH} ] && {
+ ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh stop
+}
 service_package_manager "Service&stop"
 
 /bin/sleep $SLEEP
@@ -160,7 +162,9 @@ done
 /bin/rm -rf /tmp/ftpaccess
 
 service_start
-$TwonkyMedia start
+[ -d ${TWONKY_PKGPATH} ] && {
+ ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh start
+}
 
 /bin/mkdir -p /home/.opt
 
