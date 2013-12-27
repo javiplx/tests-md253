@@ -39,8 +39,8 @@ $replaceFile "${DAAP_CONF}" "servername ${old_daap_name}" "servername ${hostname
 dlna_mDNSR_modify_conf
 
 # Restart services
-service_stop
-service_start
+service_stop daapd ftp smb
+service_start daapd ftp smb
 
 # Modify New Admin Password
 new_password=`echo ${QUERY_STRING} | cut '-d&' -f4`
