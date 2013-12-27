@@ -1,15 +1,5 @@
-mysettime(){
-yy=$1
-mm=$2
-dd=$3
-HH=$4
-MM=$5
-}
-
 service_ntp_start(){
-DATE_CONF=/etc/sysconfig/config/date.conf
-mydate=`/bin/cat $DATE_CONF`
-mysettime $mydate
-/bin/date "$mm$dd$HH$MM$yy"
+set -- `/bin/cat /etc/sysconfig/config/date.conf`
+/bin/date "$2$3$4$5$1"
 /bin/logger "$0 - Initial System Date :\"`date`\""
 }
