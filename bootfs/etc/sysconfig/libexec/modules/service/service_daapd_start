@@ -1,8 +1,6 @@
 service_daapd_start(){
 SERVICE_PATH=/etc/sysconfig/config
 
-service_daapd_modify_config
-
 /bin/df|/bin/awk '{print $NF}'|/bin/grep "^/home$" >/dev/null 2>&1
 [ $? -ne 0 ] && return;
 

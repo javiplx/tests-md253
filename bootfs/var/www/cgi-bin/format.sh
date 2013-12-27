@@ -110,6 +110,7 @@ for disk in $SHARE_PATH_TREE; do
 done
 
 service_smb_modify_conf
+service_daapd_modify_config
 
 for i in $Directory; do
  /bin/cp -af /tmp/ftpaccess/${i} ${SHARE_PATH}/${i}/.ftpaccess
