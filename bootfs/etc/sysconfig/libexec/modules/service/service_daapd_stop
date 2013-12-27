@@ -2,5 +2,6 @@ service_daapd_stop(){
 for pid in `/bin/pidof daapd`; do
    /bin/kill -9 $pid
   done
+dlna_dnsr_stop
 /bin/logger "$0 - daapd deamon Stop"
 }
