@@ -1,0 +1,68 @@
+#!/bin/sh
+
+echo "digraph md253 {"
+echo
+
+FUNCTIONS=$( sed -n -e 's/^\(.*\)() \?{/\1/p' bootfs/etc/sysconfig/libexec/modules/*/* )
+
+CGIS=$( ls bootfs/var/www/cgi-bin/* )
+
+for f in ${FUNCTIONS} ; do
+  FOUND=NO
+  for source in $( grep -rwl $f bootfs/etc/sysconfig/libexec/modules/*/* 2> /dev/null ) ; do
+    if [ $f != ${source##*/} ] ; then
+      echo "\"${source##*/}\" -> \"$f\";"
+    else
+      FOUND=YES
+      fi
+    done
+  if [ $FOUND = YES ] ; then
+    if [ ${f#service_} = $f ] ; then
+      echo "\"$f\";"
+    else
+      echo "\"$f\" [ label=\"${f#service_}\" ];"
+      fi
+  else
+    echo "\"$f\" [ peripheries=2 ];"
+    fi
+  done
+
+echo
+
+for f in ${CGIS} ; do
+  echo "\"${f}\" [ label=\"${f##*/}\" , shape=rectangle , peripheries=2 ];"
+  done
+
+for f in ${FUNCTIONS} ${CGIS} ; do
+  grep -rwl ${f##bootfs/var/www/} bootfs rootfs 2> /dev/null
+  done | egrep -v 'bootfs/etc/sysconfig/(libexec/modules|system-script)/' | \
+    sort -u | while read source ; do
+      echo "\"${source}\" [ label=\"${source##*/}\" , shape=rectangle ];"
+      done
+
+echo
+
+for f in ${FUNCTIONS} ${CGIS} ; do
+  for source in $( grep -rwl ${f##bootfs/var/www/} bootfs rootfs 2> /dev/null | grep -v bootfs/etc/sysconfig/libexec/modules/ ) ; do
+      echo "\"$source\" -> \"$f\";"
+    done
+  done
+
+echo
+
+SCRIPTS=$( ls bootfs/etc/sysconfig/system-script/* )
+for script in ${SCRIPTS} ; do
+  echo "\"${script}\" [ label=\"${script##*/}\" , shape=rectangle , peripheries=2 ];"
+  done
+
+for f in ${SCRIPTS} ; do
+  for source in $( grep -rwl ${f#bootfs} bootfs rootfs 2> /dev/null | grep -v rootfs/sbin/buttons_daemon ) ; do
+      if [ $f != ${source##*/} ] ; then
+        echo "\"${source#bootfs/etc/sysconfig/libexec/modules/*/}\" -> \"$f\";"
+        fi
+    done
+  done
+
+echo
+echo "}"
+
