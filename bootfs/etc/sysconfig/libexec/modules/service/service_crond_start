@@ -1,13 +1,9 @@
 service_crond_start(){
-crond_prog=/bin/crond
-cat /dev/null > /var/log/crond.log
-PID=`/bin/pidof crond`
-[ "$PID" == "" ] || {
- for i in $PID; do
-  /bin/kill -9 $i
+for pid in `/bin/pidof crond`; do
+ /bin/kill -9 $pid
  done
- }
-${crond_prog} -L /var/log/crond.log >/dev/null 2>&1
+cat /dev/null > /var/log/crond.log
+/bin/crond -L /var/log/crond.log >/dev/null 2>&1
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - crond deamon Start Succeed" ||\
  /bin/logger "$0 - crond deamon Start Failed"

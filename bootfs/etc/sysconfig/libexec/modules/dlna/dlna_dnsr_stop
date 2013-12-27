@@ -1,7 +1,5 @@
 dlna_dnsr_stop(){
-/bin/killall DNSR >/dev/null 2>&1
-DNSR_PID=`/bin/pidof DNSR`
-for i in $DNSR_PID; do
- kill -3 $i >/dev/null 2>&1
+for pid in `/bin/pidof DNSR`; do
+ kill -3 $pid
 done
 }
