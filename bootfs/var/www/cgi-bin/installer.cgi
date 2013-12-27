@@ -143,6 +143,7 @@ case ${func} in
   echo "127.0.0.1	${hostname}.localdomain	${hostname}" > /etc/hosts
   export name="${hostname}"
   dlna_modify_config
+  dlna_mDNSR_modify_conf
   service_stop daapd
   sleep 2
   service_start daapd
