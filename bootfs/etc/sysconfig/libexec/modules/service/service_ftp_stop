@@ -1,8 +1,6 @@
 service_ftp_stop(){
-/bin/killall proftpd >/dev/null 2>&1
-PID=`/bin/pidof proftpd`
-for i in $PID; do
- /bin/kill -9 $i >/dev/null 2>&1
+for pid in `/bin/pidof proftpd`; do
+ /bin/kill -9 $pid
 done
 /bin/logger "$0 - proftpd deamon Stop"
 }

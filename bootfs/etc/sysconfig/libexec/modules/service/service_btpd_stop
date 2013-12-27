@@ -1,10 +1,6 @@
 service_btpd_stop(){
-/bin/killall btpd >/dev/null 2>&1
-
-PID=`/bin/pidof btpd`
-for i in $PID; do
- /bin/kill -9 $i
+for pid in `/bin/pidof btpd`; do
+ /bin/kill -9 $pid
 done
-
 /bin/logger "$0 - btpd deamon Stop"
 }

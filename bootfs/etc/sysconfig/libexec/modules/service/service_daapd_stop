@@ -1,10 +1,6 @@
 service_daapd_stop(){
- /bin/killall daapd
- STATUS=`/bin/pidof daapd`
- [ -n "${STATUS}" ] && {
-  for x in $STATUS; do
-   /bin/kill -9 $x >/dev/null 2>&1
+for pid in `/bin/pidof daapd`; do
+   /bin/kill -9 $pid
   done
-  }
-/bin/logger "$0 - \"daapd\" deamon Stop"
+/bin/logger "$0 - daapd deamon Stop"
 }
