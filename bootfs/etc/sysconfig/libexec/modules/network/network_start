@@ -36,7 +36,7 @@ TMP_MTU="${MTU}"
 /bin/ip route flush cache
 
 SMB_IPADDR=`/bin/awk "-F = " '/interfaces/{print $2}' $SMB_CONF`
-$replaceFile "${SMB_CONF}" "interfaces = ${SMB_IPADDR}" "interfaces = ${IPADDR}/${NETMASK}"
+/bin/replaceFile "${SMB_CONF}" "interfaces = ${SMB_IPADDR}" "interfaces = ${IPADDR}/${NETMASK}"
 echo "hosts allow = ${NETWORK}/${NETMASK}" > ${SMB_NET_CONF}
 
 network_modify_current_address_data > $IFCFG
