@@ -44,20 +44,14 @@ case ${func} in
   status=`echo ${QUERY_STRING}|/bin/cut '-d&' -f2`
   old_status=`/bin/awk -F= /daapd/'{print $2}' $SERVICE_CONF|/bin/sed 's/\ //g'`
   $replaceFile "$SERVICE_CONF" "daapd=${old_status}" "daapd=${status}"
-  dlna_mDNSR_modify_conf
 
   case ${status} in
    Enable)
-    [ -n "`/bin/pidof daapd`" ] || {
-     /usr/bin/daapd -m -c ${DAAP_CONF} -d 9 -D scan -f > /tmp/data 2>&1 &
-     }
+    service_daapd_modify_config
+    service_start daapd
     ;;
    Disable)
-    /bin/killall daapd >/dev/null 2>&1
-    PID=`/bin/pidof daapd`
-    for pid in $PID; do
-     /bin/kill -9 ${pid}
-    done
+    service_stop daapd
     ;;
   esac
   ;;
@@ -73,28 +67,19 @@ case ${func} in
    $replaceFile "$DAAP_CONF" "mp3_dir $old_path" "mp3_dir /tmp/"
    $replaceFile "$SERVICE_CONF" "daapd=${old_status}" "daapd=Disable"
 
-   /bin/killall daapd >/dev/null 2>&1
-   PID=`/bin/pidof daapd`
-   for pid in $PID; do
-    /bin/kill -9 ${pid}
-   done
+   service_stop daapd
 
    /bin/rm -rf /tmp/data
-   dlna_mDNSR_modify_conf
    } || {
    $replaceFile "$DAAP_CONF" "mp3_dir $old_path" "mp3_dir $path/"
    $replaceFile "$SERVICE_CONF" "daapd=${old_status}" "daapd=Disable"
 
-   /bin/killall daapd >/dev/null 2>&1
-   PID=`/bin/pidof daapd`
-   for pid in $PID; do
-    /bin/kill -9 ${pid}
-   done
+   service_stop daapd
 
    /bin/rm -rf /tmp/data
    $replaceFile "$SERVICE_CONF" "daapd=Disable" "daapd=Enable"
-   dlna_mDNSR_modify_conf
-   /usr/bin/daapd -m -c ${DAAP_CONF} -d 9 -D scan -f > /tmp/data 2>&1 &
+   service_daapd_modify_config
+   service_start daapd
    }
   ;;
  stop_scan)
@@ -103,14 +88,9 @@ case ${func} in
   $replaceFile "${DAAP_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/" >/dev/null 2>&1
   $replaceFile "${SERVICE_CONF}" "daapd=$old_status" "daapd=Disable"
 
-  /bin/killall daapd >/dev/null 2>&1
-  PID=`/bin/pidof daapd`
-  for pid in $PID; do
-   /bin/kill -9 ${pid}
-  done
+  service_stop daapd
 
   /bin/rm -rf /tmp/data
-  dlna_mDNSR_modify_conf
   ;;
  Detected_UnderScan_First)
   for i in 1 2; do

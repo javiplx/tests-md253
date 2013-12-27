@@ -1,14 +1,5 @@
 dlna_mDNSR_modify_conf(){
-/bin/killall DNSR >/dev/null 2>&1
-DNSR_PID=`/bin/pidof DNSR`
-for i in $DNSR_PID; do
- kill -3 $i >/dev/null 2>&1
-done
-
-SERVICE_PATH=/etc/sysconfig/config
-CONF_FILE=${SERVICE_PATH}/responder.conf
-dlna_mDNSR_modify_conf_data > ${CONF_FILE}
-
-/usr/bin/DNSR -d -f ${CONF_FILE} >/dev/null 2>&1 &
-/bin/kill -HUP `cat /var/run/mDNSResponder.pid 2> /dev/null` 2> /dev/null
+dlna_dnsr_stop
+dlna_mDNSR_modify_conf_data > /etc/sysconfig/config/responder.conf
+dlna_dnsr_start
 }

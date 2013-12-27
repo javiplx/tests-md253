@@ -142,17 +142,18 @@ case ${func} in
   /bin/hostname -F /etc/hostname
   echo "127.0.0.1	${hostname}.localdomain	${hostname}" > /etc/hosts
   export name="${hostname}"
+  service_daapd_modify_config
   dlna_modify_config
-  dlna_stop_daemon
+  service_stop daapd
   sleep 2
-  dlna_start_daemon
+  service_start daapd
 
   NETBIOS=`/bin/cat ${SMB_HOST_CONF}|grep "^netbios"`
   echo "${NETBIOS}" > ${SMB_HOST_CONF}
   echo "workgroup = ${new_groupname}" >> ${SMB_HOST_CONF}
-  service_smb_stop
+  service_stop smb
   sleep 2
-  service_smb_start
+  service_start smb
   ;;
  "Status")
   HostName=`/bin/hostname`
@@ -246,7 +247,7 @@ case ${func} in
   NEW_MODE=`echo ${QUERY_STRING} | cut '-d&' -f2`
   service_smb_modify_scurity $NEW_MODE
   sleep 2
-  service_smb_start
+  service_start smb
   ;;
  "ModifyMAC")
   NEW_MAC=`echo ${QUERY_STRING}|/bin/cut '-d&' -f2|/bin/tr 'a-z' 'A-Z'`

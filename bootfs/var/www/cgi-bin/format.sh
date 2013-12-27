@@ -30,11 +30,7 @@ echo "hdd2 red clear" > /proc/mp_leds
 echo "hdd1 red set" > /proc/mp_leds
 echo "hdd2 red set" > /proc/mp_leds
 
-SERVICE="smb ftp btpd"
-for i in $SERVICE; do
- service_${i}_stop >/dev/null 2>&1
-done
-dlna_stop_daemon >/dev/null 2>&1 &
+service_stop
 $TwonkyMedia stop
 service_package_manager "Service&stop"
 
@@ -111,16 +107,14 @@ for disk in $SHARE_PATH_TREE; do
 done
 
 service_smb_modify_conf
+service_daapd_modify_config
 
 for i in $Directory; do
  /bin/cp -af /tmp/ftpaccess/${i} ${SHARE_PATH}/${i}/.ftpaccess
 done
 /bin/rm -rf /tmp/ftpaccess
 
-for i in $SERVICE; do
- service_${i}_start >/dev/null 2>&1 &
-done
-dlna_start_daemon >/dev/null 2>&1 &
+service_start
 $TwonkyMedia start
 
 /bin/mkdir -p /home/.opt

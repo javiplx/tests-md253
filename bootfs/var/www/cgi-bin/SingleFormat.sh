@@ -31,11 +31,7 @@ dev=`echo $1|/bin/cut '-d_' -f1`
 echo "${str} blue clear" > /proc/mp_leds
 echo "${str} red set" > /proc/mp_leds
 
-SERVICE="smb ftp btpd"
-for service in $SERVICE; do
- service_${service}_stop >/dev/null 2>&1
-done
-dlna_stop_daemon >/dev/null 2>&1 &
+service_stop
 $TwonkyMedia stop
 service_package_manager "Service&stop"
 
@@ -152,6 +148,7 @@ for disk in $SHARE_PATH_TREE; do
 done
 
 service_smb_modify_conf
+service_daapd_modify_config
 
 [ ${DISK2STATUS} == "Yes" ] || {
  /bin/cp -af /tmp/ftpaccess/Disk_2 ${SHARE_PATH}/Disk_2/.ftpaccess
@@ -162,10 +159,7 @@ for Dir in $Directory; do
 done
 /bin/rm -rf /tmp/ftpaccess
 
-for service in $SERVICE; do
- service_${service}_start >/dev/null 2>&1 &
-done
-dlna_start_daemon >/dev/null 2>&1 &
+service_start
 $TwonkyMedia start
 
 /bin/mkdir -p /home/.opt

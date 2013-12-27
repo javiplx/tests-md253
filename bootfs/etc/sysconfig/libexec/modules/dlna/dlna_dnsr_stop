@@ -1,0 +1,5 @@
+dlna_dnsr_stop(){
+for pid in `/bin/pidof DNSR`; do
+ kill -3 $pid
+done
+}

@@ -10,11 +10,7 @@ TwonkyMedia=/usr/local/TwonkyVision/twonkymedia.sh
 SLEEP=1
 SHARE_PATH=/home
 
-SERVICE="smb ftp btpd"
-for i in $SERVICE; do
- service_${i}_stop >/dev/null 2>&1
-done
-dlna_stop_daemon >/dev/null 2>&1 &
+service_stop
 $TwonkyMedia stop
 
 /bin/sleep $SLEEP
@@ -89,9 +85,7 @@ for disk in $SHARE_PATH_TREE; do
 done
 
 service_smb_modify_conf
+service_daapd_modify_config
 
-for i in $SERVICE; do
- service_${i}_start >/dev/null 2>&1 &
-done
-dlna_start_daemon >/dev/null 2>&1 &
+service_start
 $TwonkyMedia start

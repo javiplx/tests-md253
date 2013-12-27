@@ -1,0 +1,4 @@
+dlna_dnsr_start(){
+CONF_FILE=/etc/sysconfig/config/responder.conf
+/usr/bin/DNSR -d -f ${CONF_FILE} >/dev/null 2>&1 &
+}

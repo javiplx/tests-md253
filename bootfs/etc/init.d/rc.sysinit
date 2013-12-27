@@ -19,8 +19,6 @@ cat /dev/null > ${SMB_SHARE_CONF}
 cat /dev/null > ${PRINTCAP_CONF}
 service_mount_hdd
 
-SERVICE_CONF=/etc/sysconfig/config/service
-. $SERVICE_CONF
 
 /bin/udevd --daemon
 [ $? -eq 0 ] &&\
@@ -46,16 +44,15 @@ KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 /sbin/insmod ${KERNEL_PATH}/usblp.ko >/dev/null 2>&1 &
 
 ${cron_ntp} >/dev/null 2>&1 &
-dlna_mDNSR_modify_conf
-dlna_start_daemon
  
 route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
 
 service_package_manager "Service&default"
 
-SERVICE="crond smb ftp http btpd optware"
-for i in $SERVICE; do
- status=`/bin/awk -F= /$i/'{print $2}' ${SERVICE_CONF}`
- [ "$status" == "Enable" ] && service_${i}_start &
-done
+service_crond_start &
 
+service_http_start &
+
+service_start
+
+service_optware_start &
