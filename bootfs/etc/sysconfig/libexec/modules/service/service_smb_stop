@@ -1,4 +1,11 @@
 service_smb_stop(){
+PIDs=`/bin/pidof nmbd`
+for pid in $PIDs; do
+ /bin/kill -9 $pid
+ done
+/bin/rm -f /var/run/nmbd.pid
+[ -n "$PIDs" ] && /bin/logger "$0 - nmbd deamon Stop"
+
 PIDs=`/bin/pidof smbd`
 for pid in $PIDs; do
  /bin/kill -9 $pid
