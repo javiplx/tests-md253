@@ -20,8 +20,8 @@ cat /dev/null > ${PRINTCAP_CONF}
 service_mount_hdd
 
 SERVICE_CONF=/etc/sysconfig/config/service
-KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 . $SERVICE_CONF
+KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 
 /bin/udevd --daemon
 [ $? -eq 0 ] &&\
