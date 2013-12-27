@@ -142,6 +142,7 @@ case ${func} in
   /bin/hostname -F /etc/hostname
   echo "127.0.0.1	${hostname}.localdomain	${hostname}" > /etc/hosts
   export name="${hostname}"
+  service_daapd_modify_config
   dlna_modify_config
   dlna_mDNSR_modify_conf
   service_stop daapd

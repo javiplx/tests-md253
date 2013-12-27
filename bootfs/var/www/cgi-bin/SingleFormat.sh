@@ -148,6 +148,7 @@ for disk in $SHARE_PATH_TREE; do
 done
 
 service_smb_modify_conf
+service_daapd_modify_config
 
 [ ${DISK2STATUS} == "Yes" ] || {
  /bin/cp -af /tmp/ftpaccess/Disk_2 ${SHARE_PATH}/Disk_2/.ftpaccess

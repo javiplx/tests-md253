@@ -86,6 +86,7 @@ for disk in $SHARE_PATH_TREE; do
 done
 
 service_smb_modify_conf
+service_daapd_modify_config
 
 service_start
 $TwonkyMedia start
