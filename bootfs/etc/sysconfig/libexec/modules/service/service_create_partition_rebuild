@@ -2,7 +2,6 @@ service_create_partition_rebuild(){
 active=`echo $1 | cut '-d:' -f1`
 dev=`echo $1 | cut '-d:' -f2`
 
-SLEEP=3
 # clear out old partition info and all "hidden" sectors with zeros
 dd if=/dev/zero of=/dev/${dev} bs=1M count=32
 /sbin/parted /dev/${dev} mklabel gpt
