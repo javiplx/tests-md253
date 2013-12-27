@@ -144,7 +144,6 @@ case ${func} in
   export name="${hostname}"
   service_daapd_modify_config
   dlna_modify_config
-  dlna_mDNSR_modify_conf
   service_stop daapd
   sleep 2
   service_start daapd
