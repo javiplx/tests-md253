@@ -5,13 +5,15 @@ export PATH
 . /usr/libexec/modules/modules.conf
 CONFIG_PATH=/etc/sysconfig/config
 scsi_list=${CONFIG_PATH}/scsi.list
-TwonkyMedia=/usr/local/TwonkyVision/twonkymedia.sh
+TWONKY_PKGPATH=/usr/local/install/Twonkymedia
 
 SLEEP=1
 SHARE_PATH=/home
 
 service_stop
-$TwonkyMedia stop
+[ -d ${TWONKY_PKGPATH} ] && {
+ ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh stop
+}
 
 /bin/sleep $SLEEP
 
@@ -88,4 +90,6 @@ service_smb_modify_conf
 service_daapd_modify_config
 
 service_start
-$TwonkyMedia start
+[ -d ${TWONKY_PKGPATH} ] && {
+ ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh start
+}
