@@ -60,12 +60,6 @@ case ${pkg} in
       }
      status=start; PKG_STATUS=ON
      ;;
-    #TimeMachine)
-    # [ ${status} == "default"  -a  ${PKG_STATUS} == "OFF" ] && {
-    #  /bin/replaceFile  ${PACKAGE} ${PKG}~OFF  ${PKG}~ON
-    #  }
-    # status=start; PKG_STATUS=ON
-    # ;;
     *)
      [ ${status} == "default"  -a  ${PKG_STATUS} == "ON" ] && status=start || status=stop
      ;;

@@ -8,12 +8,6 @@ SMB_HOST_CONF=/etc/sysconfig/config/smb/host.inc
 IFCFG=/etc/sysconfig/network-scripts/ifcfg-eth0
 VERSION=/etc/sysconfig/config/version
 
-replaceFile=/var/www/cgi-bin/replaceFile
-
-#防止使用者直接使用
-#cgicheck=`/var/www/cgi-bin/login_command.cgi | grep OK`
-#[ "$cgicheck" != "OK" ] && QUERY_STRING="";
-
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 
 case ${func} in

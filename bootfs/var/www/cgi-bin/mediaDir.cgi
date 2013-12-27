@@ -2,7 +2,6 @@
 echo "Content-type: text/html"
 echo ""
 echo "<HTML><HEAD>"
-#echo "<script type=\"text/javascript\" src=\"/getlanguage.js\"></script>"
 echo "<TITLE>Sample CGI Output</TITLE>"
 echo "</HEAD><BODY>"
 DAAP_CONF=/etc/sysconfig/config/daapd.conf
@@ -46,6 +45,5 @@ for i in $MEDIA_PATH; do
  num=`expr $num + 1`
 done
 echo "<INPUT id=num_value value=\"$num\" type=hidden>"
-#echo "<script type=\"text/javascript\">parent.calcHeight('parent');</script>"
 echo "</BODY></HTML>"
 
