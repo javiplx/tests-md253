@@ -21,7 +21,6 @@ format_hdd=/var/www/cgi-bin/format.sh
 SingleFormat=/var/www/cgi-bin/SingleFormat.sh
 scandisk_hdd=/var/www/cgi-bin/scandisk.sh
 raid1_rebuild=/etc/sysconfig/system-script/rebuilddisk.sh
-replaceFile=/var/www/cgi-bin/replaceFile
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 
 case ${func} in
@@ -46,8 +45,6 @@ case ${func} in
   /usr/local/TwonkyVision/twonkymedia.sh start
   ;;
  get_dhcp_ip)
-  #HWADDR=`echo ${QUERY_STRING} | cut '-d&' -f2`
-  #/bin/ifconfig eth0 hw ether ${HWADDR}
   /bin/udhcpc -n -R -b -i eth0 --timeout=1 --tryagain=1 -s ${DHCP_TMP} >/dev/null 2>&1
   [ -f /tmp/.dhcp.tmp ] && {
    cat /tmp/.dhcp.tmp
@@ -244,10 +241,6 @@ case ${func} in
   /bin/smartctl -i ${dev}|/bin/awk -F: /Device:/'{print $2}'|/bin/tr -s ' ' ' '|\
   /bin/sed 's/Version//g'|/bin/sed 's/^\ //g'|/bin/sed 's/\ $//g'
   /bin/df -h /dev/${tmp_dev}|/bin/grep "^/dev"|/bin/awk 'BEGIN{OFS="\n"}{print $2,$4}'
-  #TYPE=`/bin/blkid -c /dev/null -s TYPE $dev|cut '-d=' -f2|sed 's/\"//g'|sed 's/\ //g'`
-  #[ "$TYPE" == "vfat" ] && TYPE=FAT
-  #TYPE=`echo $TYPE|/bin/tr "[:lower:]" "[:upper:]"`
-  #echo "$TYPE"
 
   /bin/fdisk -l|/bin/grep "^$dev"|/bin/cut -c55-
   ;;
