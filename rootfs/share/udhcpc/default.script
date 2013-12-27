@@ -20,8 +20,8 @@ case "$1" in
   /bin/ip route flush cache
   network_modify_current_address >/dev/null 2>&1 &
   dlna_mDNSR_modify_conf >/dev/null 2>&1 &
-  /bin/killall nmbd
-  /usr/local/samba/sbin/nmbd >/dev/null 2>&1
+  service_stop smb
+  service_start smb
   [ -d ${TWONKY_PKGPATH} ] && {
     /usr/local/install/Twonkymedia/scripts/twonkymedia/twonkymedia.sh restart  
   } || {
@@ -50,9 +50,8 @@ case "$1" in
   $discovery &
   network_modify_current_address >/dev/null 2>&1 &
   dlna_mDNSR_modify_conf >/dev/null 2>&1 &
-  #kill `pidof udhcpc`
-  /bin/killall nmbd
-  /usr/local/samba/sbin/nmbd >/dev/null 2>&1
+  service_stop smb
+  service_start smb
   [ -d ${TWONKY_PKGPATH} ] && {
    /usr/local/install/Twonkymedia/scripts/twonkymedia/twonkymedia.sh restart  
   } || {

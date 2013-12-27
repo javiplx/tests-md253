@@ -1,4 +1,4 @@
-service_smb_modify_scurity(){
+service_smb_modify_security(){
 replaceFile=/var/www/cgi-bin/replaceFile
 CONFIG_PATH=/etc/sysconfig/config
 SMB_CONF=${CONFIG_PATH}/smb/smb.conf
@@ -60,6 +60,4 @@ for i in ${FOLDER}; do
 
 done
 /bin/logger "$0 - Modify Samba Config \"shares.inc\""
-
-service_stop smb
 }

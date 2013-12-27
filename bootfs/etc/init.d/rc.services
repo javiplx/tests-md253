@@ -1,0 +1,28 @@
+#!/bin/sh
+
+. /usr/libexec/modules/modules.conf
+PATH=/bin:/sbin:/usr/bin:/usr/sbin
+export PATH
+
+service_smb_check_config
+
+cat /dev/null > /etc/sysconfig/config/smb/hdd.inc
+cat /dev/null > /etc/sysconfig/config/smb/shares.inc
+cat /dev/null > /etc/lprng/printcap
+
+[ -f /tmp/modify_smb_conf ] &&\
+ rm -f /tmp/modify_smb_conf &&\
+ service_smb_modify_conf
+
+route add -net 224.0.0.0 netmask 240.0.0.0 dev eth0
+
+service_crond_start &
+service_http_start &
+
+service_ssh_start &
+
+service_package_manager "Service&default"
+
+service_start
+
+service_optware_start &

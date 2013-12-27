@@ -45,6 +45,12 @@ for f in ${FUNCTIONS} ${CGIS} ; do
 
 echo
 
+cat <<EOF
+"bootfs/etc/init.d/rc.sysinit" -> "bootfs/etc/init.d/rc.services";
+EOF
+
+echo
+
 for f in ${FUNCTIONS} ${CGIS} ; do
   for source in $( grep -rwl ${f##bootfs/var/www/} bootfs rootfs 2> /dev/null | grep -v bootfs/etc/sysconfig/libexec/modules/ ) ; do
       echo "\"$source\" -> \"$f\";"

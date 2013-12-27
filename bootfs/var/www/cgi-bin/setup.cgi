@@ -44,6 +44,8 @@ case ${func} in
   ;;
  modify_ip)
   network_modify_conf ${QUERY_STRING}
+  service_stop smb
+  service_start smb
   sleep 5
   /usr/local/TwonkyVision/twonkymedia.sh stop
   sleep 1
