@@ -47,7 +47,6 @@ case ${func} in
 
   case ${status} in
    Enable)
-    dlna_mDNSR_modify_conf
     service_daapd_modify_config
     service_start daapd
     ;;
@@ -80,7 +79,6 @@ case ${func} in
 
    /bin/rm -rf /tmp/data
    $replaceFile "$SERVICE_CONF" "daapd=Disable" "daapd=Enable"
-   dlna_mDNSR_modify_conf
    service_daapd_modify_config
    service_start daapd
    }

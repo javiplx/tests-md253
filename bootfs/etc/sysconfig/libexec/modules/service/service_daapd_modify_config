@@ -4,6 +4,8 @@ SERVICE_PATH=/etc/sysconfig/config
 SERVICE_CONF=${SERVICE_PATH}/service
 DAAPD_CONF=${SERVICE_PATH}/daapd.conf
 
+dlna_mDNSR_modify_conf
+
 old_status=`/bin/awk -F= /daapd/'{print $2}' $SERVICE_CONF|/bin/sed 's/\ //g'`
 old_dir=`/bin/cat $DAAPD_CONF|/bin/grep "^mp3_dir"|/bin/cut -c9-`
 [ -d "${old_dir}" ] || {
