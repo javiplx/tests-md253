@@ -1,0 +1,25 @@
+service_factory_reset(){
+CONF_PATH=/etc/sysconfig/config
+IFCFG=${CONF_PATH}/ifcfg-eth0
+IFCFG_DEFAULT=${CONF_PATH}/ifcfg-eth0.default
+
+FILE=`/bin/ls /mnt`
+for i in $FILE; do
+ [ "$i" == "ifcfg-eth0.default" ] || /bin/rm -rf /mnt/"${i}"
+done
+
+NewFile=`/bin/ls ${CONF_PATH}`
+for i in $NewFile; do
+ [ "$i" == "ifcfg-eth0.default" ] && {
+  /bin/test -f /mnt/"${i}" && continue
+  }
+
+ /bin/cp -af ${CONF_PATH}/"${i}" /mnt
+done
+
+NEW_MAC=`/bin/awk -F= /HWADDR/'{print $2}' /mnt/ifcfg-eth0.default|/bin/sed 's/\ //g'`
+OLD_MAC=`/bin/awk -F= /HWADDR/'{print $2}' /mnt/ifcfg-eth0|/bin/sed 's/\ //g'`
+/bin/replaceFile "/mnt/ifcfg-eth0" "HWADDR=${OLD_MAC}" "HWADDR=${NEW_MAC}"
+
+/bin/touch /mnt/finish
+}
