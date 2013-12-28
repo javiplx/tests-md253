@@ -1,5 +1,7 @@
 service_create_partition(){
 
+mode=$1
+
 for i in sda sdb; do
  # clear out old partition info and all "hidden" sectors with zeros
  dd if=/dev/zero of=/dev/${i} bs=1M count=32
