@@ -10,20 +10,17 @@ service_mount_system(){
  return
  }
 
-/bin/mount -t jffs2 /dev/mtdblock4 /mnt
+/bin/mount -t jffs2 /dev/mtdblock4 /etc/sysconfig/config
 [ $? -eq 0 ] || {
  echo "sys_led clear" > /proc/mp_leds
  echo "error_led set" > /proc/mp_leds
  exit
  }
 
-/bin/test -f /mnt/finish || {
+/bin/test -f /etc/sysconfig/config/finish || {
  service_factory_reset
  }
 /bin/cp -af /tmp/version /etc/sysconfig/config
-
-/bin/umount /mnt
-/bin/mount -t jffs2 /dev/mtdblock4 /etc/sysconfig/config
 /bin/rm -f /etc/sysconfig/config/touch /tmp/version
 
 scsi_list=/etc/sysconfig/config/scsi.list

@@ -3,6 +3,9 @@ CONF_PATH=/etc/sysconfig/config
 IFCFG=${CONF_PATH}/ifcfg-eth0
 IFCFG_DEFAULT=${CONF_PATH}/ifcfg-eth0.default
 
+/bin/umount /etc/sysconfig/config
+/bin/mount -t jffs2 /dev/mtdblock4 /mnt
+
 FILE=`/bin/ls /mnt`
 for i in $FILE; do
  [ "$i" == "ifcfg-eth0.default" ] || /bin/rm -rf /mnt/"${i}"
@@ -21,5 +24,8 @@ NEW_MAC=`/bin/awk -F= /HWADDR/'{print $2}' /mnt/ifcfg-eth0.default|/bin/sed 's/\
 OLD_MAC=`/bin/awk -F= /HWADDR/'{print $2}' /mnt/ifcfg-eth0|/bin/sed 's/\ //g'`
 /bin/replaceFile "/mnt/ifcfg-eth0" "HWADDR=${OLD_MAC}" "HWADDR=${NEW_MAC}"
 
-/bin/touch /mnt/finish
+/bin/umount /mnt
+/bin/mount -t jffs2 /dev/mtdblock4 /etc/sysconfig/config
+
+/bin/touch /etc/sysconfig/config/finish
 }
