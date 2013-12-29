@@ -1,4 +1,7 @@
 service_mount_system(){
+
+/bin/cp -af /etc/sysconfig/config/version /tmp
+
 /bin/dd if=/dev/mtdblock3 of=/dev/ram1 > /dev/null 2>&1
 /bin/mount -t squashfs /dev/ram1 /usr
 [ $? -eq 0 ] || {
@@ -17,11 +20,11 @@ service_mount_system(){
 /bin/test -f /mnt/finish || {
  service_factory_reset
  }
-/bin/cp -af /etc/sysconfig/config/version /mnt
+/bin/cp -af /tmp/version /etc/sysconfig/config
 
 /bin/umount /mnt
 /bin/mount -t jffs2 /dev/mtdblock4 /etc/sysconfig/config
-/bin/rm -f /etc/sysconfig/config/touch
+/bin/rm -f /etc/sysconfig/config/touch /tmp/version
 
 scsi_list=/etc/sysconfig/config/scsi.list
 /bin/cat /dev/null > ${scsi_list}
