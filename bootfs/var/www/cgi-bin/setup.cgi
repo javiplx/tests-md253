@@ -65,11 +65,7 @@ case ${func} in
   RAID_MODE=`/usr/bin/mdadm -D /dev/md1|\
   /bin/awk -F: /Level/'{print $2}'|/bin/sed 's/\ //g'`
 
-  DiskNum=0
-  for scsi in SCSI0 SCSI1; do
-   MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
-  done
+  DiskNum=`cat /etc/scsi.list | /usr/bin/wc -l`
 
   [ "$RAID_MODE" == "" ] && {
    [ $DiskNum -lt 2 ] && RAID_MODE=SingleDisk || RAID_MODE=DaulDisk
@@ -227,11 +223,7 @@ case ${func} in
    }
   ;;
  USB_Disks)
-  DiskNum=0
-  for scsi in SCSI0 SCSI1; do
-   MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
-  done
+  DiskNum=`cat /etc/scsi.list | /usr/bin/wc -l`
   SHARE_PATH_TREE=`/bin/df|/bin/grep "/home/"|/bin/awk '{print $1}'`
 
   for disk in $SHARE_PATH_TREE; do

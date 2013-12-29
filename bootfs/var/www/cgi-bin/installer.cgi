@@ -88,7 +88,6 @@ case ${func} in
    }
   ;;
  "Physical_Disks")
-  scsi_list=/etc/sysconfig/config/scsi.list
   i=0
   for scsi in SCSI0 SCSI1; do
    MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
