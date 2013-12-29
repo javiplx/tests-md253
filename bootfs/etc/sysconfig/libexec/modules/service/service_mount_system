@@ -1,7 +1,5 @@
 service_mount_system(){
 
-/bin/cp -af /etc/sysconfig/config/version /tmp
-
 ROOTFS=/dev/mtdblock3
 /bin/mount -r -t xfs /dev/sda1 /mnt
 [ $? -eq 0 ] && \
@@ -27,8 +25,8 @@ ROOTFS=/dev/mtdblock3
 /bin/test -f /etc/sysconfig/config/finish || {
  service_factory_reset
  }
-/bin/cp -af /tmp/version /etc/sysconfig/config
-/bin/rm -f /etc/sysconfig/config/touch /tmp/version
+/bin/cp -af /etc/version /etc/sysconfig/config
+/bin/rm -f /etc/sysconfig/config/touch
 
 scsi_list=/etc/sysconfig/config/scsi.list
 /bin/cat /dev/null > ${scsi_list}

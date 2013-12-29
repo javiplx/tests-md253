@@ -6,7 +6,6 @@ echo "<HTML><HEAD><TITLE>Sample CGI Output</TITLE></HEAD><BODY>"
 . /usr/libexec/modules/modules.conf
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 firmware=`echo ${QUERY_STRING} | cut '-d&' -f2`
-VERSION=/etc/sysconfig/config/version
 targetpath=${firmware%/*}
 tempFolder=$targetpath"/.tempByMapower"
 PKG_Folder=/usr/local/install
@@ -47,7 +46,7 @@ case ${func} in
    VerNum=`/bin/awk -F\" /version/'{print $2}' /tmp/version.xml|/bin/sed 's/\ //g'`
 
    new=`echo "$VerNum"|/bin/awk -F. '{print "new_a="$1,"new_b="$2,"new_c="$3}'`
-   old=`/bin/awk -F_ '{print $2}' ${VERSION}|/bin/sed 's/v//'|/bin/sed 's/[a-z]$//'|\
+   old=`/bin/awk -F_ '{print $2}' /etc/version|/bin/sed 's/v//'|/bin/sed 's/[a-z]$//'|\
       /bin/awk -F. '{print "old_a="$1,"old_b="$2,"old_c="$3}'`
 
    versionset "$new"

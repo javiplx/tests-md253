@@ -6,7 +6,6 @@ echo "<HTML><HEAD><TITLE>Sample CGI Output</TITLE></HEAD><BODY>"
 . /usr/libexec/modules/modules.conf
 SMB_HOST_CONF=/etc/sysconfig/config/smb/host.inc
 IFCFG=/etc/sysconfig/network-scripts/ifcfg-eth0
-VERSION=/etc/sysconfig/config/version
 
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 
@@ -14,7 +13,7 @@ case ${func} in
  GetStatusInfo)
   /bin/hostname|/bin/sed 's/\ //g'
   /bin/awk "-F = " '/workgroup/{print $2}' ${SMB_HOST_CONF}|/bin/sed 's/\ //g'
-  /bin/cat $VERSION
+  /bin/cat /etc/version
   /bin/awk -F= /IPADDR/'{print $2}' $IFCFG|/bin/sed 's/\ //g'
   /bin/awk -F= /HWADDR/'{print $2}' $IFCFG|/bin/sed 's/\ //g'
   [ -n "`/bin/pidof smbd`" ] && echo "ON" || echo "OFF"
