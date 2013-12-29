@@ -1,5 +1,12 @@
 service_mount_system(){
 
+/bin/mount -t jffs2 /dev/mtdblock4 /etc/sysconfig/config
+[ $? -eq 0 ] || {
+ echo "sys_led clear" > /proc/mp_leds
+ echo "error_led set" > /proc/mp_leds
+ exit
+ }
+
 ROOTFS=/dev/mtdblock3
 /bin/mount -r -t xfs /dev/sda1 /mnt
 [ $? -eq 0 ] && \
@@ -13,13 +20,6 @@ ROOTFS=/dev/mtdblock3
  echo "sys_led clear" > /proc/mp_leds
  echo "error_led set" > /proc/mp_leds
  return
- }
-
-/bin/mount -t jffs2 /dev/mtdblock4 /etc/sysconfig/config
-[ $? -eq 0 ] || {
- echo "sys_led clear" > /proc/mp_leds
- echo "error_led set" > /proc/mp_leds
- exit
  }
 
 /bin/test -f /etc/sysconfig/config/finish || {
