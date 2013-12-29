@@ -1,5 +1,13 @@
 service_mount_system(){
 
+while read scsi ; do
+ set -- $scsi
+ case $1 in
+  Host\:) echo -n "$2:" ;;
+  Vendor\:) echo "$2" ;;
+ esac
+done < /proc/scsi/scsi > /etc/scsi.list
+
 /bin/mount -t jffs2 /dev/mtdblock4 /etc/sysconfig/config
 [ $? -eq 0 ] || {
  echo "sys_led clear" > /proc/mp_leds
@@ -8,10 +16,12 @@ service_mount_system(){
  }
 
 ROOTFS=/dev/mtdblock3
+[ -s /etc/scsi.list ] && {
 /bin/mount -r -t xfs /dev/sda1 /mnt
 [ $? -eq 0 ] && \
  [ -f /mnt/squashfs.img ] && \
    ROOTFS=/mnt/squashfs.img
+}
 /bin/dd if=${ROOTFS} of=/dev/ram1 > /dev/null 2>&1
 /bin/umount /mnt
 
