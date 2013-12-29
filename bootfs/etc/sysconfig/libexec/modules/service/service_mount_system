@@ -16,12 +16,11 @@ done < /proc/scsi/scsi > /etc/scsi.list
  }
 
 ROOTFS=/dev/mtdblock3
-[ -s /etc/scsi.list ] && {
-/bin/mount -r -t xfs /dev/sda1 /mnt
-[ $? -eq 0 ] && \
+[ -s /etc/scsi.list ] && \
+ /bin/mount -r -t xfs /dev/sda1 /mnt && \
  [ -f /mnt/squashfs.img ] && \
    ROOTFS=/mnt/squashfs.img
-}
+
 /bin/dd if=${ROOTFS} of=/dev/ram1 > /dev/null 2>&1
 /bin/umount /mnt
 
