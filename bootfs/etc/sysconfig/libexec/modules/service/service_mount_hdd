@@ -30,11 +30,6 @@ done
 [ $DiskNum -eq 0 ] && {
  hdd1=red; hdd2=red
  } || {
- [ "$REAL" == "SCSI0" ] && {
-  str=hdd1; Drive="Drive 1"
-  } || {
-  str=hdd2; Drive="Drive 2"
-  }
 
  cat /dev/null > /etc/mdadm.conf
  [ $DiskNum -gt 1 ] &&\
@@ -123,8 +118,10 @@ done
    /bin/mount -t xfs -o uquota /dev/sda1 ${SHARE_PATH}
    [ $? -eq 0 ] && {
     [ "$REAL" == "SCSI0" ] && {
+     Drive="Drive 1"
      hdd1=blue; hdd2=red
      } || {
+     Drive="Drive 2"
      hdd1=red; hdd2=blue
      }
     /bin/logger "$0 - \"${Drive}\" Mount Succeed"
@@ -156,6 +153,7 @@ for disk in hdd1 hdd2; do
  eval str=\$${disk}
  echo "${disk} ${str} set" > /proc/mp_leds
 done
+
 /bin/hdparm -S241 /dev/sda >/dev/null 2>&1
 /bin/hdparm -S241 /dev/sdb >/dev/null 2>&1
 
