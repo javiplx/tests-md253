@@ -113,10 +113,10 @@ done
   /bin/awk -F: /Level/'{print $2}'|/bin/sed 's/\ //g'`
   [ "$RAID_MODE" == "linear" ] && RAID_MODE=JBOD
   /bin/logger "$0 - Raid mode \"${RAID_MODE}\" Mount Succeed"
-  } || {
-  [ $DiskNum -lt 2 ] && {
-   /bin/mount -t xfs -o uquota /dev/sda1 ${SHARE_PATH}
-   [ $? -eq 0 ] && {
+ } || {
+  /bin/mount -t xfs -o uquota /dev/sda1 ${SHARE_PATH}
+  [ $? -eq 0 ] && {
+   [ $DiskNum -lt 2 ] && {
     [ "$REAL" == "SCSI0" ] && {
      Drive="Drive 1"
      hdd1=blue; hdd2=red
@@ -125,25 +125,20 @@ done
      hdd1=red; hdd2=blue
      }
     /bin/logger "$0 - \"${Drive}\" Mount Succeed"
-    } || {
-    hdd1=red; hdd2=red
-    }
-  } || {
-   /bin/mount -t xfs -o uquota /dev/sda1 ${SHARE_PATH}
-   [ $? -eq 0 ] && {
+   } || {
     [ -d "${SHARE_PATH}/Disk_2" ] || /bin/mkdir -p ${SHARE_PATH}/Disk_2
     /bin/mount -t xfs -o uquota /dev/sdb1 ${SHARE_PATH}/Disk_2
     [ $? -eq 0 ] && {
      hdd1=blue; hdd2=blue
      /bin/logger "$0 - Drive 1 & Drive 2 Mount Succeed"
-     } || {
+    } || {
      hdd1=blue; hdd2=red
      [ -d "${SHARE_PATH}/Disk_2" ] && /bin/rm -rf ${SHARE_PATH}/Disk_2
      /bin/logger "$0 - Drive 1 Mount Succeed"
      }
-    } || {
-    hdd1=red; hdd2=red
     }
+  } || {
+   hdd1=red; hdd2=red
    }
   }
   touch /tmp/modify_smb_conf
