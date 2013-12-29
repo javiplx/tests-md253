@@ -2,7 +2,14 @@ service_mount_system(){
 
 /bin/cp -af /etc/sysconfig/config/version /tmp
 
-/bin/dd if=/dev/mtdblock3 of=/dev/ram1 > /dev/null 2>&1
+ROOTFS=/dev/mtdblock3
+/bin/mount -r -t xfs /dev/sda1 /mnt
+[ $? -eq 0 ] && \
+ [ -f /mnt/squashfs.img ] && \
+   ROOTFS=/mnt/squashfs.img
+/bin/dd if=${ROOTFS} of=/dev/ram1 > /dev/null 2>&1
+/bin/umount /mnt
+
 /bin/mount -t squashfs /dev/ram1 /usr
 [ $? -eq 0 ] || {
  echo "sys_led clear" > /proc/mp_leds
