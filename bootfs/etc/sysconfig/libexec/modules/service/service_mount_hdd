@@ -58,35 +58,21 @@ done
    } || {
    /usr/bin/mdadm -D /dev/md1|/bin/grep "removed" >/dev/null 2>&1
    [ $? -eq 0 ] && {
-    for i in sda1 sdb1; do
-     MDStatus=`/usr/bin/mdadm -D /dev/md1|/bin/grep "${i}"`
-     [ "$MDStatus" == "" ] && continue
-     MDDEVICE=$i
-    done
-    [ "$MDDEVICE" == "sda1" ] &&\
-     hdd1=blue; hdd2=red ||\
-     hdd1=red; hdd2=blue
-     
-     for disk in sda1 sdb1; do
-      MD_STATUS=`/usr/bin/mdadm -D /dev/md1`
-      echo "$MD_STATUS"|/bin/grep "$disk" >/dev/null 2>&1
-      [ $? -eq 0 ] && {
-       active=$disk
-       break
-        }
-     done
-
      for DISK in sda sdb; do
+      /usr/bin/mdadm -D /dev/md1|/bin/grep "${DISK}1" >/dev/null 2>&1
+      [ $? -eq 0 ] && active=$DISK
       SIZE=`fdisk -l /dev/${DISK}|awk /${DISK}:/'{print $5}'`
       i="${DISK}=${SIZE}"
       export $i
      done
 
      case ${active} in
-      sda1)
+      sda)
+       hdd1=blue; hdd2=red
        [ $sdb -ge $sda ] && $raid1_rebuild
         ;;
-      sdb1)
+      sdb)
+       hdd1=red; hdd2=blue
        [ $sda -ge $sdb ] && $raid1_rebuild
         ;;
      esac
