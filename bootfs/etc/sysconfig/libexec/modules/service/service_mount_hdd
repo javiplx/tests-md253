@@ -119,8 +119,10 @@ for disk in hdd1 hdd2; do
 done
 
 for dev in sda sdb; do
+ parted -s -m /dev/${dev} print && {
  /bin/smartctl -i /dev/${dev} -d ata -s on >/dev/null 2>&1
  /bin/hdparm -S241 /dev/${dev} >/dev/null 2>&1
+ }
 done
 
 [ -f /home/.swap ] || {
