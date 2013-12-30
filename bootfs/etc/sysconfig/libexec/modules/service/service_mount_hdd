@@ -38,15 +38,6 @@ done
 
  /usr/bin/mdadm -D -s >> /etc/mdadm.conf
 
- /bin/mount -t xfs /dev/md1 ${SHARE_PATH} >/dev/null 2>&1
- /bin/umount ${SHARE_PATH}
- for disk in sda sdb; do
-  for num in 1 2; do
-   /bin/mount -t xfs /dev/${disk}${num} ${SHARE_PATH} >/dev/null 2>&1
-   /bin/umount ${SHARE_PATH} >/dev/null 2>&1
-  done
- done
-
  /bin/mount -t xfs -o uquota /dev/md1 ${SHARE_PATH}
  [ $? -eq 0 ] && {
   [ $DiskNum -lt 2 ] && {
