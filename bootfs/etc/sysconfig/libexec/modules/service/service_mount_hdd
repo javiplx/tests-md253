@@ -11,10 +11,6 @@ for scsi in 0 1; do
   echo "SCSI${scsi}:${MODEL}" >> ${scsi_list}
 done
 
-for dev in a b; do
- /bin/smartctl -i /dev/sd${dev} -d ata -s on >/dev/null 2>&1
-done
-
 DiskNum=0
 for scsi in SCSI0 SCSI1; do
  MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
@@ -126,8 +122,10 @@ for disk in hdd1 hdd2; do
  echo "${disk} ${str} set" > /proc/mp_leds
 done
 
-/bin/hdparm -S241 /dev/sda >/dev/null 2>&1
-/bin/hdparm -S241 /dev/sdb >/dev/null 2>&1
+for dev in sda sdb; do
+ /bin/smartctl -i /dev/${dev} -d ata -s on >/dev/null 2>&1
+ /bin/hdparm -S241 /dev/${dev} >/dev/null 2>&1
+done
 
 [ -f /home/.swap ] || {
     /bin/dd if=/dev/zero of=/home/.swap bs=1M count=128 >/dev/null 2>&1
