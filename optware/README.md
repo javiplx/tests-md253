@@ -34,6 +34,7 @@ Once the optware tree is prepared, we can build the packages as usual, by runnin
     make toolchain ipkg-utils
 
 Before issuing the final `make`, there are some warnings we should account for. First, it is useful to manually build the python2x-stage targets, as they are broken and should be attempted twice to succeed (build for 27 is ok). 
+Some other packages (kamailio) do initially fail, but get compiled if retried later (probably some missing requirement)
 
 If the placement for packages (PACKAGE_DIR) is modified, to properly create the repository a few more changes are required on makefiles
 
