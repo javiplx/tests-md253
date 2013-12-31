@@ -4,7 +4,6 @@ export PATH
 
 . /usr/libexec/modules/modules.conf
 CONFIG_PATH=/etc/sysconfig/config
-scsi_list=${CONFIG_PATH}/scsi.list
 TWONKY_PKGPATH=/usr/local/install/Twonkymedia
 
 SLEEP=1
@@ -17,11 +16,7 @@ service_stop
 
 /bin/sleep $SLEEP
 
-DiskNum=0
-for scsi in SCSI0 SCSI1; do
- MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
- [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
-done
+DiskNum=`cat /etc/scsi.list | /usr/bin/wc -l`
 
 SHARE_PATH_TREE=`/bin/df|/bin/grep "/home/"|/bin/awk '{print $1}'`
 for disk in $SHARE_PATH_TREE; do

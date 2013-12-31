@@ -5,7 +5,6 @@ export PATH
 . /usr/libexec/modules/modules.conf
 CONFIG_PATH=/etc/sysconfig/config
 SMB_CONF=${CONFIG_PATH}/smb/smb.conf
-scsi_list=${CONFIG_PATH}/scsi.list
 
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
 replaceFile=/bin/replaceFile
@@ -41,12 +40,7 @@ service_package_manager "Service&stop"
 /bin/killall udevd >/dev/null 2>&1
 /bin/sleep $SLEEP
 
-DiskNum=0
-for scsi in SCSI0 SCSI1; do
- MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
- [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
-  REAL=$scsi
-done
+DiskNum=`cat /etc/scsi.list | /usr/bin/wc -l`
 
 SHARE_PATH_TREE=`/bin/df|/bin/grep -v "/home/Disk_2"|\
                  /bin/grep "/home/"|/bin/awk '{print $1}'`
