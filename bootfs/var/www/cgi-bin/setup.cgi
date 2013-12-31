@@ -108,29 +108,6 @@ case ${func} in
    } || echo "Ready"
    }
   ;;
- Physical_Disks_1)
-  for disk in sdb sda; do
-   [ "$disk" == "sda" ] && str="Drive (Right)" || str="Drive (Left)"
-   MODEL=`/bin/smartctl -i -d ata /dev/${disk}|/bin/awk /Device\ Model/'{print $NF}'|/bin/sed 's/\ //g'`
-   [ "$MODEL" == "" ] && {
-    echo "${str}:--:--:No Disk:removed"
-    } || {
-    Capacity=`/bin/fdisk -l /dev/${disk}|/bin/awk -F, /${disk}:/'{print $1}'|/bin/awk -F: '{print $2}'|/bin/sed 's/^\ //'`
-    Status=`/bin/smartctl -i /dev/${disk} -d ata|/bin/grep "SMART support is"|/bin/grep -v "Available"|/bin/awk -F: '{print $2}'|/bin/sed 's/\ //g'`
-
-    case ${Status} in
-     Disabled)
-      ACT="${Status}"
-      ;;
-     Enabled)
-      ACT=`/bin/smartctl -H -d ata /dev/${disk}|/bin/awk /overall-health/'{print $NF}'|/bin/sed 's/\ //g'`
-      ;;
-    esac
-
-    echo "${str}:${MODEL}:${Capacity}:Ready:${ACT}"
-    }
-  done
-  ;;
  Physical_Disks)
   DiskNum=0
   for scsi in SCSI0 SCSI1; do
