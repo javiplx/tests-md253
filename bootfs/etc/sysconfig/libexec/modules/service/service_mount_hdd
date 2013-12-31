@@ -125,11 +125,13 @@ for dev in sda sdb; do
  }
 done
 
+mount | grep -q ' on /home type xfs ' && {
 [ -f /home/.swap ] || {
     /bin/dd if=/dev/zero of=/home/.swap bs=1M count=128 >/dev/null 2>&1
     /bin/mkswap /home/.swap >/dev/null 2>&1
 }
 [ -f /home/.swap ] && \
     /bin/swapon /home/.swap
+}
 
 }
