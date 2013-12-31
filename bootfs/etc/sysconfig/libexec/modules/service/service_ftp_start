@@ -2,7 +2,7 @@ service_ftp_start(){
 SERVICE_PATH=/etc/sysconfig/config
 PROFTPD_CONF=${SERVICE_PATH}/proftpd/proftpd.conf
 PUBLIC_ACCESS=/home/PUBLIC/.ftpaccess
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/bin/replaceFile
 
 GLOBAL_CONF=/etc/sysconfig/config/proftpd/global.conf
 

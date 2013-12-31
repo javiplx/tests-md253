@@ -13,7 +13,7 @@ SMB_CONF=${SMB_PATH}/smb.conf
 SHARE_PATH=/home
 
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/bin/replaceFile
 func=`echo ${QUERY_STRING} | cut '-d&' -f1`
 
 case ${func} in

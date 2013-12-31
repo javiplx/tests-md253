@@ -1,5 +1,5 @@
 service_smb_modify_security(){
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/bin/replaceFile
 CONFIG_PATH=/etc/sysconfig/config
 SMB_CONF=${CONFIG_PATH}/smb/smb.conf
 SMB_SHARES_CONF=${CONFIG_PATH}/smb/shares.inc

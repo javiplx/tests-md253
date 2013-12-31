@@ -4,7 +4,7 @@ QUERY_STRING=$1
 CONFIG_PATH=/etc/sysconfig/config
 SERVICE_CONF=${CONFIG_PATH}/service
 BTPD_CONF=${CONFIG_PATH}/btpd.conf
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/bin/replaceFile
 
 port=`echo ${QUERY_STRING} | cut '-d&' -f3`
 outgoing=`echo ${QUERY_STRING} | cut '-d&' -f4`

@@ -1,5 +1,5 @@
 dlna_modify_config(){
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/bin/replaceFile
 SMB_HOST_CONF=/etc/sysconfig/config/smb/host.inc
 DAAP_CONF=/etc/sysconfig/config/daapd.conf
 
