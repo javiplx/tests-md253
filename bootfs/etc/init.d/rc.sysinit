@@ -4,13 +4,11 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
 export PATH
 
-service_mount_tmpfs
 /etc/init.d/rc.sysmount
+
 service_syslogd_start
 
 /bin/buttons_daemon
-# mount HDD
-service_mount_hdd
 
 /bin/udevd --daemon
 [ $? -eq 0 ] &&\

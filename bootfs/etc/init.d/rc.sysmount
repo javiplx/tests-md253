@@ -2,6 +2,8 @@
 
 . /usr/libexec/modules/modules.conf
 
+service_mount_tmpfs
+
 while read scsi ; do
  set -- $scsi
  case $1 in
@@ -38,4 +40,6 @@ ROOTFS=/dev/mtdblock3
  }
 /bin/cp -af /etc/version /etc/sysconfig/config
 /bin/rm -f /etc/sysconfig/config/touch
+
+service_mount_hdd
 
