@@ -3,12 +3,6 @@ PATH=/bin:/sbin:/usr/bin:/usr/sbin
 export PATH
 
 . /usr/libexec/modules/modules.conf
-SHARE_PATH=/home
-PASSWD=/etc/passwd
-replaceFile=/bin/replaceFile
-XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
-crontable=/etc/sysconfig/config/root
-detectRebuild=/etc/sysconfig/system-script/detectRebuild
 SLEEP=1
 
 /bin/killall udevd >/dev/null 2>&1
@@ -45,7 +39,6 @@ esac
 /usr/bin/mdadm --zero-superblock /dev/${dev}1
 
 service_create_partition_rebuild ${str}
-#/usr/local/xfsprogs/mkfs.xfs -f /dev/${dev}1 >/dev/null 2>&1
 
 case ${active} in
  sda)
@@ -56,9 +49,5 @@ case ${active} in
   ;;
 esac
 
-detectRebuildLine=`/bin/cat ${crontable}|/bin/grep "${detectRebuild}"`
-echo "${detectRebuildLine}"|/bin/grep "#" >/dev/null 2>&1
-[ $? -eq 0 ] && {
- $replaceFile "${crontable}" "${detectRebuildLine}" "* * * * * /etc/sysconfig/system-script/detectRebuild"
+service_rebuild_start && \
 service_crond_start
-}

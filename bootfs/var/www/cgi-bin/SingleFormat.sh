@@ -8,21 +8,14 @@ SMB_CONF=${CONFIG_PATH}/smb/smb.conf
 scsi_list=${CONFIG_PATH}/scsi.list
 
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
-replaceFile=/bin/replaceFile
-crontable=/etc/sysconfig/config/root
-detectRebuild=/etc/sysconfig/system-script/detectRebuild
 TWONKY_PKGPATH=/usr/local/install/Twonkymedia
 
 PASSWD=/etc/passwd
 SLEEP=1
 SHARE_PATH=/home
 
-detectRebuildLine=`/bin/cat ${crontable}|/bin/grep "${detectRebuild}"`
-echo "${detectRebuildLine}"|/bin/grep "#" >/dev/null 2>&1
-[ $? -eq 0 ] || {
- $replaceFile "${crontable}" "${detectRebuildLine}" "#* * * * * /etc/sysconfig/system-script/detectRebuild"
+service_rebuild_stop && \
  service_crond_start
- }
 
 val=`echo $1|/bin/cut '-d_' -f2`
 [ "$val" == "0" ] && str=hdd1 || str=hdd2
