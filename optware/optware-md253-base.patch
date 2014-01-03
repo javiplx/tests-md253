@@ -117,3 +117,15 @@ diff -uNr optware/make/classpath.mk optware/make/classpath.mk
  CLASSPATH_ANTLR_JAR=antlr-3.1.3.jar
  
  $(DL_DIR)/$(CLASSPATH_ANTLR_JAR):
+diff -uNr optware/make/kamailio.mk optware/make/kamailio.mk
+--- optware/make/kamailio.mk	(revision 13119)
++++ optware/make/kamailio.mk	(working copy)
+@@ -163,7 +163,7 @@
+ $(KAMAILIO_BUILD_DIR)/.configured: $(DL_DIR)/$(KAMAILIO_SOURCE) $(KAMAILIO_PATCHES) make/kamailio.mk
+ 	$(MAKE) openssl-stage radiusclient-ng-stage expat-stage libxml2-stage unixodbc-stage
+ 	$(MAKE) postgresql-stage net-snmp-stage confuse-stage libcurl-stage openldap-stage pcre-stage
+-	$(MAKE) sqlite-stage
++	$(MAKE) sqlite-stage geoip-stage
+ ifeq (mysql, $(filter mysql, $(PACKAGES)))
+ 	$(MAKE) mysql-stage
+ endif
