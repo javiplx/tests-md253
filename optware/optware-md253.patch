@@ -113,14 +113,13 @@ diff -uNr optware.orig/platforms/toolchain-md253.mk optware/platforms/toolchain-
 diff -uNr optware.orig/platforms/packages-md253.mk optware/platforms/packages-md253.mk
 --- optware.orig/platforms/packages-md253.mk	1970-01-01 01:00:00.000000000 +0100
 +++ optware/platforms/packages-md253.mk	2011-01-28 22:33:56.000000000 +0100
-@@ -0,0 +1,37 @@
+@@ -0,0 +1,35 @@
 +# openldap-stage is a real samba requirement
-+# mt-daapd seems broken
 +SPECIFIC_PACKAGES = \
 +	ipkg-opt \
 +	binutils \
 +	openldap logrotate hdparm mdadm smartmontools findutils \
-+	btpd proftpd dropbear ntfs-3g \
++	btpd proftpd dropbear ntfs-3g mt-daapd \
 +
 +# iptraf: sys/types.h and linux/types.h conflicting
 +# postgresql: requested version does not exists
@@ -131,11 +130,10 @@ diff -uNr optware.orig/platforms/packages-md253.mk optware/platforms/packages-md
 +	inferno ircd-hybrid jamvm libnsl microcom mimms \
 +	mpop msmtp nmap ntp ntpclient pango postfix psmisc puppy \
 +	py-mx-base py-psycopg py-pygresql rhtvision \
-+	samba35 screen ser2net squid3 strongswan telldus-core textutils \
-+	wget xmail nmon squeak \
-+	libunistring opensips \
-+	emacs22 ppp w3m py-bluez py-pastescript zile \
-+	nzbget nzbget-test
++	samba35 screen ser2net squid3 strongswan textutils \
++	wget nmon squeak \
++	libunistring \
++	emacs22 ppp w3m py-bluez py-pastescript
 +
 +ASTERISK_PACKAGES =
 +

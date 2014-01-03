@@ -93,3 +93,27 @@ diff -uNr optware/make/libpth.mk optware/make/libpth.mk
  	)
  	$(PATCH_LIBTOOL) $(@D)/libtool
  	touch $@
+diff -uNr optware/make/xmail.mk optware/make/xmail.mk
+--- optware/make/xmail.mk	(revision 13119)
++++ optware/make/xmail.mk	(working copy)
+@@ -65,7 +65,7 @@
+ # compilation or linking flags, then list them here.
+ #
+ XMAIL_CPPFLAGS=
+-ifeq ($(OPTWARE_TARGET), $(filter gumstix1151 mbwe-bluering, $(OPTWARE_TARGET)))
++ifeq ($(OPTWARE_TARGET), $(filter gumstix1151 mbwe-bluering md253, $(OPTWARE_TARGET)))
+ XMAIL_CPPFLAGS += -DDISABLE_IPV6
+ endif
+ XMAIL_LDFLAGS=
+diff -uNr optware/make/classpath.mk optware/make/classpath.mk
+--- optware/make/classpath.mk	(revision 13119)
++++ optware/make/classpath.mk	(working copy)
+@@ -80,7 +80,7 @@
+ 	$(WGET) -P $(@D) $(CLASSPATH_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+-CLASSPATH_ANTLR_SITE=http://www.antlr.org/download
++CLASSPATH_ANTLR_SITE=http://www.antlr3.org/download
+ CLASSPATH_ANTLR_JAR=antlr-3.1.3.jar
+ 
+ $(DL_DIR)/$(CLASSPATH_ANTLR_JAR):
