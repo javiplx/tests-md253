@@ -129,3 +129,15 @@ diff -uNr optware/make/kamailio.mk optware/make/kamailio.mk
  ifeq (mysql, $(filter mysql, $(PACKAGES)))
  	$(MAKE) mysql-stage
  endif
+diff -uNr optware/make/zile.mk optware/make/zile.mk
+--- optware/make/zile.mk	(revision 13119)
++++ optware/make/zile.mk	(working copy)
+@@ -105,7 +105,7 @@
+ # shown below to make various patches to it.
+ #
+ $(ZILE_BUILD_DIR)/.configured: $(DL_DIR)/$(ZILE_SOURCE) $(ZILE_PATCHES) make/zile.mk
+-	$(MAKE) ncurses-stage
++	$(MAKE) ncurses-stage libgc-stage
+ 	rm -rf $(BUILD_DIR)/$(ZILE_DIR) $(@D)
+ 	$(ZILE_UNZIP) $(DL_DIR)/$(ZILE_SOURCE) | tar -C $(BUILD_DIR) -xvf -
+ 	if test -n "$(ZILE_PATCHES)" ; \
