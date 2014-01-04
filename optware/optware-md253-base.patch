@@ -141,3 +141,25 @@ diff -uNr optware/make/zile.mk optware/make/zile.mk
  	rm -rf $(BUILD_DIR)/$(ZILE_DIR) $(@D)
  	$(ZILE_UNZIP) $(DL_DIR)/$(ZILE_SOURCE) | tar -C $(BUILD_DIR) -xvf -
  	if test -n "$(ZILE_PATCHES)" ; \
+diff -uNr optware/make/bacula.mk optware/make/bacula.mk
+--- optware/make/bacula.mk	(revision 13119)
++++ optware/make/bacula.mk	(working copy)
+@@ -59,6 +59,10 @@
+ BACULA_CONFIGURE_ENVS=ac_cv_func_posix_fadvise=no
+ endif
+ 
++ifeq ($(OPTWARE_TARGET), $(filter md253, $(OPTWARE_TARGET)))
++BACULA_CONFIGURE_OPTS = --disable-ipv6
++endif
++
+ #
+ # BACULA_BUILD_DIR is the directory in which the build is done.
+ # BACULA_SOURCE_DIR is the directory which holds all the
+@@ -147,6 +151,7 @@
+ 		--without-x \
+ 		--disable-nls \
+ 		--disable-static \
++		$(BACULA_CONFIGURE_OPTS) \
+ 	)
+ 	$(PATCH_LIBTOOL) $(@D)/libtool
+ 	touch $@

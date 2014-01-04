@@ -124,7 +124,7 @@ diff -uNr optware.orig/platforms/packages-md253.mk optware/platforms/packages-md
 +# iptraf: sys/types.h and linux/types.h conflicting
 +# postgresql: requested version does not exists
 +BROKEN_PACKAGES = \
-+	bacula bluez2-utils classpath dcraw distcc \
++	bluez2-utils classpath dcraw distcc \
 +	erlang erl-yaws erl-ejabberd ficy \
 +	golang gsasl inetutils \
 +	inferno ircd-hybrid jamvm libnsl microcom mimms \
