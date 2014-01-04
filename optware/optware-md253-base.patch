@@ -175,3 +175,25 @@ diff -uNr optware/make/libnsl.mk optware/make/libnsl.mk
  LIBNSL_SO_DIR = $(TARGET_USRLIBDIR)/../../lib
  else
  LIBNSL_SO_DIR ?= $(TARGET_LIBDIR)
+diff -uNr optware/make/psmisc.mk optware/make/psmisc.mk
+--- optware/make/psmisc.mk	(revision 13119)
++++ optware/make/psmisc.mk	(working copy)
+@@ -61,6 +61,10 @@
+ PSMISC_LDFLAGS += -lintl
+ endif
+ 
++ifeq (no, $(IPV6))
++PSMISC_CONFIGURE_ARGS += --disable-ipv6
++endif
++
+ #
+ # PSMISC_BUILD_DIR is the directory in which the build is done.
+ # PSMISC_SOURCE_DIR is the directory which holds all the
+@@ -137,6 +141,7 @@
+ 		--prefix=/opt \
+ 		--disable-nls \
+ 		--disable-static \
++		$(PSMISC_CONFIGURE_ARGS) \
+ 	)
+ #	$(PATCH_LIBTOOL) $(@D)/libtool
+ 	touch $@
