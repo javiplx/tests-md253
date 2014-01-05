@@ -3,7 +3,6 @@ ConfigPath=/etc/sysconfig/config
 SmbPath=${ConfigPath}/smb
 SMB_CONF=${SmbPath}/smb.conf
 SMB_NET_CONF=${SmbPath}/network.inc
-SMB_HOST_CONF=${SmbPath}/host.inc
 DAAP_CONF=${ConfigPath}/daapd.conf
 
 replaceFile=/bin/replaceFile
@@ -23,10 +22,7 @@ service_write_hostsfile ${IPADDR} ${hostname}
 
 echo "ServerName			\"${hostname}\"" > ${ConfigPath}/proftpd/host.conf
 
-echo "netbios name = ${hostname}" > ${SMB_HOST_CONF}
-echo "workgroup = ${new_groupname}" >> ${SMB_HOST_CONF}
-echo "server string = ${hostname}" >> ${SMB_HOST_CONF}
-echo "comment = ${hostname}" >> ${SMB_HOST_CONF}
+service_modify_samba_host "${hostname}" "${new_groupname}" COMPLETE
 
 old_daap_name=`/bin/awk /servername/'{print $2}' ${DAAP_CONF}|/bin/sed 's/\ //g'`
 $replaceFile "${DAAP_CONF}" "servername ${old_daap_name}" "servername ${hostname}"

@@ -148,9 +148,8 @@ case ${func} in
   sleep 2
   service_start daapd
 
-  NETBIOS=`/bin/cat ${SMB_HOST_CONF}|grep "^netbios"`
-  echo "${NETBIOS}" > ${SMB_HOST_CONF}
-  echo "workgroup = ${new_groupname}" >> ${SMB_HOST_CONF}
+  netbiosnamename=`/bin/awk -F= '/netbios\ name/{ print $2}' $SMB_HOST_CONF|/bin/sed 's/\ //g'`
+  service_modify_samba_host "${netbiosname}" "${new_groupname}"
   service_stop smb
   sleep 2
   service_start smb
