@@ -197,3 +197,25 @@ diff -uNr optware/make/psmisc.mk optware/make/psmisc.mk
  	)
  #	$(PATCH_LIBTOOL) $(@D)/libtool
  	touch $@
+diff -uNr optware/make/wget.mk optware/make/wget.mk
+--- optware/make/wget.mk	(revision 13119)
++++ optware/make/wget.mk	(working copy)
+@@ -51,6 +51,10 @@
+ WGET_CPPFLAGS=
+ WGET_LDFLAGS=
+ 
++ifeq ($(OPTWARE_TARGET), $(filter md253, $(OPTWARE_TARGET)))
++WGETSSL_CONFIGURE_ENV=gl_cv_header_working_stdint_h=yes
++endif
++
+ #
+ # WGET_BUILD_DIR is the directory in which the build is done.
+ # WGET_SOURCE_DIR is the directory which holds all the
+@@ -148,6 +152,7 @@
+ 		$(TARGET_CONFIGURE_OPTS) \
+ 		CPPFLAGS="$(STAGING_CPPFLAGS) $(WGET_CPPFLAGS)" \
+ 		LDFLAGS="$(STAGING_LDFLAGS) $(WGET_LDFLAGS)" \
++		$(WGETSSL_CONFIGURE_ENV) \
+ 		./configure \
+ 		--disable-rpath \
+ 		--build=$(GNU_HOST_NAME) \

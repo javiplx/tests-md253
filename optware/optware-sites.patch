@@ -1,3 +1,100 @@
+Index: optware/make/squeak.mk
+===================================================================
+--- optware/make/squeak.mk	(revision 13120)
++++ optware/make/squeak.mk	(working copy)
+@@ -94,11 +94,11 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(SQUEAK_VM_SRC):
+-	$(WGET) -P $(@D) $(SQUEAK_SITE)/$((@F) ||
++	$(WGET) -P $(@D) $(SQUEAK_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ $(DL_DIR)/$(SQUEAK_IMG_SRC).gz:
+-	$(WGET) -P $(@D) $(SQUEAK_IMG_SRC_SITE)/$(@F) ||
++	$(WGET) -P $(@D) $(SQUEAK_IMG_SRC_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+Index: optware/make/ftpcopy.mk
+===================================================================
+--- optware/make/ftpcopy.mk	(revisión: 13120)
++++ optware/make/ftpcopy.mk	(copia de trabajo)
+@@ -91,7 +91,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(FTPCOPY_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(FTPCOPY_SITE)/$(FTPCOPY_SOURCE)
++	$(WGET) -P $(DL_DIR) $(FTPCOPY_SITE)/$(FTPCOPY_SOURCE) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/lrzsz.mk
+===================================================================
+--- optware/make/lrzsz.mk	(revisión: 13120)
++++ optware/make/lrzsz.mk	(copia de trabajo)
+@@ -80,7 +80,8 @@
+ # then it will be fetched from the site using wget.
+ #
+ $(DL_DIR)/$(LRZSZ_SOURCE):
+-	$(WGET) -P $(DL_DIR) $(LRZSZ_SITE)/$(LRZSZ_SOURCE)
++	$(WGET) -P $(DL_DIR) $(LRZSZ_SITE)/$(LRZSZ_SOURCE) || \
++	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
+ # The source code depends on it existing within the download directory.
+Index: optware/make/mpdscribble.mk
+===================================================================
+--- optware/make/mpdscribble.mk	(revisión: 13120)
++++ optware/make/mpdscribble.mk	(copia de trabajo)
+@@ -20,8 +20,8 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-MPDSCRIBBLE_SITE=http://$(SOURCEFORGE_MIRROR)/sourceforge/musicpd
+ MPDSCRIBBLE_VERSION=0.19
++MPDSCRIBBLE_SITE=http://www.musicpd.org/download/mpdscribble/$(MPDSCRIBBLE_VERSION)
+ MPDSCRIBBLE_SOURCE=mpdscribble-$(MPDSCRIBBLE_VERSION).tar.bz2
+ MPDSCRIBBLE_DIR=mpdscribble-$(MPDSCRIBBLE_VERSION)
+ MPDSCRIBBLE_UNZIP=bzcat
+Index: optware/make/ncmpc.mk
+===================================================================
+--- optware/make/ncmpc.mk	(revisión: 13120)
++++ optware/make/ncmpc.mk	(copia de trabajo)
+@@ -21,7 +21,7 @@
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+ NCMPC_VERSION=0.16.1
+-NCMPC_SITE=http://downloads.sourceforge.net/musicpd
++NCMPC_SITE=http://www.musicpd.org/download/ncmpc/old
+ NCMPC_SOURCE=ncmpc-$(NCMPC_VERSION).tar.bz2
+ NCMPC_DIR=ncmpc-$(NCMPC_VERSION)
+ NCMPC_UNZIP=bzcat
+Index: optware/make/py-reportlab.mk
+===================================================================
+--- optware/make/py-reportlab.mk	(revision 13120)
++++ optware/make/py-reportlab.mk	(working copy)
+@@ -21,9 +21,9 @@
+ # from your name or email address.  If you leave MAINTAINER set to
+ # "NSLU2 Linux" other developers will feel free to edit.
+ #
+-PY-REPORTLAB_SITE=http://www.reportlab.org/ftp
++PY-REPORTLAB_SITE=http://www.reportlab.com/ftp
+ PY-REPORTLAB_VERSION=2.1
+-PY-REPORTLAB_SOURCE=ReportLab_2_1.tgz
++PY-REPORTLAB_SOURCE=reportlab-2.1.tar.gz
+ PY-REPORTLAB_DIR=reportlab_2_1
+ PY-REPORTLAB_UNZIP=zcat
+ PY-REPORTLAB_MAINTAINER=NSLU2 Linux <nslu2-linux@yahoogroups.com>
+@@ -92,7 +92,6 @@
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ $(DL_DIR)/$(PY-REPORTLAB-ACCEL_SOURCE):
+-	$(WGET) -P $(@D) $(PY-REPORTLAB-ACCEL_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+ #
 Index: optware/make/ccxstream.mk
 ===================================================================
 --- optware/make/ccxstream.mk	(revision 12863)
