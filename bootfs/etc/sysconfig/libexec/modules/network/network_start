@@ -6,7 +6,6 @@ SmbPath=${ConfigPath}/smb
 SMB_CONF=${SmbPath}/smb.conf
 
 SMB_NET_CONF=${SmbPath}/network.inc
-LMHost=${SmbPath}/lmhosts
 
 . ${ConfigPath}/ifcfg-eth0
 
@@ -39,12 +38,7 @@ done
 [ "${BOOTPROTO}" == "dhcp" ] &&\
  /bin/udhcpc -R -b -i eth0 --timeout=1 --tryagain=1 >/dev/null 2>&1 &
 
-HostName=`/bin/hostname|/bin/sed 's/\ //g'`
-echo "127.0.0.1	localhost.localdomain	localhost" > /etc/hosts
-echo "${IPADDR}	${HostName}.localdomain	${HostName}" >> /etc/hosts
-
-echo "127.0.0.1	localhost" > ${LMHost}
-echo "${IPADDR}	${HostName}" >> ${LMHost}
+service_write_hostsfile ${IPADDR}
 
 /bin/hostname -F /etc/hostname
 }

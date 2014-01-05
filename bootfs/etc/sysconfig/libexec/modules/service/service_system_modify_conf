@@ -3,7 +3,6 @@ ConfigPath=/etc/sysconfig/config
 SmbPath=${ConfigPath}/smb
 SMB_CONF=${SmbPath}/smb.conf
 SMB_NET_CONF=${SmbPath}/network.inc
-LMHost=${SmbPath}/lmhosts
 SMB_HOST_CONF=${SmbPath}/host.inc
 DAAP_CONF=${ConfigPath}/daapd.conf
 
@@ -20,11 +19,7 @@ IPADDR=`/bin/ifconfig eth0|/bin/awk '/inet\ addr/{print $2}'|/bin/cut -d ":" -f2
 echo "${hostname}" > /etc/hostname
 /bin/hostname -F /etc/hostname
 
-echo "127.0.0.1	localhost" > ${LMHost}
-echo "${IPADDR}	${hostname}" >> ${LMHost}
-
-echo "127.0.0.1	localhost.localdomain	localhost" > /etc/hosts
-echo "${IPADDR}	${hostname}.localdomain	${hostname}" >> /etc/hosts
+service_write_hostsfile ${IPADDR} ${hostname}
 
 echo "ServerName			\"${hostname}\"" > ${ConfigPath}/proftpd/host.conf
 
