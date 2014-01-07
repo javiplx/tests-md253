@@ -4,9 +4,9 @@ SMB_CONF=/etc/sysconfig/config/smb/smb.conf
 
 /bin/cat $SMB_CONF| /bin/grep "printcap"  >/dev/null 2>&1
 [ $? -eq 0 ] || {
- /bin/sed '/passdb expand/aprintcap name = /etc/lprng/printcap'  $SMB_CONF > /tmp/.smb1
- /bin/sed '/printcap name/aload printers = yes'  /tmp/.smb1  > /tmp/.smb2
- /bin/sed '/load printers/aprinting = lprng'  /tmp/.smb2 > /tmp/.smb1
+ /bin/sed '/passdb expand/ a printcap name = /etc/lprng/printcap\
+load printers = yes\
+printing = lprng' $SMB_CONF > /tmp/.smb1
  /bin/mv /tmp/.smb1 $SMB_CONF
  }
       
