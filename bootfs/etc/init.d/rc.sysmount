@@ -145,7 +145,6 @@ done > /etc/sysconfig/config/scsi.list
    hdd1=red; hdd2=red
    }
   }
-  touch /tmp/modify_smb_conf
  }
 
 for disk in hdd1 hdd2; do
