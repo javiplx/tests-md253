@@ -114,13 +114,10 @@ case ${func} in
     MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
     eval str=\$${scsi}
     Capacity=`/bin/fdisk -l /dev/${str}|/bin/awk /${str}:/'{print $5}'|sed 's/\ //g'`
-    MD_STATUS=`/usr/bin/mdadm -D /dev/md1`
+    MD_STATUS=`/usr/bin/mdadm -E /dev/${str}1 | grep '^this'`
     [ "$MD_STATUS" == "" ] && ACT="removed" || {
-     echo "$MD_STATUS"|/bin/grep "$str" >/dev/null 2>&1
-     [ $? -eq 0 ] && {
-      echo "$MD_STATUS"|/bin/grep "$str"|/bin/grep "rebuilding" >/dev/null 2>&1
+      echo "$MD_STATUS"|/bin/grep -q "rebuilding"
       [ $? -eq 0 ] && ACT="rebuilding" || ACT="active"
-      } || ACT="removed"
      }
     echo -e "${MODEL}^${Capacity}^Ready^"\\r
    done
