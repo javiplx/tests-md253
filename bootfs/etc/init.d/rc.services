@@ -6,10 +6,6 @@ export PATH
 
 service_smb_check_config
 
-cat /dev/null > /etc/sysconfig/config/smb/hdd.inc
-cat /dev/null > /etc/sysconfig/config/smb/shares.inc
-cat /dev/null > /etc/lprng/printcap
-
 mount | grep -q ' on /home type xfs ' && \
  service_smb_modify_conf
 

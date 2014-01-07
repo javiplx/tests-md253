@@ -2,7 +2,7 @@ service_smb_modify_security(){
 replaceFile=/var/www/cgi-bin/replaceFile
 CONFIG_PATH=/etc/sysconfig/config
 SMB_CONF=${CONFIG_PATH}/smb/smb.conf
-SMB_SHARES_CONF=${CONFIG_PATH}/smb/shares.inc
+SMB_SHARES_CONF=/etc/smb/shares.inc
 
 NEW_MODE=$1
 [ "$NEW_MODE" == "" ] && NEW_MODE=share
