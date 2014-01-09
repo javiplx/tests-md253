@@ -36,7 +36,7 @@ for x in P S; do
 done
 
 [ "${BOOTPROTO}" == "dhcp" ] &&\
- /bin/udhcpc -R -b -i eth0 --timeout=1 --tryagain=1 >/dev/null 2>&1 &
+ /bin/udhcpc -R -b -i eth0 --timeout=1 --tryagain=1 -s /etc/udhcpc/default.script >/dev/null 2>&1 &
 
 service_write_hostsfile ${IPADDR}
 

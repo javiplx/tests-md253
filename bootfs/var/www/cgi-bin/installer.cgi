@@ -6,7 +6,7 @@ echo -e "<HTML><HEAD><TITLE>Sample CGI Output</TITLE></HEAD><BODY>"\\r
 . /usr/libexec/modules/modules.conf
 PASSWD=/etc/passwd
 CONF_PATH=/etc/sysconfig/config
-SMB_SHARES_CONF=${CONF_PATH}/smb/shares.inc
+SMB_SHARES_CONF=/etc/smb/shares.inc
 SMB_HOST_CONF=${CONF_PATH}/smb/host.inc
 IFCFG=${CONF_PATH}/ifcfg-eth0
 IFCFG_DEFAULT=${CONF_PATH}/ifcfg-eth0.default

@@ -12,10 +12,10 @@ IFCFG=/etc/sysconfig/config/ifcfg-eth0
 MAC=${HWADDR}
 iptype=${BOOTPROTO}
 
-IP=$ip
-MASK=$subnet
+IP=${ip:-169.254.0.253}
+MASK=${subnet:-255.255.0.0}
 NETWORK=`/bin/ipcalc -n $IP $MASK|/bin/cut -d "=" -f2`
-BROADCAST=$broadcast
+BROADCAST=${broadcast:-169.254.255.255}
 GATEWAY=`/bin/ip route|/bin/awk '/default/{print $3}'`
 
 num=1
