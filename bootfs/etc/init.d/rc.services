@@ -4,7 +4,9 @@
 PATH=/bin:/sbin:/usr/bin:/usr/sbin
 export PATH
 
-service_smb_check_config
+#patch samba
+/bin/cp -af /usr/local/samba/sbin/audit.so /etc/smb/vfs
+/bin/cp -af /usr/local/samba/sbin/recycle.so /etc/smb/vfs
 
 mount | grep -q ' on /home type xfs ' && \
  service_smb_modify_conf
