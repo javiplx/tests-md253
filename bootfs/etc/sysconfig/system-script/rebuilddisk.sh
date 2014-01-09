@@ -49,5 +49,4 @@ case ${active} in
   ;;
 esac
 
-service_rebuild_start && \
-service_crond_start
+service_rebuild_start

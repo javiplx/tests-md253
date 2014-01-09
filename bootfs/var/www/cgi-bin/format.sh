@@ -13,8 +13,7 @@ PASSWD=/etc/passwd
 SLEEP=1
 SHARE_PATH=/home
 
-service_rebuild_stop && \
- service_crond_start
+service_rebuild_stop
 
 echo "hdd1 blue clear" > /proc/mp_leds
 echo "hdd2 blue clear" > /proc/mp_leds

@@ -14,8 +14,7 @@ PASSWD=/etc/passwd
 SLEEP=1
 SHARE_PATH=/home
 
-service_rebuild_stop && \
- service_crond_start
+service_rebuild_stop
 
 val=`echo $1|/bin/cut '-d_' -f2`
 [ "$val" == "0" ] && str=hdd1 || str=hdd2

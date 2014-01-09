@@ -15,6 +15,5 @@ export PATH
  echo "hdd1 blue set" > /proc/mp_leds
  echo "hdd2 blue set" > /proc/mp_leds
 
- service_rebuild_stop && \
-  service_crond_start
+ service_rebuild_stop
 }
