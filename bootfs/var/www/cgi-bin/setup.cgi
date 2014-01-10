@@ -227,7 +227,7 @@ case ${func} in
   ;;
  rebuild_info)
   for disk in sda1 sdb1; do
-   /usr/bin/mdadm -E /dev/$disk >/dev/null 2>&1
+   /usr/bin/mdadm -D /dev/md1 2> /dev/null | /bin/grep -q "$disk"
    [ $? -eq 0 ] && {
     active=$disk
     break
