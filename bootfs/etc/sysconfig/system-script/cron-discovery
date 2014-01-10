@@ -1,43 +1,15 @@
 #!/bin/sh
-. /usr/libexec/modules/modules.conf
-DISCOVERY=/bin/discovery
-SMB_HOST_CONF=/etc/sysconfig/config/smb/host.inc
-IFCFG=/etc/sysconfig/config/ifcfg-eth0
-CONF_FILE=/etc/sysconfig/config/responder.conf
-TWONKY_PKGPATH=/usr/local/install/Twonkymedia
 
-IPADDR=`/bin/awk -F= /IPADDR/'{print $2}' $IFCFG`
+SMB_HOST_CONF=/etc/sysconfig/config/smb/host.inc
+
 model=`/bin/cat /etc/model`
 name=`awk -F= '/netbios\ name/{ print $2}' $SMB_HOST_CONF|sed 's/\ //g'`
 group=`awk -F= '/workgroup/{ print $2}' $SMB_HOST_CONF|sed 's/\ //g'`
 version=`cat /etc/version`
-SLEEP=3
+
 VOL="1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19"
 for i in $VOL; do
- $DISCOVERY "$model" "$name" "$group" "$version" >/dev/null 2>&1
- sleep $SLEEP
+ /bin/discovery "$model" "$name" "$group" "$version" >/dev/null 2>&1
+ sleep 3
 done
-
-/bin/netstat -unlt|/bin/grep "${IPADDR}:137" >/dev/null 2>&1
-[ $? -eq 0 ] || {
- /bin/killall nmbd
- /usr/local/samba/sbin/nmbd
- }
-
-/bin/netstat -unlt|/bin/grep "${IPADDR}:138" >/dev/null 2>&1
-[ $? -eq 0 ] || {
- /bin/killall nmbd
- /usr/local/samba/sbin/nmbd
- }
-
-dlna_dnsr_stop
-dlna_dnsr_start
-
-PID=`/bin/pidof twonkymedia`
-[ "$PID" == "" ] && {
-  [ -d ${TWONKY_PKGPATH} ] && {
-   ${TWONKY_PKGPATH}/scripts/twonkymedia/twonkymedia.sh restart
-  } 
-}
-
 
