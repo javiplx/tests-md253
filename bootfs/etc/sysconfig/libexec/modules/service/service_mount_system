@@ -1,14 +1,13 @@
 service_mount_system(){
 
 scsidevs=
-while read scsi ; do
- set -- $scsi
- case $1 in
-  Host\:) echo -n "$2=" ;;
-  Vendor\:) echo "$2" ; scsidevs="${scsidevs}X" ;;
- esac
-done < /proc/scsi/scsi > /etc/scsi.list
-
+for id in 0 1 ; do
+ syspath="/sys/devices/platform/oxnassata.$id/host$id/target$id:0:0/$id:0:0:0"
+ test -f ${syspath}/model || continue
+ scsidevs="${scsidevs}X"
+ model=$( cat ${syspath}/model )
+ echo "scsi$id=\"$( echo ${model} )\""
+done > /etc/scsi.list
 echo "scsidevs=${scsidevs}" >> /etc/scsi.list
 
 /bin/mount -t jffs2 /dev/mtdblock4 /etc/sysconfig/config
