@@ -19,11 +19,6 @@ done
 [ $DiskNum -eq 0 ] && {
  hdd1=red; hdd2=red
  } || {
- [ "$REAL" == "SCSI0" ] && {
-  Drive="Drive 1"
-  } || {
-  Drive="Drive 2"
-  }
 
  cat /dev/null > /etc/mdadm.conf
  [ $DiskNum -gt 1 ] &&\
@@ -113,8 +108,10 @@ done
    [ $? -eq 0 ] && {
     [ "$REAL" == "SCSI0" ] && {
      hdd1=blue; hdd2=red
+     Drive="Drive 1"
      } || {
      hdd1=red; hdd2=blue
+     Drive="Drive 2"
      }
     /bin/logger "$0 - \"${Drive}\" Mount Succeed"
     } || {
