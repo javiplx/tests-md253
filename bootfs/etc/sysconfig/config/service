@@ -4,4 +4,3 @@ LANGUAGE=en
 btpd=Enable
 daapd=Enable
 ssh=Disable
-optware=Disable
