@@ -126,7 +126,7 @@ case ${func} in
     /usr/bin/mdadm -D /dev/md1 >/dev/null 2>&1
     [ $? -eq 0 ] && ACT="active" || ACT="removed"
 
-    [ "$REAL" == "SCSI0" ] && {
+    [ x$scsi1 = x ] && {
      echo "Drive (Left):--:--:No Disk:removed"
      echo "Drive (Right):${MODEL}:${Capacity}:Ready:${ACT}"
      } || {
@@ -154,11 +154,6 @@ case ${func} in
   ;;
  SingleDisk_Volumes)
   . /etc/scsi.list
-  for scsi in SCSI0 SCSI1; do
-   MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue
-    REAL=$scsi
-  done
 
   [ ${#scsidevs} -eq 0 ] && {
    echo "Drive (Right):--:--:No Disk"
@@ -176,7 +171,7 @@ case ${func} in
      FreeSize="--"
      }
 
-    [ "$REAL" == "SCSI0" ] && {
+    [ x$scsi1 = x ] && {
      echo "Drive (Left):--:--:No Disk"
      echo "Drive (Right):${TotalSize}:${FreeSize}:format"
      } || {

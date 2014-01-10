@@ -45,11 +45,6 @@ case ${func} in
   ;;
  "SingleDisk_Volumes")
   . /etc/scsi.list
-  for scsi in SCSI0 SCSI1; do
-   MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue
-    REAL=$scsi
-  done
 
   [ ${#scsidevs} -eq 0 ] && {
    echo -e "Drive 1^--^--^No Disk^Drive 2^--^--^No Disk"\\r
@@ -66,7 +61,7 @@ case ${func} in
      FreeSize="--"
      }
 
-    [ "$REAL" == "SCSI0" ] && {
+    [ x$scsi1 = x ] && {
      echo -e "Drive 1^${TotalSize}^${FreeSize}^format^Drive 2^--^--^No Disk"\\r
      } || {
      echo -e "Drive 1^--^--^No Disk^Drive 2^${TotalSize}^${FreeSize}^format"\\r
@@ -101,7 +96,7 @@ case ${func} in
    /usr/bin/mdadm -D /dev/md1 >/dev/null 2>&1
    [ $? -eq 0 ] && ACT="active" || ACT="removed"
 
-   [ "$REAL" == "SCSI0" ] && {
+   [ x$scsi1 = x ] && {
     echo -e "${MODEL}^${Capacity}^Ready^"\\r
     echo -e "Fail^Fail^Fail^"\\r
     } || {
