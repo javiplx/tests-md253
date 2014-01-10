@@ -1,6 +1,0 @@
-service_mount_tmpfs(){
-DIR=".subsys .log .run .samba/locks .samba/cores .empty .ssh .lib .twonky .btpd"
-for i in $DIR; do
- /bin/mkdir -p /tmp/"$i"
-done
-}

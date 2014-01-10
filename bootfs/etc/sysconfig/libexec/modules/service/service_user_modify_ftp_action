@@ -1,6 +1,6 @@
 service_user_modify_ftp_action(){
 SHARE_PATH=/home
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/bin/replaceFile
 
 UserName=`echo ${QUERY_STRING} | cut '-d&' -f2`
 FolderName=`echo ${QUERY_STRING} | cut '-d&' -f3`

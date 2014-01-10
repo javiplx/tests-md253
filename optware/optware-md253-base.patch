@@ -93,3 +93,129 @@ diff -uNr optware/make/libpth.mk optware/make/libpth.mk
  	)
  	$(PATCH_LIBTOOL) $(@D)/libtool
  	touch $@
+diff -uNr optware/make/xmail.mk optware/make/xmail.mk
+--- optware/make/xmail.mk	(revision 13119)
++++ optware/make/xmail.mk	(working copy)
+@@ -65,7 +65,7 @@
+ # compilation or linking flags, then list them here.
+ #
+ XMAIL_CPPFLAGS=
+-ifeq ($(OPTWARE_TARGET), $(filter gumstix1151 mbwe-bluering, $(OPTWARE_TARGET)))
++ifeq ($(OPTWARE_TARGET), $(filter gumstix1151 mbwe-bluering md253, $(OPTWARE_TARGET)))
+ XMAIL_CPPFLAGS += -DDISABLE_IPV6
+ endif
+ XMAIL_LDFLAGS=
+diff -uNr optware/make/classpath.mk optware/make/classpath.mk
+--- optware/make/classpath.mk	(revision 13119)
++++ optware/make/classpath.mk	(working copy)
+@@ -80,7 +80,7 @@
+ 	$(WGET) -P $(@D) $(CLASSPATH_SITE)/$(@F) || \
+ 	$(WGET) -P $(@D) $(SOURCES_NLO_SITE)/$(@F)
+ 
+-CLASSPATH_ANTLR_SITE=http://www.antlr.org/download
++CLASSPATH_ANTLR_SITE=http://www.antlr3.org/download
+ CLASSPATH_ANTLR_JAR=antlr-3.1.3.jar
+ 
+ $(DL_DIR)/$(CLASSPATH_ANTLR_JAR):
+diff -uNr optware/make/kamailio.mk optware/make/kamailio.mk
+--- optware/make/kamailio.mk	(revision 13119)
++++ optware/make/kamailio.mk	(working copy)
+@@ -163,7 +163,7 @@
+ $(KAMAILIO_BUILD_DIR)/.configured: $(DL_DIR)/$(KAMAILIO_SOURCE) $(KAMAILIO_PATCHES) make/kamailio.mk
+ 	$(MAKE) openssl-stage radiusclient-ng-stage expat-stage libxml2-stage unixodbc-stage
+ 	$(MAKE) postgresql-stage net-snmp-stage confuse-stage libcurl-stage openldap-stage pcre-stage
+-	$(MAKE) sqlite-stage
++	$(MAKE) sqlite-stage geoip-stage
+ ifeq (mysql, $(filter mysql, $(PACKAGES)))
+ 	$(MAKE) mysql-stage
+ endif
+diff -uNr optware/make/zile.mk optware/make/zile.mk
+--- optware/make/zile.mk	(revision 13119)
++++ optware/make/zile.mk	(working copy)
+@@ -105,7 +105,7 @@
+ # shown below to make various patches to it.
+ #
+ $(ZILE_BUILD_DIR)/.configured: $(DL_DIR)/$(ZILE_SOURCE) $(ZILE_PATCHES) make/zile.mk
+-	$(MAKE) ncurses-stage
++	$(MAKE) ncurses-stage libgc-stage
+ 	rm -rf $(BUILD_DIR)/$(ZILE_DIR) $(@D)
+ 	$(ZILE_UNZIP) $(DL_DIR)/$(ZILE_SOURCE) | tar -C $(BUILD_DIR) -xvf -
+ 	if test -n "$(ZILE_PATCHES)" ; \
+diff -uNr optware/make/bacula.mk optware/make/bacula.mk
+--- optware/make/bacula.mk	(revision 13119)
++++ optware/make/bacula.mk	(working copy)
+@@ -59,6 +59,10 @@
+ BACULA_CONFIGURE_ENVS=ac_cv_func_posix_fadvise=no
+ endif
+ 
++ifeq ($(OPTWARE_TARGET), $(filter md253, $(OPTWARE_TARGET)))
++BACULA_CONFIGURE_OPTS = --disable-ipv6
++endif
++
+ #
+ # BACULA_BUILD_DIR is the directory in which the build is done.
+ # BACULA_SOURCE_DIR is the directory which holds all the
+@@ -147,6 +151,7 @@
+ 		--without-x \
+ 		--disable-nls \
+ 		--disable-static \
++		$(BACULA_CONFIGURE_OPTS) \
+ 	)
+ 	$(PATCH_LIBTOOL) $(@D)/libtool
+ 	touch $@
+diff -uNr optware/make/libnsl.mk optware/make/libnsl.mk
+--- optware/make/libnsl.mk	(revision 13119)
++++ optware/make/libnsl.mk	(working copy)
+@@ -24,7 +24,7 @@
+ LIBNSL_IPK_DIR=$(BUILD_DIR)/libnsl-$(LIBNSL_VERSION)-ipk
+ LIBNSL_IPK=$(BUILD_DIR)/libnsl_$(LIBNSL_VERSION)-$(LIBNSL_IPK_VERSION)_$(TARGET_ARCH).ipk
+ 
+-ifeq ($(OPTWARE_TARGET), $(filter cs05q1armel cs05q3armel mssii slugos6be slugos6le, $(OPTWARE_TARGET)))
++ifeq ($(OPTWARE_TARGET), $(filter cs05q1armel cs05q3armel mssii slugos6be slugos6le md253, $(OPTWARE_TARGET)))
+ LIBNSL_SO_DIR = $(TARGET_USRLIBDIR)/../../lib
+ else
+ LIBNSL_SO_DIR ?= $(TARGET_LIBDIR)
+diff -uNr optware/make/psmisc.mk optware/make/psmisc.mk
+--- optware/make/psmisc.mk	(revision 13119)
++++ optware/make/psmisc.mk	(working copy)
+@@ -61,6 +61,10 @@
+ PSMISC_LDFLAGS += -lintl
+ endif
+ 
++ifeq (no, $(IPV6))
++PSMISC_CONFIGURE_ARGS += --disable-ipv6
++endif
++
+ #
+ # PSMISC_BUILD_DIR is the directory in which the build is done.
+ # PSMISC_SOURCE_DIR is the directory which holds all the
+@@ -137,6 +141,7 @@
+ 		--prefix=/opt \
+ 		--disable-nls \
+ 		--disable-static \
++		$(PSMISC_CONFIGURE_ARGS) \
+ 	)
+ #	$(PATCH_LIBTOOL) $(@D)/libtool
+ 	touch $@
+diff -uNr optware/make/wget.mk optware/make/wget.mk
+--- optware/make/wget.mk	(revision 13119)
++++ optware/make/wget.mk	(working copy)
+@@ -51,6 +51,10 @@
+ WGET_CPPFLAGS=
+ WGET_LDFLAGS=
+ 
++ifeq ($(OPTWARE_TARGET), $(filter md253, $(OPTWARE_TARGET)))
++WGETSSL_CONFIGURE_ENV=gl_cv_header_working_stdint_h=yes
++endif
++
+ #
+ # WGET_BUILD_DIR is the directory in which the build is done.
+ # WGET_SOURCE_DIR is the directory which holds all the
+@@ -148,6 +152,7 @@
+ 		$(TARGET_CONFIGURE_OPTS) \
+ 		CPPFLAGS="$(STAGING_CPPFLAGS) $(WGET_CPPFLAGS)" \
+ 		LDFLAGS="$(STAGING_LDFLAGS) $(WGET_LDFLAGS)" \
++		$(WGETSSL_CONFIGURE_ENV) \
+ 		./configure \
+ 		--disable-rpath \
+ 		--build=$(GNU_HOST_NAME) \

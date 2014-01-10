@@ -28,7 +28,7 @@ diff -uNr optware.orig/sources/md253/uclibc-duplicate-libraries.patch optware/so
 diff -uNr optware.orig/platforms/toolchain-md253.mk optware/platforms/toolchain-md253.mk
 --- optware.orig/platforms/toolchain-md253.mk	1970-01-01 01:00:00.000000000 +0100
 +++ optware/platforms/toolchain-md253.mk	2011-01-28 13:57:14.000000000 +0100
-@@ -0,0 +1,81 @@
+@@ -0,0 +1,83 @@
 +LIBC_STYLE=uclibc
 +TARGET_ARCH=arm
 +TARGET_OS=linux-uclibcgnueabi
@@ -109,33 +109,33 @@ diff -uNr optware.orig/platforms/toolchain-md253.mk optware/platforms/toolchain-
 +
 +$(TARGET_CROSS)gcc: $(TOOL_BUILD_DIR)/md253-buildroot
 +	$(MAKE) -C $(TOOL_BUILD_DIR)/md253-buildroot defconfig
-+	$(MAKE) -C $(TOOL_BUILD_DIR)/md253-buildroot DL_DIR=$(DL_DIR) STAGING_DIR=$(TARGET_CROSS_TOP) TARGETS=""
++	$(MAKE) -C $(TOOL_BUILD_DIR)/md253-buildroot DL_DIR=$(DL_DIR) STAGING_DIR=$(TARGET_CROSS_TOP) TARGETS="" \
++		UCLIBC_SITE=$(SOURCES_NLO_SITE) LINUX_HEADERS_SITE=$(SOURCES_NLO_SITE) \
++		BINUTILS_SITE=http://sources.buildroot.net
 diff -uNr optware.orig/platforms/packages-md253.mk optware/platforms/packages-md253.mk
 --- optware.orig/platforms/packages-md253.mk	1970-01-01 01:00:00.000000000 +0100
 +++ optware/platforms/packages-md253.mk	2011-01-28 22:33:56.000000000 +0100
-@@ -0,0 +1,37 @@
+@@ -0,0 +1,35 @@
 +# openldap-stage is a real samba requirement
-+# mt-daapd seems broken
 +SPECIFIC_PACKAGES = \
 +	ipkg-opt \
 +	binutils \
 +	openldap logrotate hdparm mdadm smartmontools findutils \
-+	btpd proftpd dropbear ntfs-3g \
++	btpd proftpd dropbear ntfs-3g mt-daapd \
 +
 +# iptraf: sys/types.h and linux/types.h conflicting
 +# postgresql: requested version does not exists
 +BROKEN_PACKAGES = \
-+	bacula bluez2-utils classpath dcraw distcc \
++	bluez2-utils distcc \
 +	erlang erl-yaws erl-ejabberd ficy \
 +	golang gsasl inetutils \
-+	inferno ircd-hybrid jamvm libnsl microcom mimms \
-+	mpop msmtp nmap ntp ntpclient pango postfix psmisc puppy \
++	inferno ircd-hybrid jamvm microcom \
++	mpop msmtp nmap ntp ntpclient pango postfix puppy \
 +	py-mx-base py-psycopg py-pygresql rhtvision \
-+	samba35 screen ser2net squid3 strongswan telldus-core textutils \
-+	wget xmail nmon squeak \
-+	libunistring opensips \
-+	emacs22 ppp w3m py-bluez py-pastescript zile \
-+	nzbget nzbget-test
++	samba35 screen ser2net squid3 strongswan textutils \
++	nmon squeak \
++	libunistring \
++	emacs22 ppp w3m py-bluez py-pastescript
 +
 +ASTERISK_PACKAGES =
 +

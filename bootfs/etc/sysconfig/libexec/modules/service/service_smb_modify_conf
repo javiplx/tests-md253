@@ -1,7 +1,7 @@
 service_smb_modify_conf(){
 CONFIG_PATH=/etc/sysconfig/config
 SMB_CONF=${CONFIG_PATH}/smb/smb.conf
-SMB_SHARES_CONF=${CONFIG_PATH}/smb/shares.inc
+SMB_SHARES_CONF=/etc/smb/shares.inc
 
 DiskStatus=`/bin/df|/bin/awk '{print $NF}'|/bin/grep "^/home$"`
 [ "$DiskStatus" == "" ] || {

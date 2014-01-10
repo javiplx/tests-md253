@@ -6,7 +6,7 @@ NTP_SERVER=`/bin/cat /etc/sysconfig/config/ntp_server`
 GMT_CONF=/etc/sysconfig/config/gmt.conf
 DST_CONF=/etc/sysconfig/config/dst.conf
 NTP_ACTION_CONF=/etc/sysconfig/config/ntp.action
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/bin/replaceFile
 GMT=`cat $GMT_CONF`
 tmpfile=/tmp/tmp.$$
 

@@ -1,13 +1,59 @@
-service_mount_hdd(){
-SHARE_PATH=/home
-raid1_rebuild=/etc/sysconfig/system-script/rebuilddisk.sh
+#!/bin/sh
 
-. /etc/scsi.list
+. /usr/libexec/modules/modules.conf
 
 for disk in hdd1 hdd2; do
  echo "${disk} blue clear" > /proc/mp_leds
  echo "${disk} red clear" > /proc/mp_leds
 done
+
+scsidevs=
+for id in 0 1 ; do
+ syspath="/sys/devices/platform/oxnassata.$id/host$id/target$id:0:0/$id:0:0:0"
+ test -f ${syspath}/model || continue
+ scsidevs="${scsidevs}X"
+ model=$( cat ${syspath}/model )
+ echo "scsi$id=\"$( echo ${model} )\""
+done > /etc/scsi.list
+echo "scsidevs=${scsidevs}" >> /etc/scsi.list
+
+/bin/mount -t jffs2 /dev/mtdblock4 /etc/sysconfig/config
+[ $? -eq 0 ] || {
+ echo "sys_led clear" > /proc/mp_leds
+ echo "error_led set" > /proc/mp_leds
+ exit
+ }
+
+ROOTFS=/dev/mtdblock3
+[ -n "${scsidevs}" ] && \
+ /bin/mount -r -t xfs /dev/sda1 /mnt && \
+ [ -f /mnt/squashfs.img ] && \
+   ROOTFS=/mnt/squashfs.img
+
+/bin/dd if=${ROOTFS} of=/dev/ram1 > /dev/null 2>&1
+/bin/umount /mnt
+
+/bin/mount -t squashfs /dev/ram1 /usr
+[ $? -eq 0 ] || {
+ echo "sys_led clear" > /proc/mp_leds
+ echo "error_led set" > /proc/mp_leds
+ return
+ }
+
+/bin/test -f /etc/sysconfig/config/finish || {
+ service_factory_reset
+ }
+/bin/cp -af /etc/version /etc/sysconfig/config
+/bin/rm -f /etc/sysconfig/config/touch
+
+DIR=".subsys .log .run .samba/locks .samba/cores .empty .ssh .lib .twonky .btpd"
+for i in $DIR; do
+ /bin/mkdir -p /tmp/"$i"
+done
+
+SHARE_PATH=/home
+
+. /etc/scsi.list
 
 [ ${#scsidevs} -eq 0 ] && {
  hdd1=red; hdd2=red
@@ -20,15 +66,6 @@ done
 
  /usr/bin/mdadm -D -s >> /etc/mdadm.conf
 
- /bin/mount -t xfs /dev/md1 ${SHARE_PATH} >/dev/null 2>&1
- /bin/umount ${SHARE_PATH}
- for disk in sda sdb; do
-  for num in 1 2; do
-   /bin/mount -t xfs /dev/${disk}${num} ${SHARE_PATH} >/dev/null 2>&1
-   /bin/umount ${SHARE_PATH} >/dev/null 2>&1
-  done
- done
-
  /bin/mount -t xfs -o uquota /dev/md1 ${SHARE_PATH}
  [ $? -eq 0 ] && {
   [ ${#scsidevs} -lt 2 ] && {
@@ -40,36 +77,22 @@ done
    } || {
    /usr/bin/mdadm -D /dev/md1|/bin/grep "removed" >/dev/null 2>&1
    [ $? -eq 0 ] && {
-    for i in sda1 sdb1; do
-     MDStatus=`/usr/bin/mdadm -D /dev/md1|/bin/grep "${i}"`
-     [ "$MDStatus" == "" ] && continue
-     MDDEVICE=$i
-    done
-    [ "$MDDEVICE" == "sda1" ] &&\
-     hdd1=blue; hdd2=red ||\
-     hdd1=red; hdd2=blue
-     
-     for disk in sda1 sdb1; do
-      MD_STATUS=`/usr/bin/mdadm -D /dev/md1`
-      echo "$MD_STATUS"|/bin/grep "$disk" >/dev/null 2>&1
-      [ $? -eq 0 ] && {
-       active=$disk
-       break
-        }
-     done
-
      for DISK in sda sdb; do
+      /usr/bin/mdadm -D /dev/md1|/bin/grep "${DISK}1" >/dev/null 2>&1
+      [ $? -eq 0 ] && active=$DISK
       SIZE=`fdisk -l /dev/${DISK}|awk /${DISK}:/'{print $5}'`
       i="${DISK}=${SIZE}"
       export $i
      done
 
      case ${active} in
-      sda1)
-       [ $sdb -ge $sda ] && $raid1_rebuild
+      sda)
+       hdd1=blue; hdd2=red
+       [ $sdb -ge $sda ] && /etc/sysconfig/system-script/rebuilddisk.sh
         ;;
-      sdb1)
-       [ $sda -ge $sdb ] && $raid1_rebuild
+      sdb)
+       hdd1=red; hdd2=blue
+       [ $sda -ge $sdb ] && /etc/sysconfig/system-script/rebuilddisk.sh
         ;;
      esac
      } || {
@@ -77,72 +100,65 @@ done
     }
    }
 
-  replaceFile=/bin/replaceFile
-  crontable=/etc/sysconfig/config/root
-  detectRebuildLine=`/bin/cat ${crontable}|/bin/grep "detectRebuild"`
   /usr/bin/mdadm -D /dev/md1|/bin/grep "spare rebuilding" >/dev/null 2>&1
   [ $? -eq 0 ] && {
-   echo "${detectRebuildLine}"|/bin/grep "#" >/dev/null 2>&1
-   [ $? -eq 0 ] &&\
-    $replaceFile "${crontable}" "${detectRebuildLine}" "* * * * * /etc/sysconfig/system-script/detectRebuild"
+   service_rebuild_start
    } || {
-   echo "${detectRebuildLine}"|/bin/grep "#" >/dev/null 2>&1
-   [ $? -eq 0 ] ||\
-    $replaceFile "${crontable}" "${detectRebuildLine}" "#* * * * * /etc/sysconfig/system-script/detectRebuild"
+   service_rebuild_stop
    }
 
   RAID_MODE=`/usr/bin/mdadm -D /dev/md1|\
   /bin/awk -F: /Level/'{print $2}'|/bin/sed 's/\ //g'`
   [ "$RAID_MODE" == "linear" ] && RAID_MODE=JBOD
   /bin/logger "$0 - Raid mode \"${RAID_MODE}\" Mount Succeed"
-  } || {
-  [ ${#scsidevs} -lt 2 ] && {
-   /bin/mount -t xfs -o uquota /dev/sda1 ${SHARE_PATH}
-   [ $? -eq 0 ] && {
+ } || {
+  /bin/mount -t xfs -o uquota /dev/sda1 ${SHARE_PATH}
+  [ $? -eq 0 ] && {
+   [ ${#scsidevs} -lt 2 ] && {
     [ x$scsi1 = x ] && {
-     hdd1=blue; hdd2=red
      Drive="Drive 1"
+     hdd1=blue; hdd2=red
      } || {
-     hdd1=red; hdd2=blue
      Drive="Drive 2"
+     hdd1=red; hdd2=blue
      }
     /bin/logger "$0 - \"${Drive}\" Mount Succeed"
-    } || {
-    hdd1=red; hdd2=red
-    }
-  } || {
-   /bin/mount -t xfs -o uquota /dev/sda1 ${SHARE_PATH}
-   [ $? -eq 0 ] && {
+   } || {
     [ -d "${SHARE_PATH}/Disk_2" ] || /bin/mkdir -p ${SHARE_PATH}/Disk_2
     /bin/mount -t xfs -o uquota /dev/sdb1 ${SHARE_PATH}/Disk_2
     [ $? -eq 0 ] && {
      hdd1=blue; hdd2=blue
      /bin/logger "$0 - Drive 1 & Drive 2 Mount Succeed"
-     } || {
+    } || {
      hdd1=blue; hdd2=red
      [ -d "${SHARE_PATH}/Disk_2" ] && /bin/rm -rf ${SHARE_PATH}/Disk_2
      /bin/logger "$0 - Drive 1 Mount Succeed"
      }
-    } || {
-    hdd1=red; hdd2=red
     }
+  } || {
+   hdd1=red; hdd2=red
    }
   }
-  touch /tmp/modify_smb_conf
  }
 
 for disk in hdd1 hdd2; do
  eval str=\$${disk}
  echo "${disk} ${str} set" > /proc/mp_leds
 done
-/bin/hdparm -S241 /dev/sda >/dev/null 2>&1
-/bin/hdparm -S241 /dev/sdb >/dev/null 2>&1
 
+for dev in sda sdb; do
+ parted -s -m /dev/${dev} print && {
+ /bin/smartctl -i /dev/${dev} -d ata -s on >/dev/null 2>&1
+ /bin/hdparm -S241 /dev/${dev} >/dev/null 2>&1
+ }
+done
+
+mount | grep -q ' on /home type xfs ' && {
 [ -f /home/.swap ] || {
     /bin/dd if=/dev/zero of=/home/.swap bs=1M count=128 >/dev/null 2>&1
     /bin/mkswap /home/.swap >/dev/null 2>&1
 }
 [ -f /home/.swap ] && \
     /bin/swapon /home/.swap
-
 }
+

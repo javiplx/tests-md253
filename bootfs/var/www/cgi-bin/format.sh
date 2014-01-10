@@ -7,21 +7,13 @@ mode=$1
 . /usr/libexec/modules/modules.conf
 
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
-replaceFile=/bin/replaceFile
-crontable=/etc/sysconfig/config/root
-detectRebuild=/etc/sysconfig/system-script/detectRebuild
 TWONKY_PKGPATH=/usr/local/install/Twonkymedia
 
 PASSWD=/etc/passwd
 SLEEP=1
 SHARE_PATH=/home
 
-detectRebuildLine=`/bin/cat ${crontable}|/bin/grep "${detectRebuild}"`
-echo "${detectRebuildLine}"|/bin/grep "#" >/dev/null 2>&1
-[ $? -eq 0 ] || {
- $replaceFile "${crontable}" "${detectRebuildLine}" "#* * * * * /etc/sysconfig/system-script/detectRebuild"
- service_crond_start
- }
+service_rebuild_stop
 
 echo "hdd1 blue clear" > /proc/mp_leds
 echo "hdd2 blue clear" > /proc/mp_leds

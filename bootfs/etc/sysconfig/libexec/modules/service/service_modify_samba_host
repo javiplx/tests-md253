@@ -1,0 +1,17 @@
+service_modify_samba_host(){
+
+WORKGROUP=`awk -F= '/workgroup/{ print $2}' $SMB_HOST_CONF|sed 's/\ //g'`
+
+cat <<EOF > /etc/sysconfig/config/smb/host.inc
+netbios name = $1
+workgroup = ${2:-$WORKGROUP}
+EOF
+
+if [ x$3 = xCOMPLETE ] ; then
+  cat <<-EOF > /etc/sysconfig/config/smb/host.inc
+	server string = $1
+	comment = $1
+	EOF
+fi
+
+}

@@ -1,0 +1,15 @@
+service_write_hostsfile(){
+
+HostName=`/bin/hostname|/bin/sed 's/\ //g'`
+
+cat <<EOF > /etc/sysconfig/config/smb/lmhosts
+127.0.0.1	localhost
+$1	${2:-HostName}
+EOF
+
+cat <<EOF > /etc/hosts
+127.0.0.1	localhost.localdomain	localhost
+$1	${2:-HostName}.localdomain	${2:-$HostName}
+EOF
+
+}

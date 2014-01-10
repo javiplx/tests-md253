@@ -6,7 +6,7 @@ echo -e "<HTML><HEAD><TITLE>Sample CGI Output</TITLE></HEAD><BODY>"\\r
 . /usr/libexec/modules/modules.conf
 PASSWD=/etc/passwd
 CONF_PATH=/etc/sysconfig/config
-SMB_SHARES_CONF=${CONF_PATH}/smb/shares.inc
+SMB_SHARES_CONF=/etc/smb/shares.inc
 SMB_HOST_CONF=${CONF_PATH}/smb/host.inc
 IFCFG=${CONF_PATH}/ifcfg-eth0
 IFCFG_DEFAULT=${CONF_PATH}/ifcfg-eth0.default
@@ -135,9 +135,8 @@ case ${func} in
   sleep 2
   service_start daapd
 
-  NETBIOS=`/bin/cat ${SMB_HOST_CONF}|grep "^netbios"`
-  echo "${NETBIOS}" > ${SMB_HOST_CONF}
-  echo "workgroup = ${new_groupname}" >> ${SMB_HOST_CONF}
+  netbiosnamename=`/bin/awk -F= '/netbios\ name/{ print $2}' $SMB_HOST_CONF|/bin/sed 's/\ //g'`
+  service_modify_samba_host "${netbiosname}" "${new_groupname}"
   service_stop smb
   sleep 2
   service_start smb

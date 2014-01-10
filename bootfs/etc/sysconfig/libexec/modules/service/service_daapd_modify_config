@@ -1,5 +1,5 @@
 service_daapd_modify_config(){
-replaceFile=/var/www/cgi-bin/replaceFile
+replaceFile=/bin/replaceFile
 SERVICE_PATH=/etc/sysconfig/config
 SERVICE_CONF=${SERVICE_PATH}/service
 DAAPD_CONF=${SERVICE_PATH}/daapd.conf
