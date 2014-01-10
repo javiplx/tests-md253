@@ -1,27 +1,20 @@
 service_mount_hdd(){
 SHARE_PATH=/home
-CONFIG_PATH=/etc/sysconfig/config
-scsi_list=${CONFIG_PATH}/scsi.list
 raid1_rebuild=/etc/sysconfig/system-script/rebuilddisk.sh
 
-DiskNum=0
-for scsi in SCSI0 SCSI1; do
- MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
- [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
- REAL=$scsi
-done
+. /etc/scsi.list
 
 for disk in hdd1 hdd2; do
  echo "${disk} blue clear" > /proc/mp_leds
  echo "${disk} red clear" > /proc/mp_leds
 done
 
-[ $DiskNum -eq 0 ] && {
+[ ${#scsidevs} -eq 0 ] && {
  hdd1=red; hdd2=red
  } || {
 
  cat /dev/null > /etc/mdadm.conf
- [ $DiskNum -gt 1 ] &&\
+ [ ${#scsidevs} -gt 1 ] &&\
  /usr/bin/mdadm -A /dev/md1 /dev/sd[a-b]1 >/dev/null 2>&1 ||\
  /usr/bin/mdadm -A /dev/md1 /dev/sda1 --run >/dev/null 2>&1 
 
@@ -38,8 +31,8 @@ done
 
  /bin/mount -t xfs -o uquota /dev/md1 ${SHARE_PATH}
  [ $? -eq 0 ] && {
-  [ $DiskNum -lt 2 ] && {
-   [ "$REAL" == "SCSI0" ] && {
+  [ ${#scsidevs} -lt 2 ] && {
+   [ x$scsi1 = x ] && {
     hdd1=blue; hdd2=red
     } || {
     hdd1=red; hdd2=blue
@@ -103,10 +96,10 @@ done
   [ "$RAID_MODE" == "linear" ] && RAID_MODE=JBOD
   /bin/logger "$0 - Raid mode \"${RAID_MODE}\" Mount Succeed"
   } || {
-  [ $DiskNum -lt 2 ] && {
+  [ ${#scsidevs} -lt 2 ] && {
    /bin/mount -t xfs -o uquota /dev/sda1 ${SHARE_PATH}
    [ $? -eq 0 ] && {
-    [ "$REAL" == "SCSI0" ] && {
+    [ x$scsi1 = x ] && {
      hdd1=blue; hdd2=red
      Drive="Drive 1"
      } || {
