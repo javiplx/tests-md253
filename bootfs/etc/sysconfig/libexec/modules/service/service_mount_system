@@ -3,7 +3,7 @@ service_mount_system(){
 while read scsi ; do
  set -- $scsi
  case $1 in
-  Host\:) echo -n "$2:" ;;
+  Host\:) echo -n "$2=" ;;
   Vendor\:) echo "$2" ;;
  esac
 done < /proc/scsi/scsi > /etc/scsi.list
