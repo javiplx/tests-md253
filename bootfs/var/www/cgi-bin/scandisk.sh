@@ -16,7 +16,7 @@ service_stop
 
 /bin/sleep $SLEEP
 
-DiskNum=`cat /etc/scsi.list | /usr/bin/wc -l`
+. /etc/scsi.list
 
 SHARE_PATH_TREE=`/bin/df|/bin/grep "/home/"|/bin/awk '{print $1}'`
 for disk in $SHARE_PATH_TREE; do
@@ -38,7 +38,7 @@ echo "hdd1 red set" > /proc/mp_leds
 echo "hdd2 red set" > /proc/mp_leds
 
 [ "$RAID_MODE" == "" ] && {
- [ $DiskNum -lt 2 ] && {
+ [ ${#scsidevs} -lt 2 ] && {
   /usr/local/xfsprogs/xfs_repair -nL /dev/sda1 >/dev/null 2>&1
   } || {
   /usr/local/xfsprogs/xfs_repair -nL /dev/sda1 >/dev/null 2>&1
@@ -49,7 +49,7 @@ echo "hdd2 red set" > /proc/mp_leds
  }
 
 [ "$RAID_MODE" == "" ] && {
- [ $DiskNum -lt 2 ] && {
+ [ ${#scsidevs} -lt 2 ] && {
   /bin/mount -t xfs -o uquota /dev/${dev}1 ${SHARE_PATH}
   } || {
   /bin/mount -t xfs -o uquota /dev/sda1 ${SHARE_PATH}
@@ -75,7 +75,7 @@ echo "hdd2 red set" > /proc/mp_leds
 
 for disk in $SHARE_PATH_TREE; do
  disk=${disk##*/}
- [ $DiskNum -lt 2 ] || {
+ [ ${#scsidevs} -lt 2 ] || {
   [ "$disk" == "sdb1" ] && continue
   }
  /etc/sysconfig/system-script/mount $disk

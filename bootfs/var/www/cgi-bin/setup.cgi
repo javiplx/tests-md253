@@ -65,13 +65,13 @@ case ${func} in
   RAID_MODE=`/usr/bin/mdadm -D /dev/md1|\
   /bin/awk -F: /Level/'{print $2}'|/bin/sed 's/\ //g'`
 
-  DiskNum=`cat /etc/scsi.list | /usr/bin/wc -l`
+  . /etc/scsi.list
 
   [ "$RAID_MODE" == "" ] && {
-   [ $DiskNum -lt 2 ] && RAID_MODE=SingleDisk || RAID_MODE=DaulDisk
-   [ $DiskNum -eq 0 ] && RAID_MODE=NoDisk
+   [ ${#scsidevs} -lt 2 ] && RAID_MODE=SingleDisk || RAID_MODE=DaulDisk
+   [ ${#scsidevs} -eq 0 ] && RAID_MODE=NoDisk
    } || {
-   [ $DiskNum -lt 2 ] && RAID_MODE=SingleDisk
+   [ ${#scsidevs} -lt 2 ] && RAID_MODE=SingleDisk
    }
   echo "$RAID_MODE"
 
@@ -86,7 +86,7 @@ case ${func} in
   [ "$status" == "fail" ] && echo "not" || {
    /usr/bin/mdadm -D /dev/md1|/bin/grep "removed" >/dev/null 2>&1
    [ $? -eq 0 ] && {
-    [ $DiskNum -lt 2 ] && echo "not" || echo "rebuild"
+    [ ${#scsidevs} -lt 2 ] && echo "not" || echo "rebuild"
     } || echo "not"
    }
 
@@ -200,11 +200,12 @@ case ${func} in
    }
   ;;
  USB_Disks)
-  DiskNum=`cat /etc/scsi.list | /usr/bin/wc -l`
   SHARE_PATH_TREE=`/bin/df|/bin/grep "/home/"|/bin/awk '{print $1}'`
 
+  . /etc/scsi.list
+
   for disk in $SHARE_PATH_TREE; do
-   [ $DiskNum -lt 2 ] || {
+   [ ${#scsidevs} -lt 2 ] || {
     [ "$disk" == "/dev/sdb1" ] && continue
     }
    echo ${disk}

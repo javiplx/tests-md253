@@ -1,12 +1,15 @@
 service_mount_system(){
 
+scsidevs=
 while read scsi ; do
  set -- $scsi
  case $1 in
   Host\:) echo -n "$2=" ;;
-  Vendor\:) echo "$2" ;;
+  Vendor\:) echo "$2" ; scsidevs="${scsidevs}X" ;;
  esac
 done < /proc/scsi/scsi > /etc/scsi.list
+
+echo "scsidevs=${scsidevs}" >> /etc/scsi.list
 
 /bin/mount -t jffs2 /dev/mtdblock4 /etc/sysconfig/config
 [ $? -eq 0 ] || {
@@ -16,7 +19,7 @@ done < /proc/scsi/scsi > /etc/scsi.list
  }
 
 ROOTFS=/dev/mtdblock3
-[ -s /etc/scsi.list ] && \
+[ -n "${scsidevs}" ] && \
  /bin/mount -r -t xfs /dev/sda1 /mnt && \
  [ -f /mnt/squashfs.img ] && \
    ROOTFS=/mnt/squashfs.img
