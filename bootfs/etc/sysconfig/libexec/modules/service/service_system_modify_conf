@@ -39,7 +39,7 @@ new_password=`echo ${QUERY_STRING} | cut '-d&' -f4`
  WEBMASTER="/etc/sysconfig/config/webmaster.conf"
  echo "admin:${new_password}" > ${WEBMASTER}
  echo "admin:${new_password}" | /bin/chpasswd
- (echo "${new_password}";echo "${new_password}")|${SMB_PASSWD_PROG} -s -a admin >/dev/null 2>&1
+ (echo "${new_password}";echo "${new_password}")|${SMB_PASSWD_PROG} -s -a admin
 
  service_http_start
 

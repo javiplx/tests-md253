@@ -93,7 +93,7 @@ case ${func} in
  nas_state)
   [ -n "`/bin/pidof smbd`" ] && echo "ON" || echo "OFF"
 
-  /bin/df|/bin/awk '{print $NF}'|/bin/grep "^/home$" >/dev/null 2>&1
+  /bin/df|/bin/awk '{print $NF}'|/bin/grep -q "^/home$"
   [ $? -eq 0 ] && echo "ENABLE" || echo "DISABLE"
 
   NobodyQuota=`/bin/awk -F: /nobody/'{print $5}' /etc/passwd|/bin/awk -F, '{print $1}'`
@@ -115,7 +115,7 @@ case ${func} in
    [ "${folder}" == "${SHARE_PATH}" ] && continue
    
    folder=${folder##*/}
-   echo ${folder}|/bin/grep "^\." >/dev/null 2>&1
+   echo ${folder}|/bin/grep -q "^\."
    [ $? -eq 0 ] && continue
 
    folder=`echo ${folder}|tr "^" " "`

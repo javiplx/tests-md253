@@ -20,7 +20,7 @@ done
 
 case ${func} in
  Reboot)
-  /bin/ls >/dev/null 2>&1
+  /bin/ls
   /bin/reboot
   ;;
  Reset_2_Def)
@@ -32,7 +32,7 @@ case ${func} in
    [ "${i}" == "${SHARE_PATH}" ] && continue
 
    name=${i##*/}
-   echo ${name}|/bin/grep "^\." >/dev/null 2>&1
+   echo ${name}|/bin/grep -q "^\."
    [ $? -eq 0 ] && continue
 
    /bin/rm -rf ${i}/.ftpaccess
@@ -104,7 +104,7 @@ case ${func} in
     }
   done
 
-  /bin/cat /tmp/.msg|/bin/grep "100%"|/bin/grep "00:00:00" >/dev/null 2>&1
+  /bin/cat /tmp/.msg|/bin/grep "100%"|/bin/grep -q "00:00:00"
   [ $? -eq 0 ] && echo "OK" || {
    /bin/killall wget
    echo "NOT"

@@ -4,7 +4,7 @@ export PATH
 
 . /usr/libexec/modules/modules.conf
 
-/usr/bin/mdadm -D /dev/md1|/bin/grep "spare rebuilding" >/dev/null 2>&1
+/usr/bin/mdadm -D /dev/md1|/bin/grep -q "spare rebuilding"
 [ $? -eq 0 ] && {
  return
  } || {

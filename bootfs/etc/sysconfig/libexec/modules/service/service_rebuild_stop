@@ -4,7 +4,7 @@ crontable=/etc/sysconfig/config/root
 detectRebuild=/etc/sysconfig/system-script/detectRebuild
 
 detectRebuildLine=`/bin/cat ${crontable}|/bin/grep "${detectRebuild}"`
-echo "${detectRebuildLine}"|/bin/grep "#" >/dev/null 2>&1
+echo "${detectRebuildLine}"|/bin/grep -q "#"
 [ $? -eq 0 ] || {
  $replaceFile "${crontable}" "${detectRebuildLine}" "#* * * * * /etc/sysconfig/system-script/detectRebuild"
  service_crond_start

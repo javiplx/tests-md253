@@ -15,7 +15,7 @@ BTPD_TORRENTS_PATH=${BTPD_START_PATH}/torrents_list
  /bin/logger "$0 - Modify btpd Config \"btpd.conf\""
  }
 
-/bin/df|/bin/awk '{print $NF}'|/bin/grep "^/home$" >/dev/null 2>&1
+/bin/df|/bin/awk '{print $NF}'|/bin/grep -q "^/home$"
 [ $? -ne 0 ] && return
 
 . ${BTPD_CONF}
@@ -46,7 +46,7 @@ for i in ${file}; do
   }
 
  name=`echo "${i##*/}"|/bin/tr "^" " "`
- /bin/btcli start ${BTPD_TORRENTS_PATH}/"${name}" >/dev/null 2>&1
+ /bin/btcli start ${BTPD_TORRENTS_PATH}/"${name}"
  num=`/bin/btcli stat -i ${BTPD_TORRENTS_PATH}/"${name}"|/bin/grep -v "NUM"|\
       /bin/awk '{print $1}'|/bin/grep -v "%"`
 

@@ -3,7 +3,7 @@ for pid in `/bin/pidof crond`; do
  /bin/kill -9 $pid
  done
 cat /dev/null > /var/log/crond.log
-/bin/crond -L /var/log/crond.log >/dev/null 2>&1
+/bin/crond -L /var/log/crond.log
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - crond deamon Start Succeed" ||\
  /bin/logger "$0 - crond deamon Start Failed"

@@ -39,7 +39,7 @@ case ${iptype} in
   SMB_IPADDR=`/bin/awk "-F = " '/interfaces/{print $2}' $SMB_CONF`
   $replaceFile "${SMB_CONF}" "interfaces = ${SMB_IPADDR}" "interfaces = ${IP}/${MASK}"
   echo "hosts allow = ${NETWORK}/${MASK}" > ${SMB_NET_CONF}
-  dlna_mDNSR_modify_conf >/dev/null 2>&1 &
+  dlna_mDNSR_modify_conf &
   ;;
 esac
 }

@@ -26,7 +26,7 @@ for i in $MEDIA_PATH; do
  [ "${i}" == "${path}" ] && continue
 
  string=${i##*/}
- echo ${string}|/bin/grep "^\." >/dev/null 2>&1
+ echo ${string}|/bin/grep -q "^\."
  [ $? -eq 0 ] && continue
 
  echo "<div class=\"spacer\"><div style='text-align:left;width:430px;height:25px;float:left;'>"

@@ -1,7 +1,7 @@
 service_daapd_start(){
 SERVICE_PATH=/etc/sysconfig/config
 
-/bin/df|/bin/awk '{print $NF}'|/bin/grep "^/home$" >/dev/null 2>&1
+/bin/df|/bin/awk '{print $NF}'|/bin/grep -q "^/home$"
 [ $? -ne 0 ] && return;
 
 dlna_dnsr_start

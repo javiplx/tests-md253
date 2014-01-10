@@ -5,7 +5,7 @@ export PATH
 SOURCE_PATH=/home
 PUBLIC_PATH=/home/PUBLIC
 
-/bin/df|/bin/awk '{print $NF}'|/bin/grep "^/home$" >/dev/null 2>&1
+/bin/df|/bin/awk '{print $NF}'|/bin/grep -q "^/home$"
 [ $? -ne 0 ] && return;
 
 DESTINATION_PATH=${PUBLIC_PATH}/"`date '+%Y_%m_%d_%H_%M_%S'`"

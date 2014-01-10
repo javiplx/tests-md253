@@ -7,7 +7,7 @@ replaceFile=/bin/replaceFile
 GLOBAL_CONF=/etc/sysconfig/config/proftpd/global.conf
 
 #patch ftp global configure
-$replaceFile "${GLOBAL_CONF}" "~ user" "/home user" >/dev/null 2>&1
+$replaceFile "${GLOBAL_CONF}" "~ user" "/home user"
 
 
 [ -d /var/log/proftpd ] || /bin/mkdir -p /var/log/proftpd
@@ -28,7 +28,7 @@ HOME=`/bin/awk -F: /^ftp:/'{print $6}' /etc/passwd|/bin/sed 's/\ //g'`
  }
 
 /bin/test -f ${PUBLIC_ACCESS} && {
- /bin/awk /AllowUser/'{print $2}' ${PUBLIC_ACCESS}|/bin/grep ",ftp," >/dev/null 2>&1
+ /bin/awk /AllowUser/'{print $2}' ${PUBLIC_ACCESS}|/bin/grep -q ",ftp,"
  [ $? -eq 0 ] || {
   LINE=`/bin/cat ${PUBLIC_ACCESS}|/bin/grep "AllowUser"`
   OldAllowUser=`echo "$LINE"|/bin/awk '{print $2}'|/bin/sed 's/'toor,admin,'//g'`

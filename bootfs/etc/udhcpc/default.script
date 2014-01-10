@@ -17,8 +17,8 @@ case "$1" in
   /sbin/ifconfig $interface 169.254.0.253
   /bin/ip route replace default via 169.254.0.1 dev eth0
   /bin/ip route flush cache
-  network_modify_current_address >/dev/null 2>&1 &
-  dlna_mDNSR_modify_conf >/dev/null 2>&1 &
+  network_modify_current_address &
+  dlna_mDNSR_modify_conf &
   service_stop smb
   service_start smb
   [ -d ${TWONKY_PKGPATH} ] && {
@@ -43,8 +43,8 @@ case "$1" in
    echo nameserver $i
   done > /etc/resolv.conf
   $discovery &
-  network_modify_current_address >/dev/null 2>&1 &
-  dlna_mDNSR_modify_conf >/dev/null 2>&1 &
+  network_modify_current_address &
+  dlna_mDNSR_modify_conf &
   service_stop smb
   service_start smb
   [ -d ${TWONKY_PKGPATH} ] && {

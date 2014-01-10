@@ -88,7 +88,7 @@ case ${func} in
   done
 
   [ "$status" == "fail" ] && echo "not" || {
-   /usr/bin/mdadm -D /dev/md1|/bin/grep "removed" >/dev/null 2>&1
+   /usr/bin/mdadm -D /dev/md1|/bin/grep -q "removed"
    [ $? -eq 0 ] && {
     [ $DiskNum -lt 2 ] && echo "not" || echo "rebuild"
     } || echo "not"
@@ -105,7 +105,7 @@ case ${func} in
     MODE=`echo $MODE| tr "[:lower:]" "[:upper:]"`
     echo "$MODE"
    /bin/df -h /dev/md1|/bin/grep "^/dev"|/bin/awk 'BEGIN{OFS="\n"}{print $2,$4}'
-   echo "${STATUS}"|/bin/grep "rebuilding" >/dev/null 2>&1
+   echo "${STATUS}"|/bin/grep -q "rebuilding"
    [ $? -eq 0 ] && {
     percent=`/bin/cat /proc/mdstat|/bin/awk /recovery/'{print $4}'|sed 's/\ //g'`
     echo "recovery=${percent}"

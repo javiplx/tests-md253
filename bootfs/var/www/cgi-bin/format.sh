@@ -66,7 +66,6 @@ echo "hdd2 blue clear" > /proc/mp_leds
 echo "hdd1 red clear" > /proc/mp_leds
 echo "hdd2 red clear" > /proc/mp_leds
 
-#mount -t xfs -o prjquota /dev/md1 ${SHARE_PATH} >/dev/null 2>&1
 /bin/mount -t xfs -o uquota /dev/md1 ${SHARE_PATH}
 [ $? -eq 0 ] && {
  /bin/logger "$0 - Drive Mount Succeed"

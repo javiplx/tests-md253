@@ -9,11 +9,11 @@ dlna_mDNSR_modify_conf
 old_status=`/bin/awk -F= /daapd/'{print $2}' $SERVICE_CONF|/bin/sed 's/\ //g'`
 old_dir=`/bin/cat $DAAPD_CONF|/bin/grep "^mp3_dir"|/bin/cut -c9-`
 [ -d "${old_dir}" ] || {
- $replaceFile "${DAAPD_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/" >/dev/null 2>&1
+ $replaceFile "${DAAPD_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/"
  }
 
 [ "${old_dir}" == "/home/" ] && {
- $replaceFile "${DAAPD_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/" >/dev/null 2>&1
+ $replaceFile "${DAAPD_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/"
  }
 
 [ "${old_dir}" == "/tmp/" -o "${old_dir}" == "/home/" ] && {
@@ -23,7 +23,7 @@ old_dir=`/bin/cat $DAAPD_CONF|/bin/grep "^mp3_dir"|/bin/cut -c9-`
 
 old_runas=`/bin/cat $DAAPD_CONF|/bin/awk '/runas/{print $2}'|/bin/sed 's/\ //g'`
 [ "$old_runas" == "root" ] || {
- $replaceFile "${DAAPD_CONF}" "runas $old_runas" "runas root" >/dev/null 2>&1
+ $replaceFile "${DAAPD_CONF}" "runas $old_runas" "runas root"
  }
 /bin/logger "$0 - Modify daapd config : \"daapd.conf\""
 }

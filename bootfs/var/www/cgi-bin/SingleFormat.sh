@@ -109,7 +109,7 @@ service_create_single_partition ${dev} >/dev/null 2>&1
   }
  }
 
-/bin/df|/bin/grep "/home/Disk_2" >/dev/null 2>&1
+/bin/df|/bin/grep -q "/home/Disk_2"
 [ $? -eq 0 ] && DISK2STATUS=Yes || DISK2STATUS=No
 
 USER=`/bin/awk -F: /:500:/'{print $1}' ${PASSWD}`

@@ -33,7 +33,7 @@ case ${func} in
  MusicFolder)
   path=`/bin/cat $DAAP_CONF|/bin/grep "^mp3_dir"|/bin/cut -c9-|\
         /bin/sed 's/\/tmp//'|/bin/sed 's/\/home//'`
-  echo "$path"|grep "^/$" >/dev/null 2>&1
+  echo "$path"|grep -q "^/$"
   [ $? -eq 0 ] && path="None Selected"
   echo "$path"
   entry_path=`echo $path|/bin/sed 's/\/$//'`
@@ -85,7 +85,7 @@ case ${func} in
  stop_scan)
   old_dir=`/bin/cat $DAAP_CONF|/bin/grep "^mp3_dir"|/bin/cut -c9-`
   old_status=`/bin/awk -F= /daapd/'{print $2}' $SERVICE_CONF|/bin/sed 's/\ //g'`
-  $replaceFile "${DAAP_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/" >/dev/null 2>&1
+  $replaceFile "${DAAP_CONF}" "mp3_dir $old_dir" "mp3_dir /tmp/"
   $replaceFile "${SERVICE_CONF}" "daapd=$old_status" "daapd=Disable"
 
   service_stop daapd
@@ -115,7 +115,7 @@ case ${func} in
    [ "${i}" == "${SHARE_PATH}" ] && continue
  
    name=${i##*/}
-   echo ${name}|/bin/grep "^\." >/dev/null 2>&1
+   echo ${name}|/bin/grep -q "^\."
    [ $? -eq 0 ] && continue
  
    AllowUser=`/bin/awk /AllowUser/'{print $2}' ${i}/.ftpaccess|/bin/sed 's/\ //g'`
@@ -138,11 +138,11 @@ case ${func} in
  ftp_state)
   [ -n "`/bin/pidof proftpd`" ] && echo "ON" || echo "OFF"
   /bin/awk /PassivePorts/'{print $2,$3}' ${FTP_CONF}|/bin/sed 's/\ $//'|/bin/tr " " "^"
-  /bin/awk /anonymous.conf/'{print $1}' ${FTP_CONF}|/bin/grep "^#" >/dev/null 2>&1
+  /bin/awk /anonymous.conf/'{print $1}' ${FTP_CONF}|/bin/grep -q "^#"
   [ $? -eq 0 ] && echo "NO" || echo "YES"
-  /bin/cat ${ANONYMOUS_CONF}|/bin/grep "AllowAll" >/dev/null 2>&1
+  /bin/cat ${ANONYMOUS_CONF}|/bin/grep -q "AllowAll"
   [ $? -eq 0 ] && echo "YES" || echo "NO"
-  /bin/df|/bin/awk '{print $NF}'|/bin/grep "^/home$" >/dev/null 2>&1
+  /bin/df|/bin/awk '{print $NF}'|/bin/grep -q "^/home$"
   [ $? -eq 0 ] && echo "ENABLE" || echo "DISABLE"
   ;;
  FolderList)
@@ -151,7 +151,7 @@ case ${func} in
    [ "${folder}" == "${SHARE_PATH}" ] && continue
    
    folder=${folder##*/}
-   echo ${folder}|/bin/grep "^\." >/dev/null 2>&1
+   echo ${folder}|/bin/grep -q "^\."
    [ $? -eq 0 ] && continue
    
    folder=`echo ${folder}|/bin/tr "^" " "`
@@ -218,7 +218,7 @@ case ${func} in
   Source=`/bin/btinfo ${BTPD_TORRENTS}/"$FileName"|/bin/grep -v "^Tracker URLs:"|\
   /bin/tr -s ' ' ' '|/bin/tr '\n' '#'|/bin/sed 's/'Files:#'/\n/'|/bin/sed 's/\#$//'`
 
-  echo "${Source}"|${ICONV} -f CP936 -t UTF-8 >/dev/null 2>&1
+  echo "${Source}"|${ICONV} -f CP936 -t UTF-8 >/dev/null 2>&1 >/dev/null 2>&1
   [ $? -eq 0 ] && Target=`echo "${Source}"|${ICONV} -f CP936 -t UTF-8` ||\
    Target=`echo "${Source}"|${ICONV} -f CP950 -t UTF-8`
 

@@ -21,7 +21,7 @@ case ${func} in
 		PKG=`echo ${QUERY_STRING}|/bin/cut '-d&' -f2`
 		PKG_IPK=`/bin/basename $PKG | /bin/awk -F"_" '{print $3}'`
 
-		cat package | grep ${PKG_IPK} > /dev/null
+		cat package | grep -q ${PKG_IPK}
 
 		if [ $? -eq 0 ]; then
 			echo -e "exist"\\r

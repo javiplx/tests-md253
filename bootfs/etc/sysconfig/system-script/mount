@@ -31,7 +31,7 @@ case ${TYPE} in
    }
   ;;
  vfat)
-  /bin/blkid -c /dev/null -s TYPE|/bin/grep "hfsplus" >/dev/null 2>&1
+  /bin/blkid -c /dev/null -s TYPE|/bin/grep -q "hfsplus"
   [ $? -ne 0 ] &&\
    /bin/mount -o utf8,umask=0000 /dev/${dev} ${SHARE_PATH}/${string}
   ;;

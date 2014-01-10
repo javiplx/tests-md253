@@ -34,7 +34,7 @@ case ${func} in
    [ "$MODE" == "linear" ] && MODE=JBOD ||\
     MODE=`echo $MODE| tr "[:lower:]" "[:upper:]"`
    SIZE=`/bin/df -h /dev/md1|/bin/grep "^/dev"|/bin/awk '{print $2,$4}'|/bin/tr " " "^"`
-   echo "${STATUS}"|/bin/grep "rebuilding" >/dev/null 2>&1
+   echo "${STATUS}"|/bin/grep -q "rebuilding"
    [ $? -eq 0 ] && {
     percent=`/bin/cat /proc/mdstat|/bin/awk /recovery/'{print $4}'|sed 's/\ //g'`
     str="recovery=${percent}"

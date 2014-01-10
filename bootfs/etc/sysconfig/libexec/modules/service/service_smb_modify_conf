@@ -27,7 +27,7 @@ for i in ${FOLDER}; do
  [ "${i}" == "${SHARE_PATH}" ] && continue
  
  string=${i##*/}
- echo ${string}|/bin/grep "^\." >/dev/null 2>&1
+ echo ${string}|/bin/grep -q "^\."
  [ $? -eq 0 ] && continue
  
  USBMountPoint=`/bin/df|/bin/awk /"${string}"$/'{print $NF}'`
