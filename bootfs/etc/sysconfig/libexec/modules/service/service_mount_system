@@ -40,15 +40,6 @@ ROOTFS=/dev/mtdblock3
 /bin/cp -af /etc/version /etc/sysconfig/config
 /bin/rm -f /etc/sysconfig/config/touch
 
-scsi_list=/etc/sysconfig/config/scsi.list
-/bin/cat /dev/null > ${scsi_list}
-for scsi in 0 1; do
- MODEL=`/bin/dmesg|/bin/grep "scsi ${scsi}"|\
-        /bin/awk '{print $5}'|/bin/sed 's/\ //g'`
- [ "$MODEL" == "" ] && continue ||\
-  echo "SCSI${scsi}:${MODEL}" >> ${scsi_list}
-done
-
 for dev in a b; do
  /bin/smartctl -i /dev/sd${dev} -d ata -s on >/dev/null 2>&1
 done

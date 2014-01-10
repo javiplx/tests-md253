@@ -15,8 +15,6 @@ NTP_SERVER=${CONFIG_PATH}/ntp_server
 NTP_ACTION=${CONFIG_PATH}/ntp.action
 WEBMASTER=${CONFIG_PATH}/webmaster.conf
 
-scsi_list=/etc/sysconfig/config/scsi.list
-
 format_hdd=/var/www/cgi-bin/format.sh
 SingleFormat=/var/www/cgi-bin/SingleFormat.sh
 scandisk_hdd=/var/www/cgi-bin/scandisk.sh
@@ -110,11 +108,6 @@ case ${func} in
   ;;
  Physical_Disks)
   . /etc/scsi.list
-  for scsi in SCSI0 SCSI1; do
-   MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue
-    REAL=$scsi
-  done
 
   [ ${#scsidevs} -eq 0 ] && {
    echo "Drive 1:--:--:No Disk:removed"
@@ -122,7 +115,7 @@ case ${func} in
    } || {
    [ ${#scsidevs} -lt 2 ] && {
     Capacity=`/bin/fdisk -l /dev/sda|/bin/awk /sda:/'{print $3}'|sed 's/\ //g'`
-    MODEL=`/bin/awk -F: /${REAL}/'{print $2}' ${scsi_list}`
+    MODEL=${scsi1:-$scsi0}
     /usr/bin/mdadm -D /dev/md1 >/dev/null 2>&1
     [ $? -eq 0 ] && ACT="active" || ACT="removed"
 
@@ -134,10 +127,10 @@ case ${func} in
      echo "Drive (Rigth):--:--:No Disk:removed"
      }
     } || {
-    SCSI0=sda ; SCSI1=sdb
-    for scsi in SCSI1 SCSI0; do
-     MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-     eval str=\$${scsi}
+    hd0=sda ; hd1=sdb
+    for id in 0 1; do
+     eval MODEL=\$scsi${id}
+     eval str=\$hd${id}
      Capacity=`/bin/fdisk -l /dev/${str}|/bin/awk /${str}:/'{print $3}'|sed 's/\ //g'`
      MD_STATUS=`/usr/bin/mdadm -D /dev/md1`
      [ "$MD_STATUS" == "" ] && ACT="removed" || {
