@@ -109,18 +109,18 @@ case ${func} in
    }
   ;;
  Physical_Disks)
-  DiskNum=0
+  . /etc/scsi.list
   for scsi in SCSI0 SCSI1; do
    MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
+   [ "$MODEL" == "" ] && continue
     REAL=$scsi
   done
 
-  [ $DiskNum -eq 0 ] && {
+  [ ${#scsidevs} -eq 0 ] && {
    echo "Drive 1:--:--:No Disk:removed"
    echo "Drive 2:--:--:No Disk:removed"
    } || {
-   [ $DiskNum -lt 2 ] && {
+   [ ${#scsidevs} -lt 2 ] && {
     Capacity=`/bin/fdisk -l /dev/sda|/bin/awk /sda:/'{print $3}'|sed 's/\ //g'`
     MODEL=`/bin/awk -F: /${REAL}/'{print $2}' ${scsi_list}`
     /usr/bin/mdadm -D /dev/md1 >/dev/null 2>&1
@@ -153,18 +153,18 @@ case ${func} in
    }
   ;;
  SingleDisk_Volumes)
-  DiskNum=0
+  . /etc/scsi.list
   for scsi in SCSI0 SCSI1; do
    MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
+   [ "$MODEL" == "" ] && continue
     REAL=$scsi
   done
 
-  [ $DiskNum -eq 0 ] && {
+  [ ${#scsidevs} -eq 0 ] && {
    echo "Drive (Right):--:--:No Disk"
    echo "Drive (Left):--:--:No Disk"
    } || {
-   [ $DiskNum -lt 2 ] && {
+   [ ${#scsidevs} -lt 2 ] && {
     MountPoint=`/bin/df|/bin/grep "^/dev/sda1"|/bin/awk '{print $NF}'`
     [ "$MountPoint" == "/home" ] && {
      TotalSize=`/bin/df -h|/bin/grep "^/dev/sda1"|/bin/awk '{print $2}'`

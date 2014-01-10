@@ -44,17 +44,17 @@ case ${func} in
    echo -e "$DATA"\\r
   ;;
  "SingleDisk_Volumes")
-  DiskNum=0
+  . /etc/scsi.list
   for scsi in SCSI0 SCSI1; do
    MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
+   [ "$MODEL" == "" ] && continue
     REAL=$scsi
   done
 
-  [ $DiskNum -eq 0 ] && {
+  [ ${#scsidevs} -eq 0 ] && {
    echo -e "Drive 1^--^--^No Disk^Drive 2^--^--^No Disk"\\r
    } || {
-   [ $DiskNum -lt 2 ] && {
+   [ ${#scsidevs} -lt 2 ] && {
     MountPoint=`/bin/df|/bin/grep "^/dev/sda1"|/bin/awk '{print $NF}'`
     [ "$MountPoint" == "/home" ] && {
      TotalSize=`/bin/df|/bin/grep "^/dev/sda1"|/bin/awk '{print $2}'`
@@ -88,14 +88,14 @@ case ${func} in
    }
   ;;
  "Physical_Disks")
-  i=0
+  . /etc/scsi.list
   for scsi in SCSI0 SCSI1; do
    MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || i=`expr $i + 1`
+   [ "$MODEL" == "" ] && continue
     REAL=$scsi
   done
 
-  [ $i -lt 2 ] && {
+  [ ${#scsidevs} -lt 2 ] && {
    Capacity=`/bin/fdisk -l /dev/sda|/bin/awk /sda:/'{print $5}'|sed 's/\ //g'`
    MODEL=`/bin/awk -F: /${REAL}/'{print $2}' ${scsi_list}`
    /usr/bin/mdadm -D /dev/md1 >/dev/null 2>&1
