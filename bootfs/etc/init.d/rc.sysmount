@@ -46,7 +46,7 @@ ROOTFS=/dev/mtdblock3
 /bin/cp -af /etc/version /etc/sysconfig/config
 /bin/rm -f /etc/sysconfig/config/touch
 
-DIR=".subsys .log .run .samba/locks .samba/cores .empty .ssh .lib .twonky .btpd"
+DIR=".subsys .log .run .samba/locks .samba/cores .empty .lib .twonky .btpd"
 for i in $DIR; do
  /bin/mkdir -p /tmp/"$i"
 done
