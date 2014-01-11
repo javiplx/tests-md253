@@ -3,6 +3,6 @@ PIDs=`/bin/pidof daapd`
 for pid in $PIDs; do
    /bin/kill -9 $pid
   done
-dlna_dnsr_stop
+dlna_mDNSR_stop
 [ -n "$PIDs" ] && /bin/logger "$0 - daapd deamon Stop"
 }

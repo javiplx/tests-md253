@@ -1,4 +1,4 @@
-dlna_dnsr_start(){
+dlna_mDNSR_start(){
 CONF_FILE=/etc/sysconfig/config/responder.conf
 /usr/bin/DNSR -d -f ${CONF_FILE} &
 }

@@ -4,7 +4,7 @@ SERVICE_PATH=/etc/sysconfig/config
 /bin/df|/bin/awk '{print $NF}'|/bin/grep -q "^/home$"
 [ $? -ne 0 ] && return;
 
-dlna_dnsr_start
+dlna_mDNSR_start
 
      /usr/bin/daapd -m -c $SERVICE_PATH/daapd.conf -d 9 -D scan -f > /tmp/data 2>&1 &
      [ $? -eq 0 ] &&\
