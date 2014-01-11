@@ -6,7 +6,6 @@ NTP_SERVER=`/bin/cat /etc/sysconfig/config/ntp_server`
 GMT_CONF=/etc/sysconfig/config/gmt.conf
 DST_CONF=/etc/sysconfig/config/dst.conf
 NTP_ACTION_CONF=/etc/sysconfig/config/ntp.action
-replaceFile=/bin/replaceFile
 GMT=`cat $GMT_CONF`
 tmpfile=/tmp/tmp.$$
 
@@ -77,8 +76,10 @@ date "$mm$dd$HH$MM$yy" >/dev/null 2>&1
 /bin/test -f ${DST_CONF} && {
  OLD_START_DST_DATE=`/bin/awk -F= /START/'{print $2}' ${DST_CONF}`
  OLD_END_DST_DATE=`/bin/awk -F= /END/'{print $2}' ${DST_CONF}`
- $replaceFile "${DST_CONF}" "START=$OLD_START_DST_DATE" "START=$START_DST_DATE"
- $replaceFile "${DST_CONF}" "END=$OLD_END_DST_DATE" "END=$OLD_END_DST_DATE"
+ [ x$OLD_START_DST_DATE != x$START_DST_DATE ] && \
+  /bin/replaceFile "${DST_CONF}" "START=$OLD_START_DST_DATE" "START=$START_DST_DATE"
+ [ x$OLD_END_DST_DATE != x$OLD_END_DST_DATE ] && \
+  /bin/replaceFile "${DST_CONF}" "END=$OLD_END_DST_DATE" "END=$OLD_END_DST_DATE"
  } || {
  echo "DST_STATUS=Disable" > ${DST_CONF}
  echo "START=$START_DST_DATE" >> ${DST_CONF}
