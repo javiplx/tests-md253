@@ -128,7 +128,9 @@ case ${func} in
      }
     } || {
     hd0=sda ; hd1=sdb
+    label0="Right" ; label1="Left"
     for id in 0 1; do
+     eval label=\$label${id}
      eval MODEL=\$scsi${id}
      eval str=\$hd${id}
      Capacity=`/bin/fdisk -l /dev/${str}|/bin/awk /${str}:/'{print $3}'|sed 's/\ //g'`
@@ -140,7 +142,7 @@ case ${func} in
        [ $? -eq 0 ] && ACT="rebuilding" || ACT="active"
        }
       }
-     echo "$scsi:${MODEL}:${Capacity}:Ready:${ACT}"
+     echo "Drive (${label}):${MODEL}:${Capacity}:Ready:${ACT}"
     done
     }
    }

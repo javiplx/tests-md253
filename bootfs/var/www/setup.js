@@ -568,14 +568,6 @@ function Physical_Disks(msg){
    oCell.style.cssText="text-align: center;color: #0000FF;";
    str = Data[s];
 
-   if(s==0){
-    if(str.indexOf('SCSI0')!=-1)
-     str="Drive (Right)"
-
-    if(str.indexOf('SCSI1')!=-1)
-     str="Drive (Left)"
-   }
-
    if(s==3){
     if(str.indexOf('Ready')!=-1)
      oCell.style.cssText="text-align: center;color: #008800;";
