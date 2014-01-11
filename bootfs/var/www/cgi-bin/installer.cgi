@@ -12,8 +12,6 @@ IFCFG=${CONF_PATH}/ifcfg-eth0
 IFCFG_DEFAULT=${CONF_PATH}/ifcfg-eth0.default
 replaceFile=/bin/replaceFile
 
-scsi_list=/etc/sysconfig/config/scsi.list
-
 format_hdd=/var/www/cgi-bin/format.sh
 SingleFormat=/var/www/cgi-bin/SingleFormat.sh
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
@@ -44,17 +42,12 @@ case ${func} in
    echo -e "$DATA"\\r
   ;;
  "SingleDisk_Volumes")
-  DiskNum=0
-  for scsi in SCSI0 SCSI1; do
-   MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
-    REAL=$scsi
-  done
+  . /etc/scsi.list
 
-  [ $DiskNum -eq 0 ] && {
+  [ ${#scsidevs} -eq 0 ] && {
    echo -e "Drive 1^--^--^No Disk^Drive 2^--^--^No Disk"\\r
    } || {
-   [ $DiskNum -lt 2 ] && {
+   [ ${#scsidevs} -lt 2 ] && {
     MountPoint=`/bin/df|/bin/grep "^/dev/sda1"|/bin/awk '{print $NF}'`
     [ "$MountPoint" == "/home" ] && {
      TotalSize=`/bin/df|/bin/grep "^/dev/sda1"|/bin/awk '{print $2}'`
@@ -66,7 +59,7 @@ case ${func} in
      FreeSize="--"
      }
 
-    [ "$REAL" == "SCSI0" ] && {
+    [ x$scsi1 = x ] && {
      echo -e "Drive 1^${TotalSize}^${FreeSize}^format^Drive 2^--^--^No Disk"\\r
      } || {
      echo -e "Drive 1^--^--^No Disk^Drive 2^${TotalSize}^${FreeSize}^format"\\r
@@ -88,21 +81,15 @@ case ${func} in
    }
   ;;
  "Physical_Disks")
-  scsi_list=/etc/sysconfig/config/scsi.list
-  i=0
-  for scsi in SCSI0 SCSI1; do
-   MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || i=`expr $i + 1`
-    REAL=$scsi
-  done
+  . /etc/scsi.list
 
-  [ $i -lt 2 ] && {
+  [ ${#scsidevs} -lt 2 ] && {
    Capacity=`/bin/fdisk -l /dev/sda|/bin/awk /sda:/'{print $5}'|sed 's/\ //g'`
-   MODEL=`/bin/awk -F: /${REAL}/'{print $2}' ${scsi_list}`
+   MODEL=${scsi1:-$scsi0}
    /usr/bin/mdadm -D /dev/md1 >/dev/null 2>&1
    [ $? -eq 0 ] && ACT="active" || ACT="removed"
 
-   [ "$REAL" == "SCSI0" ] && {
+   [ x$scsi1 = x ] && {
     echo -e "${MODEL}^${Capacity}^Ready^"\\r
     echo -e "Fail^Fail^Fail^"\\r
     } || {
@@ -110,18 +97,18 @@ case ${func} in
     echo -e "${MODEL}^${Capacity}^Ready^"\\r
     }
    } || {
-   SCSI0=sda ; SCSI1=sdb
-   for scsi in SCSI0 SCSI1; do
-    MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-    eval str=\$${scsi}
+   hd0=sda ; hd1=sdb
+   for id in 0 1; do
+    eval MODEL=\$scsi${id}
+    eval str=\$hd${id}
     Capacity=`/bin/fdisk -l /dev/${str}|/bin/awk /${str}:/'{print $5}'|sed 's/\ //g'`
     MD_STATUS=`/usr/bin/mdadm -D /dev/md1`
     [ "$MD_STATUS" == "" ] && ACT="removed" || {
-     echo "$MD_STATUS"|/bin/grep "$str" >/dev/null 2>&1
-     [ $? -eq 0 ] && {
-      echo "$MD_STATUS"|/bin/grep "$str"|/bin/grep "rebuilding" >/dev/null 2>&1
+     DISK_STATUS=`echo ${MD_STATUS} | grep /dev/${str}1`
+     [ "$DISK_STATUS" == "" ] && ACT="removed" || {
+      echo "$MD_STATUS"|/bin/grep -q "rebuilding"
       [ $? -eq 0 ] && ACT="rebuilding" || ACT="active"
-      } || ACT="removed"
+      }
      }
     echo -e "${MODEL}^${Capacity}^Ready^"\\r
    done

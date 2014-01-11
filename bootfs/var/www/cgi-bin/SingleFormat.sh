@@ -5,7 +5,6 @@ export PATH
 . /usr/libexec/modules/modules.conf
 CONFIG_PATH=/etc/sysconfig/config
 SMB_CONF=${CONFIG_PATH}/smb/smb.conf
-scsi_list=${CONFIG_PATH}/scsi.list
 
 XFS_QUOTA=/usr/local/xfsprogs/xfs_quota
 TWONKY_PKGPATH=/usr/local/install/Twonkymedia
@@ -33,18 +32,13 @@ service_package_manager "Service&stop"
 /bin/killall udevd >/dev/null 2>&1
 /bin/sleep $SLEEP
 
-DiskNum=0
-for scsi in SCSI0 SCSI1; do
- MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
- [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
-  REAL=$scsi
-done
+. /etc/scsi.list
 
 SHARE_PATH_TREE=`/bin/df|/bin/grep -v "/home/Disk_2"|\
                  /bin/grep "/home/"|/bin/awk '{print $1}'`
 
 [ -d /tmp/ftpaccess ] || /bin/mkdir -p /tmp/ftpaccess
-[ $DiskNum -lt 2 ] || {
+[ ${#scsidevs} -lt 2 ] || {
  /bin/cp -af ${SHARE_PATH}/Disk_2/.ftpaccess /tmp/ftpaccess/Disk_2
  }
 
@@ -79,7 +73,7 @@ service_create_single_partition ${dev} >/dev/null 2>&1
 
 /usr/local/xfsprogs/mkfs.xfs -f /dev/${dev}1 >/dev/null 2>&1
 
-[ $DiskNum -lt 2 ] && {
+[ ${#scsidevs} -lt 2 ] && {
  echo "${str} blue clear" > /proc/mp_leds
  echo "${str} red clear" > /proc/mp_leds
 
@@ -135,7 +129,7 @@ done
 
 for disk in $SHARE_PATH_TREE; do
  disk=${disk##*/}
- [ $DiskNum -lt 2 ] || {
+ [ ${#scsidevs} -lt 2 ] || {
   [ "$disk" == "sdb1" ] && continue
   }
  /etc/sysconfig/system-script/mount $disk

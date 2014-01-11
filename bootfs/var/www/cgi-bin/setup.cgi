@@ -15,8 +15,6 @@ NTP_SERVER=${CONFIG_PATH}/ntp_server
 NTP_ACTION=${CONFIG_PATH}/ntp.action
 WEBMASTER=${CONFIG_PATH}/webmaster.conf
 
-scsi_list=/etc/sysconfig/config/scsi.list
-
 format_hdd=/var/www/cgi-bin/format.sh
 SingleFormat=/var/www/cgi-bin/SingleFormat.sh
 scandisk_hdd=/var/www/cgi-bin/scandisk.sh
@@ -65,17 +63,13 @@ case ${func} in
   RAID_MODE=`/usr/bin/mdadm -D /dev/md1|\
   /bin/awk -F: /Level/'{print $2}'|/bin/sed 's/\ //g'`
 
-  DiskNum=0
-  for scsi in SCSI0 SCSI1; do
-   MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
-  done
+  . /etc/scsi.list
 
   [ "$RAID_MODE" == "" ] && {
-   [ $DiskNum -lt 2 ] && RAID_MODE=SingleDisk || RAID_MODE=DaulDisk
-   [ $DiskNum -eq 0 ] && RAID_MODE=NoDisk
+   [ ${#scsidevs} -lt 2 ] && RAID_MODE=SingleDisk || RAID_MODE=DaulDisk
+   [ ${#scsidevs} -eq 0 ] && RAID_MODE=NoDisk
    } || {
-   [ $DiskNum -lt 2 ] && RAID_MODE=SingleDisk
+   [ ${#scsidevs} -lt 2 ] && RAID_MODE=SingleDisk
    }
   echo "$RAID_MODE"
 
@@ -90,7 +84,7 @@ case ${func} in
   [ "$status" == "fail" ] && echo "not" || {
    /usr/bin/mdadm -D /dev/md1|/bin/grep -q "removed"
    [ $? -eq 0 ] && {
-    [ $DiskNum -lt 2 ] && echo "not" || echo "rebuild"
+    [ ${#scsidevs} -lt 2 ] && echo "not" || echo "rebuild"
     } || echo "not"
    }
 
@@ -112,48 +106,20 @@ case ${func} in
    } || echo "Ready"
    }
   ;;
- Physical_Disks_1)
-  for disk in sdb sda; do
-   [ "$disk" == "sda" ] && str="Drive (Right)" || str="Drive (Left)"
-   MODEL=`/bin/smartctl -i -d ata /dev/${disk}|/bin/awk /Device\ Model/'{print $NF}'|/bin/sed 's/\ //g'`
-   [ "$MODEL" == "" ] && {
-    echo "${str}:--:--:No Disk:removed"
-    } || {
-    Capacity=`/bin/fdisk -l /dev/${disk}|/bin/awk -F, /${disk}:/'{print $1}'|/bin/awk -F: '{print $2}'|/bin/sed 's/^\ //'`
-    Status=`/bin/smartctl -i /dev/${disk} -d ata|/bin/grep "SMART support is"|/bin/grep -v "Available"|/bin/awk -F: '{print $2}'|/bin/sed 's/\ //g'`
-
-    case ${Status} in
-     Disabled)
-      ACT="${Status}"
-      ;;
-     Enabled)
-      ACT=`/bin/smartctl -H -d ata /dev/${disk}|/bin/awk /overall-health/'{print $NF}'|/bin/sed 's/\ //g'`
-      ;;
-    esac
-
-    echo "${str}:${MODEL}:${Capacity}:Ready:${ACT}"
-    }
-  done
-  ;;
  Physical_Disks)
-  DiskNum=0
-  for scsi in SCSI0 SCSI1; do
-   MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
-    REAL=$scsi
-  done
+  . /etc/scsi.list
 
-  [ $DiskNum -eq 0 ] && {
+  [ ${#scsidevs} -eq 0 ] && {
    echo "Drive 1:--:--:No Disk:removed"
    echo "Drive 2:--:--:No Disk:removed"
    } || {
-   [ $DiskNum -lt 2 ] && {
+   [ ${#scsidevs} -lt 2 ] && {
     Capacity=`/bin/fdisk -l /dev/sda|/bin/awk /sda:/'{print $3}'|sed 's/\ //g'`
-    MODEL=`/bin/awk -F: /${REAL}/'{print $2}' ${scsi_list}`
+    MODEL=${scsi1:-$scsi0}
     /usr/bin/mdadm -D /dev/md1 >/dev/null 2>&1
     [ $? -eq 0 ] && ACT="active" || ACT="removed"
 
-    [ "$REAL" == "SCSI0" ] && {
+    [ x$scsi1 = x ] && {
      echo "Drive (Left):--:--:No Disk:removed"
      echo "Drive (Right):${MODEL}:${Capacity}:Ready:${ACT}"
      } || {
@@ -161,37 +127,34 @@ case ${func} in
      echo "Drive (Rigth):--:--:No Disk:removed"
      }
     } || {
-    SCSI0=sda ; SCSI1=sdb
-    for scsi in SCSI1 SCSI0; do
-     MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-     eval str=\$${scsi}
+    hd0=sda ; hd1=sdb
+    label0="Right" ; label1="Left"
+    for id in 0 1; do
+     eval label=\$label${id}
+     eval MODEL=\$scsi${id}
+     eval str=\$hd${id}
      Capacity=`/bin/fdisk -l /dev/${str}|/bin/awk /${str}:/'{print $3}'|sed 's/\ //g'`
      MD_STATUS=`/usr/bin/mdadm -D /dev/md1`
      [ "$MD_STATUS" == "" ] && ACT="removed" || {
-      echo "$MD_STATUS"|/bin/grep "$str" >/dev/null 2>&1
-      [ $? -eq 0 ] && {
-       echo "$MD_STATUS"|/bin/grep "$str"|/bin/grep "rebuilding" >/dev/null 2>&1
+      DISK_STATUS=`echo ${MD_STATUS} | grep /dev/${str}1`
+      [ "$DISK_STATUS" == "" ] && ACT="removed" || {
+       echo "$MD_STATUS"|/bin/grep -q "rebuilding"
        [ $? -eq 0 ] && ACT="rebuilding" || ACT="active"
-       } || ACT="removed"
+       }
       }
-     echo "$scsi:${MODEL}:${Capacity}:Ready:${ACT}"
+     echo "Drive (${label}):${MODEL}:${Capacity}:Ready:${ACT}"
     done
     }
    }
   ;;
  SingleDisk_Volumes)
-  DiskNum=0
-  for scsi in SCSI0 SCSI1; do
-   MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
-    REAL=$scsi
-  done
+  . /etc/scsi.list
 
-  [ $DiskNum -eq 0 ] && {
+  [ ${#scsidevs} -eq 0 ] && {
    echo "Drive (Right):--:--:No Disk"
    echo "Drive (Left):--:--:No Disk"
    } || {
-   [ $DiskNum -lt 2 ] && {
+   [ ${#scsidevs} -lt 2 ] && {
     MountPoint=`/bin/df|/bin/grep "^/dev/sda1"|/bin/awk '{print $NF}'`
     [ "$MountPoint" == "/home" ] && {
      TotalSize=`/bin/df -h|/bin/grep "^/dev/sda1"|/bin/awk '{print $2}'`
@@ -203,7 +166,7 @@ case ${func} in
      FreeSize="--"
      }
 
-    [ "$REAL" == "SCSI0" ] && {
+    [ x$scsi1 = x ] && {
      echo "Drive (Left):--:--:No Disk"
      echo "Drive (Right):${TotalSize}:${FreeSize}:format"
      } || {
@@ -227,15 +190,12 @@ case ${func} in
    }
   ;;
  USB_Disks)
-  DiskNum=0
-  for scsi in SCSI0 SCSI1; do
-   MODEL=`/bin/awk -F: /${scsi}/'{print $2}' ${scsi_list}`
-   [ "$MODEL" == "" ] && continue || DiskNum=`expr $DiskNum + 1`
-  done
   SHARE_PATH_TREE=`/bin/df|/bin/grep "/home/"|/bin/awk '{print $1}'`
 
+  . /etc/scsi.list
+
   for disk in $SHARE_PATH_TREE; do
-   [ $DiskNum -lt 2 ] || {
+   [ ${#scsidevs} -lt 2 ] || {
     [ "$disk" == "/dev/sdb1" ] && continue
     }
    echo ${disk}
@@ -258,8 +218,7 @@ case ${func} in
   ;;
  rebuild_info)
   for disk in sda1 sdb1; do
-   MD_STATUS=`/usr/bin/mdadm -D /dev/md1`
-   echo "$MD_STATUS"|/bin/grep "$disk" >/dev/null 2>&1
+   /usr/bin/mdadm -D /dev/md1 2> /dev/null | /bin/grep -q "$disk"
    [ $? -eq 0 ] && {
     active=$disk
     break

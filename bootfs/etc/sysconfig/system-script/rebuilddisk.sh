@@ -9,8 +9,7 @@ SLEEP=1
 /bin/sleep $SLEEP
 
 for disk in sda sdb; do
- MD_STATUS=`/usr/bin/mdadm -D /dev/md1`
- echo "$MD_STATUS"|/bin/grep "$disk" >/dev/null 2>&1
+ /usr/bin/mdadm -D /dev/md1 2> /dev/null | /bin/grep -q "$disk"
  [ $? -eq 0 ] && {
   active=$disk
   break

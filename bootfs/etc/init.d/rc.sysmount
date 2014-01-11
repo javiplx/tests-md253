@@ -7,13 +7,15 @@ for disk in hdd1 hdd2; do
  echo "${disk} red clear" > /proc/mp_leds
 done
 
-while read scsi ; do
- set -- $scsi
- case $1 in
-  Host\:) echo -n "$2:" ;;
-  Vendor\:) echo "$2" ;;
- esac
-done < /proc/scsi/scsi > /etc/scsi.list
+scsidevs=
+for id in 0 1 ; do
+ syspath="/sys/devices/platform/oxnassata.$id/host$id/target$id:0:0/$id:0:0:0"
+ test -f ${syspath}/model || continue
+ scsidevs="${scsidevs}X"
+ model=$( cat ${syspath}/model )
+ echo "scsi$id=\"$( echo ${model} )\""
+done > /etc/scsi.list
+echo "scsidevs=${scsidevs}" >> /etc/scsi.list
 
 /bin/mount -t jffs2 /dev/mtdblock4 /etc/sysconfig/config
 [ $? -eq 0 ] || {
@@ -23,7 +25,7 @@ done < /proc/scsi/scsi > /etc/scsi.list
  }
 
 ROOTFS=/dev/mtdblock3
-[ -s /etc/scsi.list ] && \
+[ -n "${scsidevs}" ] && \
  /bin/mount -r -t xfs /dev/sda1 /mnt && \
  [ -f /mnt/squashfs.img ] && \
    ROOTFS=/mnt/squashfs.img
@@ -51,22 +53,14 @@ done
 
 SHARE_PATH=/home
 
-DiskNum=0
-for scsi in 0 1; do
- MODEL=`/bin/dmesg|/bin/grep "scsi ${scsi}"|\
-        /bin/awk '{print $5}'|/bin/sed 's/\ //g'`
- [ "$MODEL" == "" ] && continue
-  echo "SCSI${scsi}:${MODEL}"
- DiskNum=`expr $DiskNum + 1`
- REAL=SCSI${scsi}
-done > /etc/sysconfig/config/scsi.list
+. /etc/scsi.list
 
-[ $DiskNum -eq 0 ] && {
+[ ${#scsidevs} -eq 0 ] && {
  hdd1=red; hdd2=red
  } || {
 
  cat /dev/null > /etc/mdadm.conf
- [ $DiskNum -gt 1 ] &&\
+ [ ${#scsidevs} -gt 1 ] &&\
  /usr/bin/mdadm -A /dev/md1 /dev/sd[a-b]1 >/dev/null 2>&1 ||\
  /usr/bin/mdadm -A /dev/md1 /dev/sda1 --run >/dev/null 2>&1 
 
@@ -74,8 +68,8 @@ done > /etc/sysconfig/config/scsi.list
 
  /bin/mount -t xfs -o uquota /dev/md1 ${SHARE_PATH}
  [ $? -eq 0 ] && {
-  [ $DiskNum -lt 2 ] && {
-   [ "$REAL" == "scsi0" ] && {
+  [ ${#scsidevs} -lt 2 ] && {
+   [ x$scsi1 = x ] && {
     hdd1=blue; hdd2=red
     } || {
     hdd1=red; hdd2=blue
@@ -120,8 +114,8 @@ done > /etc/sysconfig/config/scsi.list
  } || {
   /bin/mount -t xfs -o uquota /dev/sda1 ${SHARE_PATH}
   [ $? -eq 0 ] && {
-   [ $DiskNum -lt 2 ] && {
-    [ "$REAL" == "scsi0" ] && {
+   [ ${#scsidevs} -lt 2 ] && {
+    [ x$scsi1 = x ] && {
      Drive="Drive 1"
      hdd1=blue; hdd2=red
      } || {
