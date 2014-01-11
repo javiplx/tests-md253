@@ -1,5 +1,4 @@
 network_start(){
-RESOLV=/etc/resolv.conf
 
 ConfigPath=/etc/sysconfig/config
 SmbPath=${ConfigPath}/smb
@@ -28,12 +27,10 @@ SMB_IPADDR=`/bin/awk "-F = " '/interfaces/{print $2}' $SMB_CONF`
 /bin/replaceFile "${SMB_CONF}" "interfaces = ${SMB_IPADDR}" "interfaces = ${IPADDR}/${NETMASK}"
 echo "hosts allow = ${NETWORK}/${NETMASK}" > ${SMB_NET_CONF}
 
-/bin/cat /dev/null > ${RESOLV}
 for x in P S; do
  eval value=\$${x}DNS
- [ "$value" == "" ] && continue
- echo "nameserver $value" >> ${RESOLV}
-done
+ [ -n "$value" ] && echo "nameserver $value"
+done > /etc/resolv.conf
 
 [ "${BOOTPROTO}" == "dhcp" ] &&\
  /bin/udhcpc -R -b -i eth0 --timeout=1 --tryagain=1 -s /etc/udhcpc/default.script
