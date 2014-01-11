@@ -28,7 +28,7 @@ for i in 01 02 03 04 05 06 07 08 09 10 11 12 13 14; do
  [ "$week" == "Sunday" ] && {
   tmp=`expr $tmp + 1`
   [ $tmp -eq $sun ] && {
-   DST_DATE=`date '+%d'`
+   return `date '+%d'`
    break
    }
   }
@@ -62,11 +62,8 @@ mydate=`date '+%Y %m %d %H %M'`
 echo "$mydate" > $DATE_CONF
 mysettime $mydate
 
-mathweek 03 2
-START_DST_DATE=$DST_DATE
-
-mathweek 11 1
-END_DST_DATE=$DST_DATE
+START_DST_DATE=`mathweek 03 2`
+END_DST_DATE=`mathweek 11 1`
 
 tmpmydate=`/bin/cat $tmpfile`
 mysettime $tmpmydate
