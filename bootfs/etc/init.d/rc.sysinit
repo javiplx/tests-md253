@@ -15,19 +15,19 @@ service_syslogd_start
  /bin/logger "$0 - udevd deamon Start Succeed" ||\
  /bin/logger "$0 - udevd deamon Start Failed"
 
-network_start >/dev/null 2>&1
-service_ntp_start >/dev/null 2>&1 &
+network_start
+service_ntp_start
 
 # Load USB kernel modules
 KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
-/sbin/insmod ${KERNEL_PATH}/usb-storage.ko >/dev/null 2>&1 &
+/sbin/insmod ${KERNEL_PATH}/usb-storage.ko
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - Insert USB Kernel Module Succeed" ||\
  /bin/logger "$0 - Insert USB Kernel Module Failed"
-/sbin/insmod ${KERNEL_PATH}/usblp.ko >/dev/null 2>&1 &
+/sbin/insmod ${KERNEL_PATH}/usblp.ko
 
 cron_ntp=/etc/sysconfig/system-script/cron-ntp
-${cron_ntp} >/dev/null 2>&1 &
+${cron_ntp}
 
 /etc/init.d/rc.services
 

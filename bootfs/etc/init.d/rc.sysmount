@@ -59,12 +59,11 @@ SHARE_PATH=/home
  hdd1=red; hdd2=red
  } || {
 
- cat /dev/null > /etc/mdadm.conf
  [ ${#scsidevs} -gt 1 ] &&\
- /usr/bin/mdadm -A /dev/md1 /dev/sd[a-b]1 >/dev/null 2>&1 ||\
- /usr/bin/mdadm -A /dev/md1 /dev/sda1 --run >/dev/null 2>&1 
+ /usr/bin/mdadm -A /dev/md1 /dev/sd[a-b]1 ||\
+ /usr/bin/mdadm -A /dev/md1 /dev/sda1 --run
 
- /usr/bin/mdadm -D -s >> /etc/mdadm.conf
+ /usr/bin/mdadm -D -s > /etc/mdadm.conf
 
  /bin/mount -t xfs -o uquota /dev/md1 ${SHARE_PATH}
  [ $? -eq 0 ] && {
@@ -75,10 +74,10 @@ SHARE_PATH=/home
     hdd1=red; hdd2=blue
     }
    } || {
-   /usr/bin/mdadm -D /dev/md1|/bin/grep "removed" >/dev/null 2>&1
+   /usr/bin/mdadm -D /dev/md1|/bin/grep -q "removed"
    [ $? -eq 0 ] && {
      for DISK in sda sdb; do
-      /usr/bin/mdadm -D /dev/md1|/bin/grep "${DISK}1" >/dev/null 2>&1
+      /usr/bin/mdadm -D /dev/md1|/bin/grep -q "${DISK}1"
       [ $? -eq 0 ] && active=$DISK
       SIZE=`fdisk -l /dev/${DISK}|awk /${DISK}:/'{print $5}'`
       i="${DISK}=${SIZE}"
@@ -100,7 +99,7 @@ SHARE_PATH=/home
     }
    }
 
-  /usr/bin/mdadm -D /dev/md1|/bin/grep "spare rebuilding" >/dev/null 2>&1
+  /usr/bin/mdadm -D /dev/md1|/bin/grep -q "spare rebuilding"
   [ $? -eq 0 ] && {
    service_rebuild_start
    } || {
@@ -148,15 +147,15 @@ done
 
 for dev in sda sdb; do
  parted -s -m /dev/${dev} print && {
- /bin/smartctl -i /dev/${dev} -d ata -s on >/dev/null 2>&1
- /bin/hdparm -S241 /dev/${dev} >/dev/null 2>&1
+ /bin/smartctl -i /dev/${dev} -d ata -s on
+ /bin/hdparm -S241 /dev/${dev}
  }
 done
 
 mount | grep -q ' on /home type xfs ' && {
 [ -f /home/.swap ] || {
     /bin/dd if=/dev/zero of=/home/.swap bs=1M count=128 >/dev/null 2>&1
-    /bin/mkswap /home/.swap >/dev/null 2>&1
+    /bin/mkswap /home/.swap
 }
 [ -f /home/.swap ] && \
     /bin/swapon /home/.swap
