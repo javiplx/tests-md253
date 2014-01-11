@@ -16,10 +16,10 @@ SMB_NET_CONF=${SmbPath}/network.inc
  /bin/logger "$0 - NIC:\"${HWADDR}\" Start Succeed" ||\
  /bin/logger "$0 - NIC:\"${HWADDR}\" Start Failed"
 
-/bin/ifconfig eth0 up
-/bin/ifconfig eth0 mtu ${MTU}
-/bin/ifconfig eth0 down
-/bin/ifconfig eth0 ${IPADDR}  broadcast ${BROADCAST} netmask ${NETMASK} up
+/bin/ifconfig eth0 ${IPADDR} broadcast ${BROADCAST} netmask ${NETMASK} mtu ${MTU} up
+
+# Wait for card full initialization
+/bin/sleep 5
 
 /bin/ip route add default via ${GATEWAY} dev eth0
 /bin/ip route flush cache
