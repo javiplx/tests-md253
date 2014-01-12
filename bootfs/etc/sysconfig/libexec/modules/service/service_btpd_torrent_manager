@@ -27,7 +27,7 @@ case ${action} in
 
   TorrentDir=`echo "${TorrentDir}"|/bin/tr '#' '\n'|/bin/grep "^Name:"|/bin/sed 's/^Name://'|/bin/sed 's/^\ //'|/bin/sed 's/\ $//'`
 
-  [ "${TorrentDir}" == "" ] && /bin/rm -rf ${DownloadTorrentPath}/* || {
+  [ "${TorrentDir}" == "" ] || {
    TorrentName="${TorrentDir}".torrent
 
    /bin/test -f ${BTPD_TORRENTS}/"${TorrentName}" || {
