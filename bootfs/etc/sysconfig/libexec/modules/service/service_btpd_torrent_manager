@@ -33,7 +33,7 @@ case ${action} in
    /bin/test -f ${BTPD_TORRENTS}/"${TorrentName}" || {
     /bin/mv ${DownloadTorrentPath}/"${FileName}" ${BTPD_TORRENTS}/"${TorrentName}"
 
-    [ -d ${BTPD_DOWNLOAD}/"${TorrentDir}" ] || {
+    [ -d ${BTPD_BASE_DIR}/"${TorrentDir}" ] || {
      /bin/mkdir -p ${BTPD_BASE_DIR}/"${TorrentDir}"
      /bin/chmod 777 ${BTPD_BASE_DIR}/"${TorrentDir}"
      }
