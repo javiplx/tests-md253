@@ -40,10 +40,6 @@ ${BTPD_BIN} -d ${BTPD_START_PATH} ${in_str} ${out_str} --max-peers ${maxpeers} -
 file=`/bin/find "${BTPD_TORRENTS_PATH}/" -maxdepth 1 -type f|/bin/tr " " "^"`
 /bin/cat /dev/null > ${BTPD_BASE_DIR}/.btpd/TorrentNumStatus
 for i in ${file}; do
- [ "$i" == ".torrent" ] && {
-  /bin/rm -rf ${BTPD_TORRENTS_PATH}/"${i}"
-  continue
-  }
 
  name=`echo "${i##*/}"|/bin/tr "^" " "`
  /bin/btcli start ${BTPD_TORRENTS_PATH}/"${name}"

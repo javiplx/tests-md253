@@ -53,7 +53,6 @@ case ${action} in
      } || /bin/logger "$0 - Add new torrent : \"${TorrentDir}\" failed"
    }
   }
-  /bin/rm -f ${BTPD_TORRENTS}/.torrent
   /bin/rm -rf ${DownloadTorrentPath}/*
   ;;
  del)
