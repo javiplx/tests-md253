@@ -58,6 +58,10 @@ echo "$GMT"|grep -q "-"
 
 mydate=`date '+%Y %m %d %H %M'`
 echo "$mydate" > $DATE_CONF
+
+. ${DST_CONF}
+[ "$DST_STATUS" == "Disable" ] && exit
+
 mysettime $mydate
 
 START_DST_DATE=`mathweek 03 2`
@@ -74,15 +78,11 @@ service_ntp_start $tmpfile
  [ x$OLD_END_DST_DATE != x$OLD_END_DST_DATE ] && \
   /bin/replaceFile "${DST_CONF}" "END=$OLD_END_DST_DATE" "END=$OLD_END_DST_DATE"
  } || {
- echo "DST_STATUS=Disable" > ${DST_CONF}
+ echo "DST_STATUS=$DST_STATUS" > ${DST_CONF}
  echo "START=$START_DST_DATE" >> ${DST_CONF}
  echo "END=$END_DST_DATE" >> ${DST_CONF}
  }
 
-. ${DST_CONF}
-[ "$DST_STATUS" == "Disable" ] && {
- service_ntp_start
- } || {
  [ $mm -gt 3 ] && {
   [ $mm -lt 11 ] && {
    GMT=`expr $GMT + 1`
@@ -112,4 +112,3 @@ service_ntp_start $tmpfile
 
  mydate=`date '+%Y %m %d %H %M'`
  echo "$mydate" > $DATE_CONF
- }
