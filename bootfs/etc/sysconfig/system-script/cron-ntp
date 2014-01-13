@@ -50,6 +50,9 @@ NTP_ACTION=`cat ${NTP_ACTION_CONF}`
  return 1
  }
 
+. ${DST_CONF}
+[ "$DST_STATUS" == "Disable" ] && exit
+
 echo `date '+%Y %m %d %H %M'` > $tmpfile
 
 echo "$GMT"|grep -q "-"
@@ -57,10 +60,6 @@ echo "$GMT"|grep -q "-"
 /bin/date `/bin/date -d "${GMT} Hour" +"%m%d%H%M%Y"` >/dev/null 2>&1
 
 mydate=`date '+%Y %m %d %H %M'`
-
-. ${DST_CONF}
-[ "$DST_STATUS" == "Disable" ] && exit
-
 mysettime $mydate
 
 START_DST_DATE=`mathweek 03 2`
