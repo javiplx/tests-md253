@@ -1,5 +1,4 @@
 service_ntp_start(){
 set -- `/bin/cat /etc/sysconfig/config/date.conf`
 /bin/date "$2$3$4$5$1"
-/bin/logger "$0 - Initial System Date :\"`date`\""
 }

@@ -17,6 +17,7 @@ service_syslogd_start
 
 network_start
 service_ntp_start
+/bin/logger "$0 - Initial System Date :\"`date`\""
 
 # Load USB kernel modules
 KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
