@@ -50,10 +50,9 @@ NTP_ACTION=`cat ${NTP_ACTION_CONF}`
  return 1
  }
 
-tmpmydate=`date '+%Y %m %d %H %M'`
-echo "$tmpmydate" > $tmpfile
+echo `date '+%Y %m %d %H %M'` > $tmpfile
 
-echo "$GMT"|grep "-" >/dev/null 2>&1
+echo "$GMT"|grep -q "-"
 [ $? -eq 0 ] || GMT="+${GMT}"
 /bin/date `/bin/date -d "${GMT} Hour" +"%m%d%H%M%Y"` >/dev/null 2>&1
 
@@ -64,9 +63,7 @@ mysettime $mydate
 START_DST_DATE=`mathweek 03 2`
 END_DST_DATE=`mathweek 11 1`
 
-tmpmydate=`/bin/cat $tmpfile`
-mysettime $tmpmydate
-date "$mm$dd$HH$MM$yy" >/dev/null 2>&1
+service_ntp_start $tmpfile
 /bin/rm -rf $tmpfile
 
 /bin/test -f ${DST_CONF} && {
@@ -89,14 +86,14 @@ date "$mm$dd$HH$MM$yy" >/dev/null 2>&1
  [ $mm -gt 3 ] && {
   [ $mm -lt 11 ] && {
    GMT=`expr $GMT + 1`
-   echo "$GMT"|grep "-" >/dev/null 2>&1
+   echo "$GMT"|grep -q "-"
    [ $? -eq 0 ] || GMT="+${GMT}"
    /bin/date `/bin/date -d "${GMT} Hour" +"%m%d%H%M%Y"` >/dev/null 2>&1
    } || {
    [ $mm -eq 11 ] && {
     [ $dd -le $END_DST_DATE -a $HH -le 2 ] && {
      GMT=`expr $GMT + 1`
-     echo "$GMT"|grep "-" >/dev/null 2>&1
+     echo "$GMT"|grep -q "-"
      [ $? -eq 0 ] || GMT="+${GMT}"
      /bin/date `/bin/date -d "${GMT} Hour" +"%m%d%H%M%Y"` >/dev/null 2>&1
      }
@@ -106,7 +103,7 @@ date "$mm$dd$HH$MM$yy" >/dev/null 2>&1
   [ $mm -eq 3 ] && {
    [ $dd -ge $START_DST_DATE -a $HH -ge 2 ] && {
     GMT=`expr $GMT + 1`
-    echo "$GMT"|grep "-" >/dev/null 2>&1
+    echo "$GMT"|grep -q "-"
     [ $? -eq 0 ] || GMT="+${GMT}"
     /bin/date `/bin/date -d "${GMT} Hour" +"%m%d%H%M%Y"` >/dev/null 2>&1
     }
