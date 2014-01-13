@@ -57,7 +57,6 @@ echo "$GMT"|grep -q "-"
 /bin/date `/bin/date -d "${GMT} Hour" +"%m%d%H%M%Y"` >/dev/null 2>&1
 
 mydate=`date '+%Y %m %d %H %M'`
-echo "$mydate" > $DATE_CONF
 
 . ${DST_CONF}
 [ "$DST_STATUS" == "Disable" ] && exit
@@ -110,5 +109,4 @@ service_ntp_start $tmpfile
    }
   }
 
- mydate=`date '+%Y %m %d %H %M'`
- echo "$mydate" > $DATE_CONF
+echo `date '+%Y %m %d %H %M'` > $DATE_CONF
