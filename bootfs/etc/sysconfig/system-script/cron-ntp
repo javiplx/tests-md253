@@ -23,8 +23,8 @@ sun=$2
 
 tmp=0
 for i in 01 02 03 04 05 06 07 08 09 10 11 12 13 14; do
- week=`date '+%A' -d "$yy$month$i $HH$MM"`
- [ "$week" == "Sunday" ] && {
+ week=`date '+%a' -d "$yy$month$i $HH$MM"`
+ [ "$week" == "Sun" ] && {
   tmp=`expr $tmp + 1`
   [ $tmp -eq $sun ] && {
    return `date '+%d' -d "$yy$month$i $HH$MM"`
