@@ -51,7 +51,10 @@ NTP_ACTION=`cat ${NTP_ACTION_CONF}`
  }
 
 . ${DST_CONF}
-[ "$DST_STATUS" == "Disable" ] && exit
+[ "$DST_STATUS" == "Disable" ] && {
+ echo `date '+%Y %m %d %H %M'` > $DATE_CONF
+ exit
+ }
 
 echo `date '+%Y %m %d %H %M'` > $tmpfile
 
