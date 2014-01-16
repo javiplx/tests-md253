@@ -56,7 +56,7 @@ NTP_ACTION=`cat ${NTP_ACTION_CONF}`
  exit
  }
 
-echo `date '+%Y %m %d %H %M'` > $tmpfile
+date '+%Y %m %d %H %M' > $tmpfile
 
 echo "$GMT"|grep -q "-"
 [ $? -eq 0 ] || GMT="+${GMT}"
@@ -105,4 +105,4 @@ service_ntp_start $tmpfile
    }
   }
 
-echo `date '+%Y %m %d %H %M'` > $DATE_CONF
+date '+%Y %m %d %H %M' > $DATE_CONF
