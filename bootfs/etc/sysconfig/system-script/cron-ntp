@@ -27,8 +27,8 @@ for day in 01 02 03 04 05 06 07 08 09 10 11 12 13 14; do
  [ "$week" == "Sun" ] && {
   tmp=`expr $tmp + 1`
   [ $tmp -eq $sun ] && {
-   return `date '+%d' -d "$yy$month$day $HH$MM"`
-   break
+   echo `date '+%d' -d "$yy$month$day $HH$MM"`
+   return
    }
   }
 done
