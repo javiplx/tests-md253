@@ -1,8 +1,6 @@
 #!/bin/sh
 
 . /usr/libexec/modules/modules.conf
-PATH=/bin:/sbin:/usr/bin:/usr/sbin
-export PATH
 
 #patch samba
 /bin/cp -af /usr/local/samba/sbin/audit.so /etc/smb/vfs
