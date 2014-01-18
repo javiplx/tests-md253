@@ -2,8 +2,6 @@
 
 . /usr/libexec/modules/modules.conf
 
-/etc/init.d/rc.sysmount
-
 service_syslogd_start
 
 /bin/buttons_daemon
@@ -26,6 +24,4 @@ KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 
 cron_ntp=/etc/sysconfig/system-script/cron-ntp
 ${cron_ntp}
-
-/etc/init.d/rc.services
 

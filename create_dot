@@ -49,8 +49,6 @@ for f in ${FUNCTIONS} ${CGIS} ; do
 echo
 
 cat <<EOF
-"bootfs/etc/init.d/rc.sysinit" -> "bootfs/etc/init.d/rc.sysmount";
-"bootfs/etc/init.d/rc.sysinit" -> "bootfs/etc/init.d/rc.services";
 "bootfs/etc/init.d/rc.sysinit" -> "rootfs/bin/buttons_daemon";
 EOF
 
