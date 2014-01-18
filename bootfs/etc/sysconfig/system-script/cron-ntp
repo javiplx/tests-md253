@@ -78,31 +78,30 @@ service_ntp_start $tmpfile
  [ x$OLD_END_DST_DATE != x$OLD_END_DST_DATE ] && \
   /bin/replaceFile "${DST_CONF}" "END=$OLD_END_DST_DATE" "END=$OLD_END_DST_DATE"
 
+ GMT_CHANGE=
  [ $mm -gt 3 ] && {
   [ $mm -lt 11 ] && {
-   GMT=`expr $GMT + 1`
-   echo "$GMT"|grep -q "-"
-   [ $? -eq 0 ] || GMT="+${GMT}"
-   /bin/date `/bin/date -d "${GMT} Hour" +"%m%d%H%M%Y"` >/dev/null 2>&1
+   GMT_CHANGE=1
    } || {
    [ $mm -eq 11 ] && {
     [ $dd -le $END_DST_DATE -a $HH -le 2 ] && {
-     GMT=`expr $GMT + 1`
-     echo "$GMT"|grep -q "-"
-     [ $? -eq 0 ] || GMT="+${GMT}"
-     /bin/date `/bin/date -d "${GMT} Hour" +"%m%d%H%M%Y"` >/dev/null 2>&1
+     GMT_CHANGE=1
      }
     }
    }
   } || {
   [ $mm -eq 3 ] && {
    [ $dd -ge $START_DST_DATE -a $HH -ge 2 ] && {
-    GMT=`expr $GMT + 1`
-    echo "$GMT"|grep -q "-"
-    [ $? -eq 0 ] || GMT="+${GMT}"
-    /bin/date `/bin/date -d "${GMT} Hour" +"%m%d%H%M%Y"` >/dev/null 2>&1
+    GMT_CHANGE=1
     }
    }
   }
+
+[ -n "${GMT_CHANGE} ] && {
+ GMT=`expr $GMT + $GMT_CHANGE1`
+ echo "$GMT"|grep -q "-"
+ [ $? -eq 0 ] || GMT="+${GMT}"
+ /bin/date `/bin/date -d "${GMT} Hour" +"%m%d%H%M%Y"` >/dev/null 2>&1
+ }
 
 date '+%Y %m %d %H %M' > $DATE_CONF
