@@ -80,22 +80,11 @@ service_ntp_start $tmpfile
 
  GMT_CHANGE=
  [ $mm -gt 3 ] && {
-  [ $mm -lt 11 ] && {
-   GMT_CHANGE=1
-   } || {
-   [ $mm -eq 11 ] && {
-    [ $dd -le $END_DST_DATE -a $HH -le 2 ] && {
-     GMT_CHANGE=1
-     }
-    }
-   }
-  } || {
-  [ $mm -eq 3 ] && {
-   [ $dd -ge $START_DST_DATE -a $HH -ge 2 ] && {
-    GMT_CHANGE=1
-    }
-   }
-  }
+  [ $mm -lt 11 ] && \
+   GMT_CHANGE=1 || \
+   [ $mm -eq 11 -a $dd -le $END_DST_DATE -a $HH -le 2 ] && GMT_CHANGE=1
+ } || \
+  [ $mm -eq 3 -a $dd -ge $START_DST_DATE -a $HH -ge 2 ] && GMT_CHANGE=1
 
 [ -n "${GMT_CHANGE} ] && {
  GMT=`expr $GMT + $GMT_CHANGE1`
