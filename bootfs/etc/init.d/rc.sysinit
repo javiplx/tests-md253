@@ -16,8 +16,6 @@ service_syslogd_start
  /bin/logger "$0 - udevd deamon Start Failed"
 
 network_start
-service_ntp_start
-/bin/logger "$0 - Initial System Date :\"`date`\""
 
 # Load USB kernel modules
 KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
@@ -29,6 +27,7 @@ KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
 
 cron_ntp=/etc/sysconfig/system-script/cron-ntp
 ${cron_ntp}
+/bin/logger "$0 - Initial System Date :\"`date`\""
 
 /etc/init.d/rc.services
 
