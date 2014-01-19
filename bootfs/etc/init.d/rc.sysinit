@@ -4,14 +4,14 @@
 
 service_syslogd_start
 
+network_start
+
 /bin/buttons_daemon
 
 /bin/udevd --daemon
 [ $? -eq 0 ] &&\
  /bin/logger "$0 - udevd deamon Start Succeed" ||\
  /bin/logger "$0 - udevd deamon Start Failed"
-
-network_start
 
 # Load USB kernel modules
 KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
