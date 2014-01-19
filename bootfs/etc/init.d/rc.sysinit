@@ -21,7 +21,6 @@ KERNEL_PATH=/usr/lib/modules/2.6.24.4/kernel
  /bin/logger "$0 - Insert USB Kernel Module Failed"
 /sbin/insmod ${KERNEL_PATH}/usblp.ko
 
-cron_ntp=/etc/sysconfig/system-script/cron-ntp
-${cron_ntp}
+/etc/sysconfig/system-script/cron-ntp
 /bin/logger "$0 - Initial System Date :\"`date`\""
 
